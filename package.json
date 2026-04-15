@@ -1,0 +1,12 @@
+{
+  "name": "projekt-qfs",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Strona QFS wdrozona na Railway",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "express": "^4.21.2"
+  }
+}
