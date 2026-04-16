@@ -1,6 +1,17 @@
 ﻿(function () {
-  var navLinks = Array.prototype.slice.call(document.querySelectorAll(".menu a[data-nav]"));
+  var navLinks = Array.prototype.slice.call(document.querySelectorAll(".menu a[data-nav], .nav a[data-nav]"));
   var sections = Array.prototype.slice.call(document.querySelectorAll("section[data-section]"));
+  var currentPage = (window.location.pathname.split("/").pop() || "index.html").toLowerCase();
+  var pageToNav = {
+    "": "home",
+    "index.html": "home",
+    "produkcje.html": "produkcje",
+    "outsourcing.html": "outsourcing",
+    "zespol.html": "zespol",
+    "ezoteva.html": "ezoteva",
+    "hiberman.html": "hiberman",
+    "kontakt.html": "kontakt",
+  };
 
   function setActive(key) {
     navLinks.forEach(function (link) {
@@ -15,6 +26,10 @@
       setActive(link.getAttribute("data-nav"));
     });
   });
+
+  if (pageToNav[currentPage] && document.querySelector(".nav")) {
+    setActive(pageToNav[currentPage]);
+  }
 
   if ("IntersectionObserver" in window && sections.length) {
     var observer = new IntersectionObserver(
@@ -36,7 +51,6 @@
     });
   }
 })();
-
 (function () {
   var memberGrid = document.querySelector(".member-grid");
   if (!memberGrid) {
@@ -109,15 +123,9 @@
   var nextButton = document.getElementById("about-next");
   var levelEl = document.getElementById("about-lv");
   var nameEl = document.getElementById("about-member-name");
-  var stat1El = document.getElementById("about-stat-1");
-  var stat2El = document.getElementById("about-stat-2");
-  var stat3El = document.getElementById("about-stat-3");
-  var statVal1El = document.getElementById("about-stat-val-1");
-  var statVal2El = document.getElementById("about-stat-val-2");
-  var statVal3El = document.getElementById("about-stat-val-3");
-  var bar1El = document.getElementById("about-bar-1");
-  var bar2El = document.getElementById("about-bar-2");
-  var bar3El = document.getElementById("about-bar-3");
+  var statLabelEls = Array.prototype.slice.call(aboutRoot.querySelectorAll("span[id^='about-stat-']"));
+  var statValueEls = Array.prototype.slice.call(aboutRoot.querySelectorAll("strong[id^='about-stat-val-']"));
+  var statBarEls = Array.prototype.slice.call(aboutRoot.querySelectorAll("i[id^='about-bar-']"));
   var nameplateEl = document.getElementById("about-nameplate");
   var indexEl = document.getElementById("about-index");
   var roleEl = document.getElementById("about-role");
@@ -139,15 +147,9 @@
     !nextButton ||
     !levelEl ||
     !nameEl ||
-    !stat1El ||
-    !stat2El ||
-    !stat3El ||
-    !statVal1El ||
-    !statVal2El ||
-    !statVal3El ||
-    !bar1El ||
-    !bar2El ||
-    !bar3El ||
+    statLabelEls.length < 6 ||
+    statValueEls.length < 6 ||
+    statBarEls.length < 6 ||
     !nameplateEl ||
     !indexEl ||
     !roleEl ||
@@ -176,6 +178,9 @@
         { label: "AUDIO DESIGN", value: 94 },
         { label: "KOMPOZYCJA", value: 91 },
         { label: "LIVE OPS", value: 84 },
+        { label: "E-SPORT", value: 88 },
+        { label: "SOUNDTRACK", value: 90 },
+        { label: "SOCIAL MEDIA", value: 86 },
       ],
       skills: ["MUZYKA", "E-SPORT", "SOCIAL", "FILM", "INDIE", "NAUCZANIE"],
       resources: ["233.8K", "204.6K", "93.5K"],
@@ -192,6 +197,9 @@
         { label: "ART DIRECTION", value: 96 },
         { label: "VFX", value: 92 },
         { label: "LEVEL DESIGN", value: 89 },
+        { label: "ANIMACJA", value: 91 },
+        { label: "COLOR GRADING", value: 93 },
+        { label: "PROCEDURAL WORLD", value: 90 },
       ],
       skills: ["2D/3D", "COLOR", "WORLD", "ANIMACJA", "MONTAŻ", "SZKOLENIA"],
       resources: ["236.1K", "207.9K", "98.2K"],
@@ -208,6 +216,9 @@
         { label: "PRODUKCJA", value: 95 },
         { label: "OPERACJE", value: 93 },
         { label: "HR/MKT", value: 88 },
+        { label: "BIZNES", value: 94 },
+        { label: "STRATEGIA", value: 90 },
+        { label: "LEADERSHIP", value: 92 },
       ],
       skills: ["BIZNES", "TEAM", "STRATEGIA", "HR", "PSYCHO", "MEDYCYNA"],
       resources: ["229.4K", "214.8K", "101.2K"],
@@ -224,6 +235,9 @@
         { label: "SOFTWARE", value: 97 },
         { label: "SYSTEMY", value: 95 },
         { label: "ARCHITEKTURA", value: 92 },
+        { label: "SCALING", value: 94 },
+        { label: "PROJECT FLOW", value: 90 },
+        { label: "PROBLEM SOLVING", value: 93 },
       ],
       skills: ["KOD", "SCALING", "QA", "PROJEKTY", "FINANSE", "BIZNES"],
       resources: ["241.6K", "211.2K", "104.4K"],
@@ -240,6 +254,9 @@
         { label: "NARRACJA", value: 93 },
         { label: "KONCEPT", value: 90 },
         { label: "VOICE", value: 87 },
+        { label: "KOMIKS", value: 92 },
+        { label: "FILM", value: 89 },
+        { label: "WORLD BUILDING", value: 90 },
       ],
       skills: ["ART", "ACTING", "STORY", "KOMIKS", "FILM", "GŁOS"],
       resources: ["226.7K", "208.3K", "97.6K"],
@@ -316,15 +333,18 @@
 
     levelEl.textContent = item.level;
     nameEl.textContent = displayName;
-    stat1El.textContent = item.stats[0].label;
-    stat2El.textContent = item.stats[1].label;
-    stat3El.textContent = item.stats[2].label;
-    statVal1El.textContent = String(item.stats[0].value);
-    statVal2El.textContent = String(item.stats[1].value);
-    statVal3El.textContent = String(item.stats[2].value);
-    bar1El.style.setProperty("--v", item.stats[0].value + "%");
-    bar2El.style.setProperty("--v", item.stats[1].value + "%");
-    bar3El.style.setProperty("--v", item.stats[2].value + "%");
+    statLabelEls.forEach(function (statLabelEl, statIndex) {
+      var stat = item.stats[statIndex] || item.stats[item.stats.length - 1];
+      statLabelEl.textContent = stat.label;
+    });
+    statValueEls.forEach(function (statValueEl, statIndex) {
+      var stat = item.stats[statIndex] || item.stats[item.stats.length - 1];
+      statValueEl.textContent = String(stat.value);
+    });
+    statBarEls.forEach(function (statBarEl, statIndex) {
+      var stat = item.stats[statIndex] || item.stats[item.stats.length - 1];
+      statBarEl.style.setProperty("--v", stat.value + "%");
+    });
     nameplateEl.textContent = displayName;
     indexEl.textContent = asTwoDigits(index + 1) + " / " + asTwoDigits(members.length);
     roleEl.textContent = item.role;
@@ -366,3 +386,4 @@
   buildThumbs();
   render("next");
 })();
+

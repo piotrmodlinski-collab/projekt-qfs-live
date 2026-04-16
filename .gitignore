@@ -10,6 +10,10 @@ Thumbs.db
 .railway/
 .env
 .env.*
+.secure/
+_tmp_*.html
+_tmp_*.css
+_tmp_*.js
 
 server.out.log
 server.err.log

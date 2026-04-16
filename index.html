@@ -16,7 +16,7 @@
     <meta property="og:type" content="website" />
     <meta property="og:image" content="assets/qfs-bg-1.png" />
     <meta name="theme-color" content="#08121b" />
-    <link rel="stylesheet" href="styles.css?v=36" />
+    <link rel="stylesheet" href="styles.css?v=46" />
   </head>
   <body>
     <div class="vignette" aria-hidden="true"></div>
@@ -85,20 +85,16 @@
                 <figcaption>Ezoteva</figcaption>
                 <a
                   class="poster-link"
-                  href="https://quantumforgestudio.com/ezoteva/"
-                  target="_blank"
-                  rel="noreferrer noopener"
+                  href="ezoteva.html"
                   aria-label="Przejdź do projektu Ezoteva"
                 ></a>
               </figure>
               <figure class="poster-card poster-hiberman">
-                <img src="assets/hiberman.png" alt="Hiberman - grafika projektu" loading="lazy" />
+                <img src="assets/hiberman/hiberman-pion-1024.png" alt="Hiberman - grafika projektu" loading="lazy" />
                 <figcaption>Hiberman</figcaption>
                 <a
                   class="poster-link"
-                  href="https://quantumforgestudio.com/hiberman/"
-                  target="_blank"
-                  rel="noreferrer noopener"
+                  href="hiberman.html"
                   aria-label="Przejdź do projektu Hiberman"
                 ></a>
               </figure>
@@ -248,6 +244,27 @@
                     </div>
                     <i id="about-bar-3" style="--v: 84%"></i>
                   </li>
+                  <li>
+                    <div class="about-stat-row">
+                      <span id="about-stat-4">E-SPORT</span>
+                      <strong id="about-stat-val-4">88</strong>
+                    </div>
+                    <i id="about-bar-4" style="--v: 88%"></i>
+                  </li>
+                  <li>
+                    <div class="about-stat-row">
+                      <span id="about-stat-5">SOUNDTRACK</span>
+                      <strong id="about-stat-val-5">90</strong>
+                    </div>
+                    <i id="about-bar-5" style="--v: 90%"></i>
+                  </li>
+                  <li>
+                    <div class="about-stat-row">
+                      <span id="about-stat-6">SOCIAL MEDIA</span>
+                      <strong id="about-stat-val-6">86</strong>
+                    </div>
+                    <i id="about-bar-6" style="--v: 86%"></i>
+                  </li>
                 </ul>
               </aside>
 
@@ -343,28 +360,42 @@
             </p>
 
             <div id="deploy-game" class="deploy-game" aria-live="polite">
-              <p id="deploy-status" class="deploy-instruction">
-                Przeciągnij klucz na zamek skrzyni.
-              </p>
+              <div class="deploy-head">
+                <p id="deploy-status" class="deploy-instruction"></p>
+                <ol class="deploy-steps" id="deploy-steps" aria-label="Postęp mini gry">
+                  <li class="is-active"></li>
+                  <li></li>
+                  <li></li>
+                  <li></li>
+                </ol>
+              </div>
 
-              <div class="deploy-board">
+              <div id="deploy-stage" class="deploy-stage" aria-label="Scena mini gry">
+                <div id="deploy-scene" class="deploy-scene" aria-hidden="true"></div>
+                <div class="deploy-chest-2d" aria-hidden="true">
+                  <img class="deploy-chest-bottom" src="assets/qfs-chest-bottom.png?v=20260416e" alt="" />
+                  <img class="deploy-chest-top" src="assets/qfs-chest-top.png?v=20260416c" alt="" />
+                </div>
+                <div class="deploy-vignette" aria-hidden="true"></div>
+                <div id="deploy-lock-target" class="deploy-lock-target" aria-hidden="true"></div>
+
                 <button
                   class="deploy-key"
                   id="deploy-key"
                   type="button"
-                  aria-label="Klucz wdrożeniowy"
+                  aria-label="Klucz wdrożeniowy - przeciągnij na zamek"
                   title="Przeciągnij klucz"
-                ></button>
+                >
+                  <img src="assets/qfs-key.png?v=20260416c" alt="" />
+                  <span>KLUCZ</span>
+                </button>
 
-                <div class="deploy-chest" aria-label="Skrzynia wdrożeniowa">
-                  <div class="deploy-chest-lid"></div>
-                  <div class="deploy-chest-body">
-                    <div id="deploy-lock" class="deploy-lock" aria-hidden="true"></div>
-                  </div>
-                </div>
+                <button class="deploy-fallback" id="deploy-open-fallback" type="button">
+                  Nie działa przeciąganie? Otwórz skrzynię
+                </button>
               </div>
 
-              <div class="deploy-letter" id="deploy-letter">
+              <div class="deploy-letter" id="deploy-letter" aria-hidden="true">
                 <div class="deploy-letter-inner">
                   <p class="small-label">List wdrożeniowy</p>
                   <h3>Formularz Briefu</h3>
@@ -399,7 +430,16 @@
       </section>
     </main>
 
+    <script type="importmap">
+      {
+        "imports": {
+          "three": "./node_modules/three/build/three.module.js",
+          "three/addons/": "./node_modules/three/examples/jsm/"
+        }
+      }
+    </script>
     <script src="app.js?v=10"></script>
+    <script type="module" src="deploy-game.js?v=5"></script>
   </body>
 </html>
 

@@ -1,0 +1,34 @@
+newmtl mat_wood
+Ka 0.12 0.09 0.05
+Kd 0.46 0.30 0.14
+Ks 0.08 0.08 0.08
+Ns 28.0
+map_Kd ../textures/chest-wood.svg
+
+newmtl mat_metal
+Ka 0.12 0.12 0.12
+Kd 0.62 0.57 0.46
+Ks 0.35 0.35 0.35
+Ns 64.0
+map_Kd ../textures/chest-metal.svg
+
+newmtl mat_gold
+Ka 0.18 0.14 0.05
+Kd 0.82 0.66 0.20
+Ks 0.42 0.34 0.12
+Ns 88.0
+map_Kd ../textures/key-gold.svg
+
+newmtl mat_parchment
+Ka 0.18 0.17 0.13
+Kd 0.88 0.84 0.71
+Ks 0.08 0.08 0.08
+Ns 18.0
+map_Kd ../textures/parchment.svg
+
+newmtl mat_rune
+Ka 0.10 0.16 0.20
+Kd 0.34 0.66 0.80
+Ks 0.12 0.26 0.28
+Ns 40.0
+map_Kd ../textures/rune-glow.svg
