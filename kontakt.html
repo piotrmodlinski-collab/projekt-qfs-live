@@ -4,161 +4,20 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>QFS | Kontakt</title>
-    <meta name="description" content="Skontaktuj sie z QFS: wspolpraca outsourcing/co-dev, brief produkcyjny i rekrutacja." />
+    <meta
+      name="description"
+      content="Skontaktuj się z QFS: współpraca outsourcing/co-dev, brief produkcyjny i rekrutacja."
+    />
     <meta property="og:title" content="QFS | Kontakt" />
-    <meta property="og:description" content="Brief produkcyjny, wspolpraca i rekrutacja do zespolu QFS." />
+    <meta
+      property="og:description"
+      content="Brief produkcyjny, współpraca i rekrutacja do zespołu Quantum Forge Studio."
+    />
     <meta property="og:type" content="website" />
     <meta property="og:image" content="assets/hero-qfs.png" />
     <meta name="theme-color" content="#070a10" />
     <link rel="canonical" href="./kontakt.html" />
-    <link rel="stylesheet" href="styles.css" />
-    <style>
-      .chest-game {
-        border: 1px solid rgba(255, 255, 255, 0.16);
-        border-radius: 18px;
-        background: radial-gradient(circle at 50% -12%, rgba(234, 194, 126, 0.14), rgba(8, 14, 24, 0.86) 58%);
-        padding: 1.1rem;
-      }
-      .chest-game-ui {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        gap: 0.8rem;
-        margin-bottom: 0.9rem;
-      }
-      .chest-game-status {
-        margin: 0;
-        color: #d9e7ff;
-        font-size: 0.95rem;
-      }
-      .chest-stage {
-        display: grid;
-        grid-template-columns: minmax(110px, 150px) 1fr;
-        gap: 1rem;
-        align-items: end;
-      }
-      .key-tool {
-        align-self: center;
-        border: 1px solid rgba(255, 255, 255, 0.2);
-        background:
-          linear-gradient(180deg, rgba(255, 255, 255, 0.18), rgba(255, 255, 255, 0.08)),
-          repeating-linear-gradient(45deg, rgba(255,255,255,0.04) 0 10px, rgba(0,0,0,0.04) 10px 20px);
-        border-radius: 16px;
-        padding: 0.65rem;
-        min-height: 138px;
-        cursor: grab;
-        transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
-      }
-      .key-tool img {
-        width: 100%;
-        max-width: 150px;
-        max-height: 120px;
-        object-fit: contain;
-        display: block;
-        margin: 0 auto;
-        filter: drop-shadow(0 6px 14px rgba(0, 0, 0, 0.35));
-        pointer-events: none;
-      }
-      .key-tool.is-armed,
-      .key-tool:hover {
-        border-color: rgba(255, 220, 153, 0.7);
-        box-shadow: 0 0 0 1px rgba(255, 220, 153, 0.35), 0 8px 18px rgba(0, 0, 0, 0.35);
-        transform: translateY(-2px);
-      }
-      .key-tool.dragging {
-        opacity: 0.65;
-        cursor: grabbing;
-      }
-      .chest-wrap {
-        position: relative;
-        width: min(100%, 560px);
-        margin: 0 auto;
-        height: 420px;
-        user-select: none;
-        isolation: isolate;
-        border-radius: 14px;
-        border: 1px solid rgba(255, 255, 255, 0.09);
-        background: radial-gradient(circle at 50% 35%, rgba(180, 219, 255, 0.08), rgba(7, 12, 20, 0.5) 60%);
-      }
-      .chest-img {
-        position: absolute;
-        max-width: none;
-        height: auto;
-        opacity: 1 !important;
-        filter: none !important;
-        mix-blend-mode: normal !important;
-        pointer-events: none;
-      }
-      .chest-bottom {
-        z-index: 1;
-        width: 84%;
-        left: 50%;
-        bottom: 0;
-        transform: translateX(-50%);
-        filter: drop-shadow(0 10px 18px rgba(0, 0, 0, 0.42)) !important;
-      }
-      .chest-top {
-        z-index: 3;
-        width: 82%;
-        left: 50%;
-        bottom: 27%;
-        transform: translateX(-50%) rotate(0deg);
-        transform-origin: 50% 78%;
-        transition: transform 0.55s cubic-bezier(0.22, 0.82, 0.2, 1), bottom 0.55s cubic-bezier(0.22, 0.82, 0.2, 1);
-        filter: drop-shadow(0 10px 24px rgba(0, 0, 0, 0.45)) !important;
-      }
-      .chest-wrap.is-open .chest-top {
-        bottom: 45%;
-        transform: translateX(-50%) rotate(-21deg);
-      }
-      .chest-lock {
-        position: absolute;
-        left: 50%;
-        top: 62%;
-        transform: translate(-50%, -50%);
-        width: 72px;
-        height: 72px;
-        border-radius: 999px;
-        border: 1px dashed rgba(255, 221, 166, 0.62);
-        background: rgba(255, 196, 92, 0.09);
-        z-index: 4;
-        cursor: pointer;
-        transition: border-color 0.2s ease, background-color 0.2s ease;
-      }
-      .chest-lock:hover,
-      .chest-lock.is-ready {
-        border-color: rgba(255, 221, 166, 0.96);
-        background: rgba(255, 196, 92, 0.21);
-      }
-      .chest-reward {
-        margin-top: 0.9rem;
-        padding: 0.8rem 0.9rem;
-        border: 1px solid rgba(139, 231, 172, 0.35);
-        border-radius: 12px;
-        background: rgba(36, 96, 64, 0.25);
-        color: #d9ffe9;
-        display: none;
-      }
-      .chest-reward.is-visible {
-        display: block;
-      }
-      @media (max-width: 820px) {
-        .chest-stage {
-          grid-template-columns: 1fr;
-        }
-        .key-tool {
-          justify-self: center;
-          width: min(180px, 100%);
-        }
-        .chest-wrap {
-          height: 320px;
-        }
-        .chest-lock {
-          width: 64px;
-          height: 64px;
-        }
-      }
-    </style>
+    <link rel="stylesheet" href="styles.css?v=24" />
   </head>
   <body>
     <div class="site-shell">
@@ -167,53 +26,60 @@
           <img src="assets/logo-qfs.png" alt="QFS logo" />
           <strong>QUANTUM FORGE STUDIO</strong>
         </a>
-        <nav class="nav" aria-label="Nawigacja glowna">
-          <a href="index.html" data-nav="home">Start</a>
-          <a href="produkcje.html" data-nav="produkcje">Produkcje</a>
-          <a href="outsourcing.html" data-nav="outsourcing">Outsourcing</a>
-          <a href="zespol.html" data-nav="zespol">Zespol</a>
-          <a href="ezoteva.html" data-nav="ezoteva">Ezoteva</a>
-          <a href="hiberman.html" data-nav="hiberman">Hiberman</a>
-          <a href="kontakt.html" data-nav="kontakt">Kontakt</a>
+                <nav class="nav" aria-label="Nawigacja główna">
+          <a href="index.html#studio" data-nav="home">Start</a>
+          <a href="index.html#produkcje" data-nav="produkcje">Produkcje</a>
+          <a href="index.html#outsourcing" data-nav="outsourcing">Outsourcing</a>
+          <a href="index.html#onas-panel" data-nav="zespol">Zespół</a>
+          <a href="index.html#kontakt" data-nav="kontakt">Kontakt</a>
         </nav>
       </header>
 
       <main>
         <section class="section">
           <div class="section-head">
-            <p class="eyebrow">Contact</p>
-            <h1>Start wspolpracy z QFS</h1>
+            <p class="eyebrow">Kontakt</p>
+            <h1>Start współpracy z QFS</h1>
             <p class="lead">
-              Napisz do nas z briefem gry, potrzebnym zakresem i terminem. W 48h odzywamy sie
-              z pierwsza mapa realizacji.
+              Napisz do nas z briefem gry, zakresem wsparcia i terminem. Wrócimy do Ciebie z
+              propozycją procesu oraz planem pierwszych kroków.
             </p>
           </div>
+
           <div class="duo">
             <article class="card">
-              <span class="tag">Dla studiow</span>
+              <span class="tag">Dla studiów</span>
               <h3>Brief produkcyjny</h3>
               <ul class="list">
                 <li>Typ projektu i platforma</li>
-                <li>Zakres i milestone</li>
-                <li>Timeline i oczekiwane KPI</li>
-                <li>Kontakt: <a href="mailto:hello@quantumforgestudio.com">hello@quantumforgestudio.com</a></li>
+                <li>Zakres wsparcia i milestone</li>
+                <li>Timeline i cele produktu</li>
+                <li>
+                  Kontakt: <a href="mailto:hello@quantumforgestudio.com">hello@quantumforgestudio.com</a>
+                </li>
               </ul>
             </article>
+
             <article class="card">
               <span class="tag">Kariera</span>
-              <h3>Dolacz do QFS</h3>
+              <h3>Dołącz do QFS</h3>
               <ul class="list">
                 <li>Gameplay Programmer</li>
                 <li>Technical Artist</li>
                 <li>QA Specialist</li>
-                <li>CV / portfolio: <a href="mailto:careers@quantumforgestudio.com">careers@quantumforgestudio.com</a></li>
+                <li>
+                  CV / portfolio:
+                  <a href="mailto:careers@quantumforgestudio.com">careers@quantumforgestudio.com</a>
+                </li>
               </ul>
             </article>
           </div>
+
           <div class="actions mt">
-            <a class="btn-primary" href="mailto:hello@quantumforgestudio.com">Wyslij brief</a>
-            <a class="btn-secondary" href="mailto:careers@quantumforgestudio.com">Aplikuj do zespolu</a>
+            <a class="btn-primary" href="mailto:hello@quantumforgestudio.com">Wyślij brief</a>
+            <a class="btn-secondary" href="mailto:careers@quantumforgestudio.com">Aplikuj do zespołu</a>
           </div>
+
           <div class="metric-strip">
             <span class="metric-pill">Response target: 48h</span>
             <span class="metric-pill">Brief-first discovery</span>
@@ -223,46 +89,34 @@
 
         <section class="section">
           <div class="section-head">
-            <p class="eyebrow">Media</p>
-            <h2>Aktualne materialy i gameplay</h2>
+            <p class="eyebrow">Formularz</p>
+            <h2>Wyślij zapytanie projektowe</h2>
           </div>
-          <div class="actions">
-            <a class="btn-ghost" href="hiberman.html">Hiberman page</a>
-            <a class="btn-ghost" href="ezoteva.html">Ezoteva page</a>
-          </div>
+
+          <form class="deploy-form" action="mailto:hello@quantumforgestudio.com" method="post" enctype="text/plain">
+            <label for="brief-name">Imię i firma</label>
+            <input id="brief-name" name="Imię i firma" type="text" placeholder="Np. Anna, Studio Nova" required />
+
+            <label for="brief-mail">E-mail</label>
+            <input id="brief-mail" name="E-mail" type="email" placeholder="kontakt@firma.pl" required />
+
+            <label for="brief-scope">Zakres i cele projektu</label>
+            <textarea
+              id="brief-scope"
+              name="Zakres i cele"
+              rows="4"
+              placeholder="Etap produkcji, platforma, zakres wsparcia, deadline..."
+              required
+            ></textarea>
+
+            <button class="btn-primary" type="submit">Wyślij brief</button>
+          </form>
         </section>
 
         <section class="section">
           <div class="section-head">
-            <p class="eyebrow">Mini gra</p>
-            <h2>Otworz skrzynie kluczem</h2>
-            <p class="lead">Przeciagnij klucz na zamek skrzyni albo kliknij klucz, a potem zamek.</p>
-          </div>
-          <div class="chest-game" id="chest-game">
-            <div class="chest-game-ui">
-              <p class="chest-game-status" id="chest-game-status">Znajdz klucz i uzyj go na zamku.</p>
-              <button class="btn-secondary" type="button" id="chest-game-reset">Reset</button>
-            </div>
-            <div class="chest-stage">
-              <button class="key-tool" type="button" id="chest-key" draggable="true" aria-label="Klucz do skrzyni">
-                <img src="assets/qfs-key.png?v=20260416b" alt="Klucz" />
-              </button>
-              <div class="chest-wrap" id="chest-wrap" aria-live="polite">
-                <img class="chest-img chest-bottom" src="assets/qfs-chest-bottom.png?v=20260416e" alt="Dol skrzyni" />
-                <img class="chest-img chest-top" src="assets/qfs-chest-top.png?v=20260416b" alt="Gora skrzyni" />
-                <button class="chest-lock" type="button" id="chest-lock" aria-label="Zamek skrzyni"></button>
-              </div>
-            </div>
-            <div class="chest-reward" id="chest-reward">
-              Skrzynia otwarta. Mozesz teraz wyslac brief i odblokowac wspolprace z QFS.
-            </div>
-          </div>
-        </section>
-
-        <section class="section">
-          <div class="section-head">
-            <p class="eyebrow">Co wyslac w briefie</p>
-            <h2>Minimum informacji, aby ruszyc od razu</h2>
+            <p class="eyebrow">Co wysłać w briefie</p>
+            <h2>Minimum informacji, aby ruszyć od razu</h2>
           </div>
           <div class="split-3">
             <article class="card">
@@ -284,7 +138,7 @@
             <article class="card">
               <h3>Priorytety biznesowe</h3>
               <ul class="list tight">
-                <li>Termin i budzet</li>
+                <li>Termin i budżet</li>
                 <li>Ryzyka techniczne</li>
                 <li>KPI dla release</li>
               </ul>
@@ -298,116 +152,6 @@
       </footer>
     </div>
     <script src="app.js"></script>
-    <script>
-      (function () {
-        var key = document.getElementById("chest-key");
-        var lock = document.getElementById("chest-lock");
-        var wrap = document.getElementById("chest-wrap");
-        var status = document.getElementById("chest-game-status");
-        var reset = document.getElementById("chest-game-reset");
-        var reward = document.getElementById("chest-reward");
-        if (!key || !lock || !wrap || !status || !reset || !reward) return;
-
-        var keyArmed = false;
-        var opened = false;
-
-        function setStatus(text) {
-          status.textContent = text;
-        }
-
-        function openChest() {
-          if (opened) return;
-          opened = true;
-          keyArmed = false;
-          key.classList.remove("is-armed");
-          wrap.classList.add("is-open");
-          reward.classList.add("is-visible");
-          setStatus("Skrzynia otwarta. Loot zdobyty.");
-        }
-
-        function useKeyOnLock() {
-          if (opened) {
-            setStatus("Skrzynia juz jest otwarta.");
-            return;
-          }
-          if (!keyArmed) {
-            setStatus("Najpierw wybierz klucz.");
-            return;
-          }
-          openChest();
-        }
-
-        key.addEventListener("click", function () {
-          if (opened) {
-            setStatus("Skrzynia juz jest otwarta. Kliknij reset, aby zagrac ponownie.");
-            return;
-          }
-          keyArmed = !keyArmed;
-          key.classList.toggle("is-armed", keyArmed);
-          setStatus(keyArmed ? "Klucz aktywny. Kliknij zamek skrzyni." : "Klucz schowany.");
-        });
-
-        key.addEventListener("dragstart", function (event) {
-          if (opened) {
-            event.preventDefault();
-            return;
-          }
-          keyArmed = true;
-          key.classList.add("is-armed");
-          key.classList.add("dragging");
-          if (event.dataTransfer) {
-            event.dataTransfer.setData("text/plain", "qfs-key");
-            event.dataTransfer.effectAllowed = "move";
-          }
-          setStatus("Przeciagnij klucz na zamek.");
-        });
-
-        key.addEventListener("dragend", function () {
-          key.classList.remove("dragging");
-        });
-
-        lock.addEventListener("click", function () {
-          useKeyOnLock();
-        });
-
-        lock.addEventListener("dragenter", function (event) {
-          event.preventDefault();
-          if (opened) return;
-          lock.classList.add("is-ready");
-        });
-
-        lock.addEventListener("dragleave", function () {
-          lock.classList.remove("is-ready");
-        });
-
-        lock.addEventListener("dragover", function (event) {
-          if (opened) return;
-          event.preventDefault();
-          lock.classList.add("is-ready");
-          if (event.dataTransfer) {
-            event.dataTransfer.dropEffect = "move";
-          }
-        });
-
-        lock.addEventListener("drop", function (event) {
-          event.preventDefault();
-          lock.classList.remove("is-ready");
-          if (opened) return;
-          keyArmed = true;
-          openChest();
-        });
-
-        reset.addEventListener("click", function () {
-          opened = false;
-          keyArmed = false;
-          key.classList.remove("is-armed");
-          key.classList.remove("dragging");
-          lock.classList.remove("is-ready");
-          wrap.classList.remove("is-open");
-          reward.classList.remove("is-visible");
-          setStatus("Znajdz klucz i uzyj go na zamku.");
-        });
-      })();
-    </script>
   </body>
 </html>
+

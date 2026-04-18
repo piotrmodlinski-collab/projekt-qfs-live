@@ -3,161 +3,227 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>QFS | Outsourcing</title>
+    <title>QFS OUTSOURCING | Experience</title>
     <meta
       name="description"
-      content="Outsourcing QFS: kompleksowe wsparcie produkcji gier od designu po wydanie, w modelu transparentnej współpracy."
+      content="QFS Outsourcing Experience: nowoczesny system delivery dla produkcji gier."
     />
-    <meta property="og:title" content="QFS | Outsourcing" />
+    <meta property="og:title" content="QFS OUTSOURCING | Experience" />
     <meta
       property="og:description"
-      content="Game design, narracja, programowanie, grafika, animacja, audio i level design w jednym modelu delivery."
+      content="Hero z nowoczesna maszyna i wejsciem do monitora z uslugami outsourcingowymi QFS."
     />
     <meta property="og:type" content="website" />
     <meta property="og:image" content="assets/qfs-bg-3.png" />
-    <meta name="theme-color" content="#0a1421" />
+    <meta name="theme-color" content="#05070f" />
     <link rel="canonical" href="./outsourcing.html" />
-    <link rel="stylesheet" href="styles.css?v=25" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="outsourcing-alt.css?v=12" />
   </head>
   <body>
-    <div class="site-shell">
-      <header class="topbar">
-        <a class="brand" href="index.html">
-          <img src="assets/logo-qfs.png" alt="QFS logo" />
-          <strong>QUANTUM FORGE STUDIO</strong>
-        </a>
-        <nav class="nav" aria-label="Nawigacja główna">
-          <a href="index.html" data-nav="home">Start</a>
-          <a href="produkcje.html" data-nav="produkcje">Produkcje</a>
-          <a href="outsourcing.html" data-nav="outsourcing">Outsourcing</a>
-          <a href="zespol.html" data-nav="zespol">Zespół</a>
-          <a href="ezoteva.html" data-nav="ezoteva">Ezoteva</a>
-          <a href="hiberman.html" data-nav="hiberman">Hiberman</a>
-          <a href="kontakt.html" data-nav="kontakt">Kontakt</a>
-        </nav>
-      </header>
+    <canvas id="webgl-bg" aria-hidden="true"></canvas>
 
-      <main class="outs-page">
-        <section class="section outs-hero">
-          <div class="outs-hero-copy">
-            <p class="eyebrow">Outsourcing</p>
-            <h1>Kompleksowe wsparcie produkcji gier</h1>
-            <p class="lead">
-              Integrujemy się z zespołem partnera jako niezależny moduł wykonawczy. Dowozimy
-              kluczowe funkcje bez zakłócania głównego cyklu produkcji i z pełną transparentnością
-              statusu prac.
-            </p>
-            <div class="actions mt">
-              <a class="btn-primary" href="kontakt.html">Umów rozmowę projektową</a>
-              <a class="btn-secondary" href="#zakres">Zobacz obszary wsparcia</a>
+    <header class="alt-topbar">
+      <a class="alt-brand" href="index.html">
+        <img src="assets/logo-qfs.png" alt="QFS logo" />
+        <span>QFS OUTSOURCING</span>
+      </a>
+      <nav class="alt-nav" aria-label="Nawigacja">
+        <a href="#top" class="is-active">Start</a>
+        <a href="#services">Uslugi</a>
+        <a href="kontakt.html">Kontakt</a>
+      </nav>
+    </header>
+
+    <div id="monitor-dive-layer" aria-hidden="true">
+      <div id="monitor-dive-viewport">
+        <canvas id="dive-canvas" width="1280" height="800"></canvas>
+        <div class="dive-hud">
+          <span>ENTERING MONITOR</span>
+        </div>
+        <div class="dive-content">
+          <div class="monitor-shell monitor-shell-screen" id="monitor-shell-screen">
+            <div class="monitor-head">
+              <h2>Uslugi outsourcingowe QFS</h2>
+            </div>
+
+            <div class="monitor-workspace">
+              <aside class="services-sidebar" aria-label="Lista uslug">
+                <p class="sidebar-label">Uslugi</p>
+                <ul class="services-list" id="services-list"></ul>
+              </aside>
+
+              <section class="service-content" aria-label="Szczegoly uslugi">
+                <article class="service-description-card">
+                  <h3 id="service-preview-title"></h3>
+                  <p id="service-preview-description"></p>
+                </article>
+
+                <section class="service-examples-card" aria-label="Przyklady uslugi">
+                  <h4>Przyklady</h4>
+                  <div class="service-examples-grid">
+                    <article class="example-card">
+                      <h5>Obraz</h5>
+                      <div class="service-media-carousel" id="service-preview-image-carousel" hidden>
+                        <button
+                          class="carousel-arrow carousel-arrow-prev"
+                          id="service-preview-image-prev"
+                          type="button"
+                          aria-label="Poprzedni obraz"
+                        >
+                          &#10094;
+                        </button>
+                        <img id="service-preview-image" class="service-media" alt="" loading="lazy" />
+                        <button
+                          class="carousel-arrow carousel-arrow-next"
+                          id="service-preview-image-next"
+                          type="button"
+                          aria-label="Nastepny obraz"
+                        >
+                          &#10095;
+                        </button>
+                      </div>
+                      <div id="service-preview-image-fallback" class="service-media-fallback" hidden>
+                        <img src="assets/logo-qfs.png" alt="" loading="lazy" />
+                        <span>Podglad QFS</span>
+                      </div>
+                      <p class="example-empty" id="service-preview-image-empty">Brak obrazu.</p>
+                    </article>
+
+                    <article class="example-card">
+                      <h5>Video</h5>
+                      <div class="service-video" id="service-preview-video-wrap" hidden>
+                        <button
+                          class="carousel-arrow carousel-arrow-prev"
+                          id="service-preview-video-prev"
+                          type="button"
+                          aria-label="Poprzednie video"
+                        >
+                          &#10094;
+                        </button>
+                        <iframe
+                          id="service-preview-video"
+                          src=""
+                          title="Podglad uslugi"
+                          loading="lazy"
+                          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                          referrerpolicy="strict-origin-when-cross-origin"
+                          allowfullscreen
+                        ></iframe>
+                        <video id="service-preview-video-file" controls preload="metadata" playsinline hidden></video>
+                        <button
+                          class="carousel-arrow carousel-arrow-next"
+                          id="service-preview-video-next"
+                          type="button"
+                          aria-label="Nastepne video"
+                        >
+                          &#10095;
+                        </button>
+                      </div>
+                      <div id="service-preview-video-fallback" class="service-media-fallback" hidden>
+                        <img src="assets/logo-qfs.png" alt="" loading="lazy" />
+                        <span>Podglad video</span>
+                      </div>
+                      <p class="example-empty" id="service-preview-video-empty">Brak video.</p>
+                    </article>
+
+                    <article class="example-card">
+                      <h5>Zakres</h5>
+                      <ul id="service-preview-examples" class="service-example-list"></ul>
+                    </article>
+                  </div>
+                </section>
+
+                <details class="service-editor-wrap" open>
+                  <summary>Edytuj usluge</summary>
+                  <form class="service-editor" id="service-editor-form">
+                    <label class="editor-label" for="service-title-input">Nazwa uslugi</label>
+                    <input id="service-title-input" name="title" type="text" maxlength="80" required />
+
+                    <label class="editor-label" for="service-description-input">Tresc</label>
+                    <textarea id="service-description-input" name="description" rows="5" maxlength="600" required></textarea>
+
+                    <label class="editor-label" for="service-image-input">Obraz (URL lub sciezka)</label>
+                    <input id="service-image-input" name="image" type="text" maxlength="240" />
+
+                    <label class="editor-label" for="service-video-input">Video (URL iframe lub plik mp4)</label>
+                    <input id="service-video-input" name="video" type="text" maxlength="240" />
+
+                    <div class="editor-actions">
+                      <button class="btn btn-primary" type="submit">Zapisz zmiany</button>
+                      <button class="btn btn-ghost" type="button" id="service-reset-button">Przywroc domyslne</button>
+                    </div>
+                    <p class="editor-status" id="service-editor-status" aria-live="polite"></p>
+                  </form>
+                </details>
+              </section>
+            </div>
+
+            <div class="monitor-cta">
+              <a class="btn btn-primary" href="kontakt.html">Start wspolpracy</a>
+              <a class="btn btn-ghost" href="outsourcing-classic.html">Wersja klasyczna</a>
             </div>
           </div>
-          <aside class="outs-hero-panel" aria-label="Model współpracy QFS">
-            <h2>Model współpracy</h2>
-            <ul class="list">
-              <li>Kick-off i analiza techniczna projektu</li>
-              <li>Plan sprintów i priorytetów pod milestone</li>
-              <li>Weekly delivery report: postęp, ryzyka, KPI</li>
-              <li>Przejrzysta ścieżka eskalacji i decyzji</li>
-            </ul>
-          </aside>
-        </section>
-
-        <section id="zakres" class="section">
-          <div class="section-head">
-            <p class="eyebrow">Zakres usług</p>
-            <h2>Obszary, które realizujemy outsourcingowo</h2>
-          </div>
-          <div class="outs-services-grid">
-            <article class="outs-service-card">
-              <h3>Game Design</h3>
-              <p>Projektujemy pętlę rozgrywki, systemy, ekonomię i dokumentację GDD/TDD.</p>
-            </article>
-            <article class="outs-service-card">
-              <h3>Animacja</h3>
-              <p>Tworzymy animacje gameplayowe, cutsceny i interakcje środowiskowe.</p>
-            </article>
-            <article class="outs-service-card">
-              <h3>Storytelling</h3>
-              <p>Budujemy narrację, questy i pacing, który wzmacnia immersję gracza.</p>
-            </article>
-            <article class="outs-service-card">
-              <h3>Programming</h3>
-              <p>Implementujemy mechaniki, AI, fizykę i stabilne systemy technologiczne.</p>
-            </article>
-            <article class="outs-service-card">
-              <h3>3D / 2D Modeling</h3>
-              <p>Dostarczamy assety zgodne ze stylem projektu i wymaganiami wydajności.</p>
-            </article>
-            <article class="outs-service-card">
-              <h3>SFX / VFX</h3>
-              <p>Tworzymy warstwę dźwięku i efektów, która wzmacnia feedback i klimat gry.</p>
-            </article>
-            <article class="outs-service-card">
-              <h3>Level Design</h3>
-              <p>Projektujemy mapy, flow i punkty zainteresowania pod konkretne cele gracza.</p>
-            </article>
-            <article class="outs-service-card">
-              <h3>Produkcja i wydanie</h3>
-              <p>Prowadzimy QA, optymalizację i wsparcie release pod realne terminy.</p>
-            </article>
-          </div>
-        </section>
-
-        <section class="section">
-          <div class="section-head">
-            <p class="eyebrow">Proces</p>
-            <h2>Jak wygląda współpraca krok po kroku</h2>
-          </div>
-          <div class="outs-steps">
-            <article class="outs-step">
-              <span>01</span>
-              <h3>Diagnoza projektu</h3>
-              <p>Mapujemy potrzeby, ryzyka i oczekiwany efekt biznesowy.</p>
-            </article>
-            <article class="outs-step">
-              <span>02</span>
-              <h3>Plan delivery</h3>
-              <p>Ustalamy zakres, harmonogram i odpowiedzialności po obu stronach.</p>
-            </article>
-            <article class="outs-step">
-              <span>03</span>
-              <h3>Realizacja sprintowa</h3>
-              <p>Dowożenie funkcji, iteracje i raportowanie statusu w cyklu tygodniowym.</p>
-            </article>
-            <article class="outs-step">
-              <span>04</span>
-              <h3>Handover i wsparcie</h3>
-              <p>Finalny QA pass, dokumentacja i wsparcie po wdrożeniu.</p>
-            </article>
-          </div>
-          <div class="metric-strip">
-            <span class="metric-pill">Transparentne raportowanie</span>
-            <span class="metric-pill">Integracja z Twoim pipeline</span>
-            <span class="metric-pill">Jakość i terminowość delivery</span>
-          </div>
-        </section>
-
-        <section class="section outs-cta">
-          <div>
-            <p class="eyebrow">Gotowi do startu</p>
-            <h2>Potrzebujesz wsparcia pod konkretny milestone?</h2>
-            <p class="lead">
-              Napisz, na jakim etapie jest projekt i który obszar chcesz odciążyć. Przygotujemy
-              wariant współpracy dopasowany do Twojego zespołu i tempa produkcji.
-            </p>
-          </div>
-          <div class="actions">
-            <a class="btn-primary" href="kontakt.html">Skontaktuj się</a>
-            <a class="btn-secondary" href="produkcje.html">Zobacz produkcje QFS</a>
-          </div>
-        </section>
-      </main>
-
-      <footer>
-        <p>QFS Outsourcing | profesjonalne wsparcie produkcji gier.</p>
-      </footer>
+        </div>
+      </div>
     </div>
-    <script src="app.js"></script>
+
+    <main>
+      <section class="hero" id="top">
+        <div class="hero-stage">
+          <div class="hero-copy reveal">
+            <p class="kicker">Outsourcing Delivery System</p>
+            <h1>Nie dokladamy ludzi do projektu. Dowozimy milestone.</h1>
+            <p class="subhead">
+              QFS Outsourcing to nowoczesny system wspolpracy dla produkcji gier: od planu,
+              przez implementacje, po gotowy build.
+            </p>
+            <div class="hero-cta">
+              <a class="btn btn-primary" href="#services">Uslugi</a>
+              <a class="btn btn-ghost" href="kontakt.html">Umow rozmowe</a>
+            </div>
+          </div>
+
+          <div class="laptop-wrap reveal" aria-label="Nowoczesna maszyna QFS">
+            <div class="laptop" id="hero-laptop">
+              <div class="laptop-lid">
+                <div class="screen-bezel" id="hero-screen">
+                  <canvas id="screen-canvas" width="1280" height="800"></canvas>
+                  <div class="screen-logo-haze" aria-hidden="true">
+                    <img src="assets/logo-qfs.png" alt="" loading="lazy" />
+                  </div>
+                  <div class="screen-glare" aria-hidden="true"></div>
+                  <div class="screen-overlay" id="hero-screen-overlay">
+                    <div class="pill">QFS Delivery Core: Active</div>
+                    <div class="status-stack">
+                      <span>Milestone health 97.4%</span>
+                      <span>Sprint sync 14/min</span>
+                    </div>
+                  </div>
+                  <div class="monitor-enter-hint" id="hero-enter-hint">SCROLL / MENU -> ENTER MONITOR</div>
+                </div>
+              </div>
+              <div class="laptop-base" id="hero-laptop-base">
+                <div class="keyboard-grid" aria-hidden="true"></div>
+                <div class="trackpad" aria-hidden="true"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="monitor-section" id="services">
+        <div class="monitor-scroll-spacer" aria-hidden="true"></div>
+      </section>
+    </main>
+
+    <script src="https://unpkg.com/three@0.166.1/build/three.min.js"></script>
+    <script src="https://unpkg.com/gsap@3.12.5/dist/gsap.min.js"></script>
+    <script src="outsourcing-experience.js?v=17"></script>
   </body>
 </html>
