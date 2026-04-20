@@ -324,8 +324,6 @@
     const statusNode = document.getElementById("service-editor-status");
     const titleInput = document.getElementById("service-title-input");
     const descriptionInput = document.getElementById("service-description-input");
-    const imageInput = document.getElementById("service-image-input");
-    const videoInput = document.getElementById("service-video-input");
     const previewTitle = document.getElementById("service-preview-title");
     const previewDescription = document.getElementById("service-preview-description");
     const previewImageCarousel = document.getElementById("service-preview-image-carousel");
@@ -343,7 +341,7 @@
     const previewVideoEmpty = document.getElementById("service-preview-video-empty");
     const previewExamples = document.getElementById("service-preview-examples");
 
-    if (!listNode || !form || !resetButton || !titleInput || !descriptionInput || !imageInput || !videoInput || !previewTitle || !previewDescription || !previewImageCarousel || !previewImagePrev || !previewImageNext || !previewImage || !previewImageFallback || !previewImageEmpty || !previewVideoWrap || !previewVideoPrev || !previewVideoNext || !previewVideoFallback || !previewVideo || !previewVideoFile || !previewVideoEmpty || !previewExamples) {
+    if (!listNode || !form || !resetButton || !titleInput || !descriptionInput || !previewTitle || !previewDescription || !previewImageCarousel || !previewImagePrev || !previewImageNext || !previewImage || !previewImageFallback || !previewImageEmpty || !previewVideoWrap || !previewVideoPrev || !previewVideoNext || !previewVideoFallback || !previewVideo || !previewVideoFile || !previewVideoEmpty || !previewExamples) {
       return;
     }
 
@@ -387,8 +385,6 @@
       if (!current) return;
       titleInput.value = current.title;
       descriptionInput.value = current.description;
-      imageInput.value = current.image || "";
-      videoInput.value = current.video || "";
     };
 
     const showImageFallback = () => {
@@ -529,10 +525,10 @@
             id: current.id,
             title: titleInput.value,
             description: descriptionInput.value,
-            image: imageInput.value,
+            image: current.image || "",
             imageSecondary: current.imageSecondary || "",
             imageGallery: current.imageGallery || [],
-            video: videoInput.value,
+            video: current.video || "",
             videoGallery: current.videoGallery || [],
             examples: current.examples,
           },
@@ -554,10 +550,10 @@
           id: current.id,
           title: titleInput.value,
           description: descriptionInput.value,
-          image: imageInput.value,
+          image: current.image || "",
           imageSecondary: current.imageSecondary || "",
           imageGallery: current.imageGallery || [],
-          video: videoInput.value,
+          video: current.video || "",
           videoGallery: current.videoGallery || [],
           examples: current.examples,
         },
