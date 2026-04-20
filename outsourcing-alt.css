@@ -361,6 +361,22 @@ main {
 .monitor-section { min-height: calc(100vh - var(--topbar-height)); padding: 0; scroll-margin-top: var(--topbar-height); }
 .monitor-scroll-spacer { height: 120vh; }
 
+.page-footer {
+  position: relative;
+  z-index: 5;
+  width: min(1240px, 100%);
+  margin: 0 auto;
+  padding: 0.72rem 0.9rem 1.25rem;
+  border-top: 1px solid rgba(131, 167, 251, 0.34);
+  color: #c8d9ee;
+  text-align: center;
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  background: linear-gradient(180deg, rgba(8, 14, 28, 0), rgba(8, 14, 28, 0.52));
+}
+
 .monitor-static-mode .hero { min-height: auto; }
 .monitor-static-mode .hero-stage {
   position: relative;
