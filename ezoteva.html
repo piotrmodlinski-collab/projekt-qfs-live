@@ -1,172 +1,497 @@
-﻿<!doctype html>
+<!doctype html>
 <html lang="pl">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>QFS | Ezoteva</title>
+    <title>QFS | Ezoteva Xperience</title>
     <meta
       name="description"
-      content="Ezoteva: gra 3D od QFS z proceduralnymi mapami, systemem DNA buildów i mocnym klimatem audio."
+      content="Ezoteva Xperience: wejdz do swiata 2044, poznaj gameplay loop i zobacz level video projektu."
     />
-    <meta property="og:title" content="QFS | Ezoteva" />
+    <meta property="og:title" content="QFS | Ezoteva Xperience" />
     <meta
       property="og:description"
-      content="2044, Dr Tessa Adler, 1 grywalny rozdział story, 3 mapy (w tym proceduralna) i 728 zombie."
+      content="Xplore the fractured future of Ezoteva. Story, systems, level flow i demo w jednym panelu."
     />
     <meta property="og:type" content="website" />
-    <meta property="og:image" content="assets/ezoteva/ezoteva-source-hero.jpg" />
-    <meta name="theme-color" content="#070d15" />
+    <meta property="og:image" content="assets/ezoteva/ezoteva-og.jpg" />
+    <meta name="theme-color" content="#06101c" />
     <link rel="canonical" href="./ezoteva.html" />
-    <link rel="stylesheet" href="styles.css?v=40" />
+    <link rel="stylesheet" href="styles.css?v=48" />
+    <style>
+      @import url("https://fonts.googleapis.com/css2?family=Exo+2:wght@500;700;800&family=Rajdhani:wght@500;700&display=swap");
+
+      html,
+      body {
+        height: 100%;
+      }
+
+      .ezx-body {
+        margin: 0;
+        overflow: hidden;
+        display: flex;
+        flex-direction: column;
+        background:
+          radial-gradient(1200px 600px at 16% 8%, rgba(85, 182, 255, 0.28), transparent 62%),
+          radial-gradient(1100px 680px at 88% 24%, rgba(95, 126, 255, 0.22), transparent 64%),
+          linear-gradient(180deg, #030913, #071528 50%, #050d19 100%);
+      }
+
+      .ezx-body .vignette {
+        display: none;
+      }
+
+      .ezx-body .chrome {
+        background: rgba(6, 14, 28, 0.9);
+        border-bottom: 1px solid rgba(124, 176, 239, 0.38);
+      }
+
+      .ezx-body .logo span {
+        font-family: "Rajdhani", sans-serif;
+        letter-spacing: 0.08em;
+      }
+
+      .ezx-body .menu a {
+        font-family: "Rajdhani", sans-serif;
+      }
+
+      .ezx-main {
+        flex: 1 1 auto;
+        min-height: 0;
+        width: min(1240px, calc(100% - 1rem));
+        margin: 0 auto;
+        padding: 108px 0 0;
+        display: grid;
+        justify-items: center;
+        position: relative;
+        z-index: 2;
+      }
+
+      .ezx-shell {
+        width: min(900px, 100%);
+        border: 1px solid rgba(124, 176, 239, 0.5);
+        border-radius: 18px;
+        background:
+          linear-gradient(160deg, rgba(7, 19, 36, 0.9), rgba(6, 15, 29, 0.96)),
+          radial-gradient(circle at 80% 12%, rgba(106, 157, 255, 0.14), transparent 62%);
+        box-shadow: 0 18px 36px rgba(0, 0, 0, 0.5);
+        overflow: hidden;
+        height: 100%;
+        max-height: calc(100vh - 186px);
+        min-height: 430px;
+      }
+
+      .ezx-head {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 0.5rem;
+        padding: 0.52rem 0.74rem;
+        border-bottom: 1px solid rgba(124, 176, 239, 0.5);
+        background: linear-gradient(130deg, rgba(42, 83, 156, 0.48), rgba(57, 102, 187, 0.36));
+      }
+
+      .ezx-head strong {
+        font-family: "Exo 2", sans-serif;
+        font-size: 1rem;
+        font-weight: 700;
+        letter-spacing: 0.05em;
+        color: #dcecff;
+        text-transform: uppercase;
+      }
+
+      .ezx-head span {
+        font: 700 0.72rem/1 "Rajdhani", sans-serif;
+        color: #9cc8ff;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+      }
+
+      .ezx-scroll {
+        height: calc(100% - 52px);
+        min-height: 0;
+        overflow-y: auto;
+        padding: 0.8rem;
+        display: grid;
+        gap: 0.68rem;
+      }
+
+      .ezx-scroll::-webkit-scrollbar {
+        width: 12px;
+      }
+
+      .ezx-scroll::-webkit-scrollbar-track {
+        background: #08162b;
+      }
+
+      .ezx-scroll::-webkit-scrollbar-thumb {
+        background: #5e92dd;
+        border: 2px solid #08162b;
+      }
+
+      .ezx-block {
+        border: 1px solid rgba(124, 176, 239, 0.38);
+        border-radius: 14px;
+        padding: 0.8rem;
+        background: rgba(8, 20, 38, 0.78);
+        box-shadow: inset 0 0 0 1px rgba(177, 213, 255, 0.06);
+        scroll-margin-top: 120px;
+      }
+
+      .ezx-hero {
+        display: grid;
+        gap: 0.72rem;
+        grid-template-columns: minmax(0, 1.1fr) minmax(240px, 0.95fr);
+      }
+
+      .ezx-kicker {
+        margin: 0;
+        font: 700 0.72rem/1 "Rajdhani", sans-serif;
+        text-transform: uppercase;
+        letter-spacing: 0.11em;
+        color: #9ec7ff;
+      }
+
+      .ezx-hero h1 {
+        margin: 0.35rem 0 0;
+        font-family: "Exo 2", sans-serif;
+        font-size: clamp(2rem, 4.2vw, 3rem);
+        line-height: 0.95;
+        color: #f2f8ff;
+        letter-spacing: 0.04em;
+        text-transform: uppercase;
+      }
+
+      .ezx-hero p {
+        margin: 0.56rem 0 0;
+        color: #d5e8ff;
+        font: 600 0.95rem/1.62 "Rajdhani", sans-serif;
+      }
+
+      .ezx-cta {
+        margin-top: 0.7rem;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.45rem;
+      }
+
+      .ezx-btn {
+        text-decoration: none;
+        border: 1px solid rgba(129, 182, 248, 0.64);
+        border-radius: 10px;
+        padding: 0.56rem 0.8rem;
+        background: rgba(11, 28, 53, 0.74);
+        color: #e9f4ff;
+        font: 700 0.9rem/1 "Exo 2", sans-serif;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+      }
+
+      .ezx-btn.primary {
+        background: linear-gradient(120deg, rgba(78, 124, 220, 0.72), rgba(84, 152, 255, 0.62));
+        border-color: rgba(178, 215, 255, 0.74);
+      }
+
+      .ezx-btn:hover {
+        transform: translateY(-1px);
+      }
+
+      .ezx-video-wrap {
+        border: 1px solid rgba(133, 184, 249, 0.42);
+        border-radius: 12px;
+        overflow: hidden;
+        background: #030913;
+        min-height: 300px;
+      }
+
+      .ezx-video-wrap iframe {
+        width: 100%;
+        height: 100%;
+        min-height: 300px;
+        border: 0;
+        display: block;
+      }
+
+      .ezx-title h2 {
+        margin: 0.3rem 0 0;
+        font-family: "Exo 2", sans-serif;
+        font-size: clamp(1.3rem, 2.6vw, 1.95rem);
+        line-height: 1.05;
+        color: #f1f8ff;
+        text-transform: uppercase;
+        letter-spacing: 0.04em;
+      }
+
+      .ezx-grid {
+        margin-top: 0.64rem;
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 0.5rem;
+      }
+
+      .ezx-card {
+        border: 1px solid rgba(124, 176, 239, 0.35);
+        border-radius: 12px;
+        padding: 0.62rem;
+        background: rgba(8, 23, 44, 0.82);
+      }
+
+      .ezx-card h3 {
+        margin: 0;
+        color: #c8e2ff;
+        font: 700 0.95rem/1.2 "Exo 2", sans-serif;
+        text-transform: uppercase;
+        letter-spacing: 0.04em;
+      }
+
+      .ezx-card p {
+        margin: 0.42rem 0 0;
+        color: #dcecff;
+        font: 600 0.86rem/1.52 "Rajdhani", sans-serif;
+      }
+
+      .ezx-world-text {
+        margin: 0.58rem 0 0;
+        color: #e0efff;
+        font: 600 0.95rem/1.62 "Rajdhani", sans-serif;
+        max-width: 72ch;
+      }
+
+      .ezx-metrics {
+        margin-top: 0.64rem;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.42rem;
+      }
+
+      .ezx-metrics span {
+        border: 1px solid rgba(124, 176, 239, 0.45);
+        border-radius: 999px;
+        padding: 0.28rem 0.54rem;
+        background: rgba(9, 22, 41, 0.82);
+        color: #d9eaff;
+        font: 700 0.76rem/1 "Rajdhani", sans-serif;
+        letter-spacing: 0.06em;
+        text-transform: uppercase;
+      }
+
+      .ezx-shot-grid {
+        margin-top: 0.64rem;
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 0.5rem;
+      }
+
+      .ezx-shot {
+        margin: 0;
+        border: 1px solid rgba(124, 176, 239, 0.38);
+        border-radius: 12px;
+        overflow: hidden;
+        background: rgba(8, 22, 40, 0.82);
+      }
+
+      .ezx-shot img {
+        display: block;
+        width: 100%;
+        aspect-ratio: 16 / 10;
+        object-fit: cover;
+      }
+
+      .ezx-shot figcaption {
+        padding: 0.4rem 0.56rem;
+        border-top: 1px solid rgba(124, 176, 239, 0.34);
+        color: #d8eaff;
+        font: 700 0.75rem/1 "Rajdhani", sans-serif;
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+      }
+
+      .ezx-body .page-footer {
+        position: relative;
+        z-index: 2;
+        margin-top: 0.42rem;
+      }
+
+      @media (max-width: 980px) {
+        .ezx-hero {
+          grid-template-columns: 1fr;
+        }
+
+        .ezx-grid {
+          grid-template-columns: repeat(2, minmax(0, 1fr));
+        }
+      }
+
+      @media (max-width: 760px) {
+        .ezx-main {
+          padding-top: 128px;
+        }
+
+        .ezx-shell {
+          max-height: calc(100vh - 216px);
+        }
+
+        .ezx-grid,
+        .ezx-shot-grid {
+          grid-template-columns: 1fr;
+        }
+
+        .ezx-scroll {
+          padding: 0.58rem;
+        }
+      }
+    </style>
   </head>
-  <body>
-    <div class="site-shell">
-      <header class="topbar">
-        <a class="brand" href="index.html">
-          <img src="assets/logo-qfs.png" alt="QFS logo" />
-          <strong>QUANTUM FORGE STUDIO</strong>
+  <body class="ezx-body">
+    <div class="vignette" aria-hidden="true"></div>
+
+    <header class="chrome" id="top">
+      <a class="logo" href="index.html" aria-label="QFS start strony">
+        <img src="assets/logo-qfs.png" alt="QFS logo" />
+        <span>Quantum Forge Studio</span>
+      </a>
+      <nav class="menu" aria-label="Sekcje strony Ezoteva Xperience">
+        <a href="index.html" data-nav="qfs">QFS</a>
+        <a href="#ezx-start" data-nav="ezx-start" class="is-active">Ezoteva</a>
+        <a href="#ezx-world" data-nav="ezx-world">World</a>
+        <a href="#ezx-systems" data-nav="ezx-systems">Systems</a>
+        <a href="#ezx-contact" data-nav="ezx-contact">Kontakt</a>
+      </nav>
+    </header>
+
+    <main class="ezx-main">
+      <div class="ezx-shell">
+        <div class="ezx-head">
+          <strong>Ezoteva // Xperience</strong>
+          <span>Launch sequence</span>
+        </div>
+
+        <div class="ezx-scroll" role="region" aria-label="Ezoteva xperience panel">
+          <section id="ezx-start" class="ezx-block ezx-hero" data-section="ezx-start">
+            <div>
+              <p class="ezx-kicker">Launch the Xperience</p>
+              <h1>Xplore the Fractured Future of Ezoteva</h1>
+              <p>
+                Rok 2044. Wraz z Dr Tessa Adler schodzisz do stref, gdzie swiat gry laczy
+                survival, system DNA buildow i proceduralne mapy. Kazdy run to inna trasa,
+                inne zagrozenia i inny rytm decyzji.
+              </p>
+              <div class="ezx-cta">
+                <a class="ezx-btn primary" href="#level-demo">Zobacz DEMO</a>
+                <a class="ezx-btn" href="kontakt.html">Umow rozmowe</a>
+              </div>
+              <div class="ezx-metrics">
+                <span>1 grywalny rozdzial story</span>
+                <span>3 mapy (1 proceduralna)</span>
+                <span>728 zombie do eliminacji</span>
+              </div>
+            </div>
+            <div id="level-demo" class="ezx-video-wrap" aria-label="Level video">
+              <iframe
+                src="https://www.youtube.com/embed/5HGbW4pt8VQ?autoplay=1&mute=1&loop=1&playlist=5HGbW4pt8VQ&controls=1&rel=0"
+                title="Ezoteva level video"
+                loading="lazy"
+                allow="autoplay; encrypted-media; picture-in-picture; fullscreen"
+                referrerpolicy="strict-origin-when-cross-origin"
+              ></iframe>
+            </div>
+          </section>
+
+          <section id="ezx-world" class="ezx-block" data-section="ezx-world">
+            <div class="ezx-title">
+              <p class="ezx-kicker">our world</p>
+              <h2>Welcome to a broken ecosystem of code, noise and survival</h2>
+            </div>
+            <p class="ezx-world-text">
+              Ezoteva to swiat po katastrofie biologiczno-technicznej, gdzie kazda lokacja
+              dziala jak oddzielny organizm. Ukryte systemy, mutacje i warstwa audio prowadza
+              gracza przez miejsca, ktore jednoczesnie kusza eksploracja i karza za blad.
+              Tu nawet cisza jest mechanika gameplayu.
+            </p>
+            <div class="ezx-grid">
+              <article class="ezx-card">
+                <h3>Procedural zones</h3>
+                <p>Mapa zmienia flow sesji i wymusza szybkie decyzje taktyczne.</p>
+              </article>
+              <article class="ezx-card">
+                <h3>DNA builds</h3>
+                <p>Rozwijasz postac pod wlasny styl walki i przetrwania.</p>
+              </article>
+              <article class="ezx-card">
+                <h3>Reactive audio</h3>
+                <p>Dzwiek jest narzedziem orientacji i budowania napiecia.</p>
+              </article>
+            </div>
+          </section>
+
+          <section id="ezx-systems" class="ezx-block" data-section="ezx-systems">
+            <div class="ezx-title">
+              <p class="ezx-kicker">Xplore the systems</p>
+              <h2>Visual language of Ezoteva</h2>
+            </div>
+            <div class="ezx-shot-grid">
+              <figure class="ezx-shot">
+                <img src="assets/ezoteva/ezoteva-source-shot-a.png" alt="Ezoteva concept frame A" loading="lazy" />
+                <figcaption>Character direction</figcaption>
+              </figure>
+              <figure class="ezx-shot">
+                <img src="assets/ezoteva/ezoteva-source-shot-b.png" alt="Ezoteva concept frame B" loading="lazy" />
+                <figcaption>DNA system layer</figcaption>
+              </figure>
+            </div>
+          </section>
+
+          <section id="ezx-contact" class="ezx-block" data-section="ezx-contact">
+            <div class="ezx-title">
+              <p class="ezx-kicker">Next step</p>
+              <h2>Chcesz wejsc glebiej w Ezoteva?</h2>
+            </div>
+            <p class="ezx-world-text">
+              Przygotujemy rozszerzony pokaz gameplay loopa, mapowania systemow i
+              planu contentu pod milestone produkcyjny.
+            </p>
+            <div class="ezx-cta">
+              <a class="ezx-btn primary" href="kontakt.html">Skontaktuj sie</a>
+              <a class="ezx-btn" href="index.html#produkcje">Wroc do produkcji</a>
+            </div>
+          </section>
+        </div>
+      </div>
+    </main>
+
+    <footer class="page-footer">
+      <p>QFS Contact | Polska / Europa | Studio GameDev</p>
+      <div class="footer-social" aria-label="QFS social media">
+        <a class="footer-social-link" href="https://www.facebook.com/QuantumForgeStudio/" target="_blank" rel="noopener noreferrer" aria-label="Facebook">
+          <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M16 8.049C16 3.603 12.418 0 8 0S0 3.603 0 8.049c0 4.017 2.926 7.347 6.75 7.951v-5.625H4.719V8.049H6.75V6.275c0-2.017 1.195-3.131 3.022-3.131.876 0 1.791.157 1.791.157V5.28h-1.009c-.994 0-1.304.621-1.304 1.258V8.05h2.219l-.354 2.327H9.25V16C13.074 15.396 16 12.066 16 8.049z"/></svg>
         </a>
-                <nav class="nav" aria-label="Nawigacja główna">
-          <a href="index.html#studio" data-nav="home">Start</a>
-          <a href="index.html#produkcje" data-nav="produkcje">Produkcje</a>
-          <a href="index.html#outsourcing" data-nav="outsourcing">Outsourcing</a>
-          <a href="index.html#onas-panel" data-nav="zespol">Zespół</a>
-          <a href="index.html#kontakt" data-nav="kontakt">Kontakt</a>
-        </nav>
-      </header>
+        <a class="footer-social-link" href="https://www.twitch.tv/quantum_forge_pl" target="_blank" rel="noopener noreferrer" aria-label="Twitch">
+          <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M2.149 0 .143 2.009v11.998h4.287v2.285h2.287l2.287-2.285h3.431L15.862 10.58V0H2.149zm12.285 10.009-2.001 2H8.999l-2 2v-2H4.713V1.429h9.721v8.58z"/><path d="M11.001 4.857h-1.429v3.429h1.429V4.857zm-3.714 0H5.858v3.429h1.429V4.857z"/></svg>
+        </a>
+        <a class="footer-social-link" href="https://www.linkedin.com/company/quantum-forges-studio/about/" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn">
+          <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M0 1.146C0 .513.526 0 1.175 0h13.65C15.473 0 16 .513 16 1.146v13.708c0 .633-.527 1.146-1.175 1.146H1.175C.526 16 0 15.487 0 14.854V1.146z"/><path d="M4.943 13.394V6.169H2.542v7.225h2.401zm-1.2-8.214h-.015c-.806 0-1.327-.554-1.327-1.248 0-.708.537-1.248 1.358-1.248.821 0 1.327.54 1.342 1.248 0 .694-.52 1.248-1.358 1.248zM13.58 13.394V9.25c0-2.22-1.184-3.252-2.764-3.252-1.274 0-1.845.7-2.165 1.193v.025h-.016a5.53 5.53 0 0 1 .016-.025V6.169h-2.4c.03.678 0 7.225 0 7.225h2.4V9.359c0-.216.016-.432.08-.586.173-.431.568-.878 1.232-.878.87 0 1.217.662 1.217 1.634v3.865h2.401z"/></svg>
+        </a>
+        <a class="footer-social-link" href="https://discord.gg/cBXQkCCUMD" target="_blank" rel="noopener noreferrer" aria-label="Discord">
+          <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M13.545 2.907A13.227 13.227 0 0 0 10.226 1.65a.052.052 0 0 0-.056.026c-.144.25-.305.577-.417.835a12.19 12.19 0 0 0-3.506 0 8.2 8.2 0 0 0-.423-.835.051.051 0 0 0-.056-.026 13.145 13.145 0 0 0-3.32 1.257.05.05 0 0 0-.024.02C.307 6.039-.32 9.077.003 12.077a.06.06 0 0 0 .023.04 13.2 13.2 0 0 0 3.994 2.01.05.05 0 0 0 .055-.019c.307-.42.58-.863.814-1.329a.05.05 0 0 0-.01-.059 8.6 8.6 0 0 1-1.245-.59.05.05 0 0 1-.005-.084c.083-.062.167-.126.248-.191a.05.05 0 0 1 .052-.007c2.619 1.196 5.454 1.196 8.042 0a.05.05 0 0 1 .053.006c.082.066.166.13.249.192a.05.05 0 0 1-.004.084c-.398.236-.813.433-1.246.59a.05.05 0 0 0-.009.059c.239.466.512.909.814 1.329a.05.05 0 0 0 .055.019 13.184 13.184 0 0 0 4-2.01.05.05 0 0 0 .023-.04c.386-3.467-.646-6.478-2.421-9.15a.043.043 0 0 0-.024-.02zM5.33 10.845c-.784 0-1.427-.72-1.427-1.604 0-.887.632-1.604 1.427-1.604.8 0 1.44.724 1.427 1.604 0 .887-.632 1.604-1.427 1.604zm5.288 0c-.784 0-1.426-.72-1.426-1.604 0-.887.631-1.604 1.426-1.604.8 0 1.44.724 1.427 1.604 0 .887-.626 1.604-1.427 1.604z"/></svg>
+        </a>
+      </div>
+    </footer>
 
-      <main class="ezo-page">
-        <section class="section ezo-hero">
-          <div class="ezo-hero-copy">
-            <p class="eyebrow">Produkcje własne // QFS IP</p>
-            <h1>EZOTEVA</h1>
-            <p class="lead">
-              Ezoteva to gra 3D osadzona w świecie roku 2044. Wcielasz się w ocalałego i razem z
-              dr Tessą Adler odkrywasz kolejne warstwy zagrożenia, walcząc o przetrwanie ludzkości.
-            </p>
-            <div class="metric-strip">
-              <span class="metric-pill">1 grywalny rozdział story</span>
-              <span class="metric-pill">3 mapy (1 proceduralna)</span>
-              <span class="metric-pill">728 zombie do eliminacji</span>
-            </div>
-            <div class="actions mt">
-              <a class="btn-primary" href="kontakt.html">Umów demo projektu</a>
-              <a
-                class="btn-secondary"
-                href="https://quantumforgestudio.com/ezoteva/"
-                target="_blank"
-                rel="noreferrer noopener"
-                >Zobacz oryginalną stronę</a
-              >
-            </div>
-          </div>
-          <div class="ezo-hero-media" aria-label="Key visual Ezoteva">
-            <img src="assets/ezoteva/ezoteva-source-hero.jpg" alt="Ezoteva - key visual projektu" loading="lazy" />
-          </div>
-        </section>
+    <script>
+      (() => {
+        const scroller = document.querySelector(".ezx-scroll");
+        if (!scroller) return;
 
-        <section class="section">
-          <div class="section-head">
-            <p class="eyebrow">Filary projektu</p>
-            <h2>Co wyróżnia Ezotevę</h2>
-          </div>
-          <div class="ezo-pillars">
-            <article class="ezo-card">
-              <h3>Proceduralność świata</h3>
-              <p>
-                Każda sesja daje inny układ ścieżek i zdarzeń. Zmienność map podnosi replayability i
-                wymusza dynamiczne decyzje taktyczne.
-              </p>
-            </article>
-            <article class="ezo-card">
-              <h3>System DNA buildów</h3>
-              <p>
-                Modyfikacje DNA pozwalają dostroić postać pod styl gracza: siłę, szybkość,
-                wytrzymałość i zdolności specjalne.
-              </p>
-            </article>
-            <article class="ezo-card">
-              <h3>Własna warstwa audio</h3>
-              <p>
-                Dedykowany SFX, dubbing i autorska muzyka prowadzą narrację i budują napięcie w
-                momentach eksploracji oraz walki.
-              </p>
-            </article>
-            <article class="ezo-card">
-              <h3>Immersja i interakcja</h3>
-              <p>
-                Gracz może prowadzić story także przez mikrofon albo skupić się na czystej akcji w
-                sekwencjach hack and slash.
-              </p>
-            </article>
-          </div>
-        </section>
+        const routeWheelToScroller = (event) => {
+          if (event.ctrlKey) return;
+          if (scroller.scrollHeight <= scroller.clientHeight) return;
+          event.preventDefault();
+          scroller.scrollTop += event.deltaY;
+        };
 
-        <section class="section ezo-layout">
-          <article class="ezo-panel">
-            <div class="section-head">
-              <p class="eyebrow">Zakres contentu</p>
-              <h2>Mapa doświadczenia gracza</h2>
-            </div>
-            <ul class="list">
-              <li>Zalesiona wyspa: otwarta eksploracja i pierwsze starcia.</li>
-              <li>Metro: ciaśniejsze tempo, mniejsza widoczność i większe napięcie.</li>
-              <li>Mapa proceduralna: niepowtarzalny układ ścieżek oraz zdarzeń.</li>
-              <li>Tryb story: narracyjne wejście w świat 2044 i konflikt projektu.</li>
-            </ul>
-          </article>
-
-          <article class="ezo-panel">
-            <div class="section-head">
-              <p class="eyebrow">Audio DNA</p>
-              <h2>Warstwa dźwiękowa</h2>
-            </div>
-            <ul class="list">
-              <li>Tysiące dźwięków reagujących na lokację i poziom zagrożenia.</li>
-              <li>Nieszablonowe brzmienia: gitara akustyczna, handpan i hybrydowe tekstury.</li>
-              <li>Dźwięk jako gameplay: nasłuch ułatwia ocenę sytuacji taktycznej.</li>
-            </ul>
-          </article>
-        </section>
-
-        <section class="section">
-          <div class="section-head">
-            <p class="eyebrow">Materiały koncepcyjne</p>
-            <h2>Postać i system DNA</h2>
-          </div>
-          <div class="ezo-gallery">
-            <figure class="ezo-shot">
-              <img src="assets/ezoteva/ezoteva-source-shot-a.png" alt="Ezoteva - concept art postaci" loading="lazy" />
-              <figcaption>Kierunek postaci</figcaption>
-            </figure>
-            <figure class="ezo-shot">
-              <img src="assets/ezoteva/ezoteva-source-shot-b.png" alt="Ezoteva - koncept systemu DNA" loading="lazy" />
-              <figcaption>System DNA buildów</figcaption>
-            </figure>
-          </div>
-        </section>
-
-        <section class="section">
-          <div class="section-head">
-            <p class="eyebrow">Dalej</p>
-            <h2>Chcesz wejść głębiej w projekt Ezoteva?</h2>
-            <p class="lead">
-              Przygotujemy rozszerzony przegląd designu, świata i pipeline'u produkcyjnego pod
-              rozmowę partnerską, publishingową lub inwestorską.
-            </p>
-          </div>
-          <div class="actions">
-            <a class="btn-primary" href="kontakt.html">Umów rozmowę o projekcie</a>
-            <a class="btn-secondary" href="index.html#produkcje">Wróć do produkcji</a>
-          </div>
-        </section>
-      </main>
-
-      <footer>
-        <p>QFS Ezoteva Page | Proceduralność + DNA + immersyjne audio</p>
-      </footer>
-    </div>
-    <script src="app.js"></script>
+        window.addEventListener("wheel", routeWheelToScroller, { passive: false });
+      })();
+    </script>
+    <script src="app.js?v=10"></script>
   </body>
 </html>
-
