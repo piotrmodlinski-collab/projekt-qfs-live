@@ -105,7 +105,7 @@
 
       .ezx-side {
         border-right: 1px solid rgba(124, 176, 239, 0.32);
-        padding: 1rem 1rem 1.1rem;
+        padding: 1rem 1rem 1.1rem 1.5rem;
         background:
           linear-gradient(180deg, rgba(8, 20, 38, 0.9), rgba(5, 13, 27, 0.94)),
           radial-gradient(420px 280px at 15% 12%, rgba(167, 80, 53, 0.18), transparent 72%);
@@ -119,6 +119,7 @@
         letter-spacing: 0.08em;
         color: #f3f8ff;
         text-transform: uppercase;
+        margin-left: 0.52rem;
       }
 
       .ezx-brand-sub {
@@ -127,75 +128,52 @@
         text-transform: uppercase;
         letter-spacing: 0.12em;
         color: rgba(177, 213, 255, 0.84);
+        margin-left: 0.52rem;
       }
 
       .ezx-side-nav {
         margin-top: 1rem;
-        position: relative;
         display: grid;
         gap: 0.16rem;
-        padding: 0.28rem 0;
-      }
-
-      .ezx-nav-indicator {
-        position: absolute;
-        left: 0;
-        right: 0;
-        top: 0;
-        border: 1px solid rgba(248, 195, 92, 0.75);
-        border-radius: 12px;
-        background: rgba(17, 16, 12, 0.58);
-        box-shadow:
-          inset 0 0 0 1px rgba(255, 214, 140, 0.14),
-          0 0 18px rgba(248, 195, 92, 0.14);
-        transition: transform 0.26s ease, height 0.26s ease;
-        pointer-events: none;
-      }
-
-      .ezx-nav-indicator::before {
-        content: "";
-        position: absolute;
-        left: 0.34rem;
-        top: 0.28rem;
-        bottom: 0.28rem;
-        width: 0.48rem;
-        border-radius: 999px;
-        background: linear-gradient(180deg, #f8cc63, #d49f39);
-        box-shadow: 0 0 9px rgba(248, 201, 104, 0.45);
+        padding: 0;
+        margin-left: 0.52rem;
       }
 
       .ezx-nav-btn {
         appearance: none;
-        border: 0;
+        border: 1px solid transparent;
         background: transparent;
         color: rgba(220, 236, 255, 0.88);
         text-align: left;
         font: 600 clamp(1.05rem, 2.2vw, 1.34rem) / 1.1 "Rajdhani", sans-serif;
         letter-spacing: 0.03em;
-        padding: 0.64rem 0.86rem 0.64rem 1.9rem;
-        border-radius: 12px;
+        padding: 0.58rem 0.78rem;
+        border-radius: 8px;
         cursor: pointer;
         position: relative;
         z-index: 1;
-        transition: color 0.2s ease, transform 0.2s ease;
+        transition: color 0.2s ease, transform 0.2s ease, border-color 0.2s ease, background 0.2s ease;
       }
 
       .ezx-nav-btn:hover,
       .ezx-nav-btn:focus-visible {
         color: #ffffff;
         outline: none;
-        transform: translateX(2px);
+        transform: translateX(3px);
       }
 
       .ezx-nav-btn.is-active {
         color: #ffffff;
-        text-shadow: 0 0 14px rgba(255, 255, 255, 0.24);
+        text-shadow: 0 0 12px rgba(255, 255, 255, 0.2);
+        border-color: rgba(183, 199, 219, 0.42);
+        background: rgba(8, 18, 30, 0.54);
       }
 
       .ezx-nav-foot {
         margin-top: auto;
         padding-top: 1rem;
         border-top: 1px solid rgba(124, 176, 239, 0.22);
+        margin-left: 0.52rem;
       }
 
       .ezx-nav-foot p {
@@ -216,8 +194,8 @@
         justify-content: space-between;
         gap: 0.8rem;
         padding: 0.58rem 0.9rem;
-        border-bottom: 1px solid rgba(124, 176, 239, 0.42);
-        background: linear-gradient(130deg, rgba(42, 83, 156, 0.48), rgba(57, 102, 187, 0.36));
+        border-bottom: 1px solid rgba(183, 199, 219, 0.34);
+        background: rgba(7, 16, 26, 0.58);
       }
 
       .ezx-display-head strong {
@@ -256,10 +234,10 @@
 
       .ezx-panel {
         display: none;
-        border: 1px solid rgba(124, 176, 239, 0.4);
-        border-radius: 14px;
-        background: rgba(7, 19, 36, 0.84);
-        box-shadow: inset 0 0 0 1px rgba(177, 213, 255, 0.06);
+        border: 1px solid rgba(183, 199, 219, 0.34);
+        border-radius: 10px;
+        background: linear-gradient(170deg, rgba(7, 16, 26, 0.5), rgba(7, 16, 26, 0.36));
+        box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.06), 0 16px 30px rgba(0, 0, 0, 0.36);
         padding: 0.94rem;
         animation: ezx-fade-in 0.28s ease;
       }
@@ -466,11 +444,19 @@
           border-right: 0;
           border-bottom: 1px solid rgba(124, 176, 239, 0.32);
           padding-bottom: 0.82rem;
+          padding-left: 1rem;
         }
 
         .ezx-side-nav {
           grid-template-columns: repeat(2, minmax(0, 1fr));
           gap: 0.22rem;
+          margin-left: 0;
+        }
+
+        .ezx-brand,
+        .ezx-brand-sub,
+        .ezx-nav-foot {
+          margin-left: 0;
         }
 
         .ezx-nav-btn {
@@ -538,7 +524,6 @@
           <p class="ezx-brand-sub">Main interface // project sequence</p>
 
           <nav class="ezx-side-nav" aria-label="Sekcje projektu Ezoteva">
-            <span class="ezx-nav-indicator" aria-hidden="true"></span>
             <button class="ezx-nav-btn is-active" type="button" data-panel="demo" data-title="Zobacz demo" data-tag="Launch sequence">
               Zobacz demo
             </button>
@@ -737,19 +722,13 @@
       (() => {
         const buttons = Array.from(document.querySelectorAll(".ezx-nav-btn"));
         const panels = Array.from(document.querySelectorAll(".ezx-panel"));
-        const indicator = document.querySelector(".ezx-nav-indicator");
         const panelScroll = document.querySelector(".ezx-panel-scroll");
         const displayTitle = document.querySelector("[data-display-title]");
         const displayTag = document.querySelector("[data-display-tag]");
 
-        if (!buttons.length || !panels.length || !indicator || !panelScroll) {
+        if (!buttons.length || !panels.length || !panelScroll) {
           return;
         }
-
-        const positionIndicator = (button) => {
-          indicator.style.height = `${button.offsetHeight}px`;
-          indicator.style.transform = `translateY(${button.offsetTop}px)`;
-        };
 
         const activatePanel = (panelName, smoothReset) => {
           const activeButton = buttons.find((button) => button.dataset.panel === panelName) || buttons[0];
@@ -762,8 +741,6 @@
           panels.forEach((panel) => {
             panel.classList.toggle("is-active", panel === activePanel);
           });
-
-          positionIndicator(activeButton);
 
           if (displayTitle) {
             displayTitle.textContent = activeButton.dataset.title || activeButton.textContent.trim();
@@ -786,13 +763,6 @@
 
         const initial = buttons.find((button) => button.classList.contains("is-active")) || buttons[0];
         activatePanel(initial.dataset.panel, false);
-
-        window.addEventListener("resize", () => {
-          const activeButton = buttons.find((button) => button.classList.contains("is-active"));
-          if (activeButton) {
-            positionIndicator(activeButton);
-          }
-        });
 
         const routeWheelToPanel = (event) => {
           if (event.ctrlKey) return;
