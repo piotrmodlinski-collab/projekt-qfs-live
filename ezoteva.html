@@ -31,10 +31,30 @@
         overflow: hidden;
         display: flex;
         flex-direction: column;
+        background: #050d19;
+        position: relative;
+      }
+
+      .ezx-bg-video-wrap {
+        position: fixed;
+        inset: 0;
+        z-index: 0;
+        pointer-events: none;
+        overflow: hidden;
+      }
+
+      .ezx-bg-video {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+
+      .ezx-bg-overlay {
+        position: absolute;
+        inset: 0;
         background:
-          radial-gradient(1200px 600px at 16% 8%, rgba(85, 182, 255, 0.28), transparent 62%),
-          radial-gradient(1100px 680px at 88% 24%, rgba(95, 126, 255, 0.22), transparent 64%),
-          linear-gradient(180deg, #030913, #071528 50%, #050d19 100%);
+          linear-gradient(180deg, rgba(4, 8, 16, 0.8), rgba(5, 9, 18, 0.86)),
+          radial-gradient(1000px 520px at 22% 16%, rgba(84, 145, 255, 0.16), transparent 64%);
       }
 
       .ezx-body .vignette {
@@ -343,6 +363,12 @@
     </style>
   </head>
   <body class="ezx-body">
+    <div class="ezx-bg-video-wrap" aria-hidden="true">
+      <video class="ezx-bg-video" autoplay muted loop playsinline preload="auto">
+        <source src="assets/ezoteva/ezoteva-main-menu.mp4" type="video/mp4" />
+      </video>
+      <div class="ezx-bg-overlay"></div>
+    </div>
     <div class="vignette" aria-hidden="true"></div>
 
     <header class="chrome" id="top">
