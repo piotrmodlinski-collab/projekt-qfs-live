@@ -2151,7 +2151,7 @@ h2 {
   display: grid;
   grid-template-columns: minmax(0, 1fr) minmax(270px, 340px);
   gap: 0.9rem;
-  align-items: start;
+  align-items: center;
 }
 
 .contact-page .contact-form-main .section-head {
@@ -2170,8 +2170,9 @@ h2 {
 }
 
 .contact-page .contact-brief-info {
-  position: sticky;
-  top: calc(var(--contact-bg-top-offset) + 0.9rem);
+  position: static;
+  top: auto;
+  align-self: center;
   border: 1px solid rgba(238, 221, 112, 0.4);
   border-radius: 10px;
   background: linear-gradient(180deg, rgba(11, 24, 39, 0.8), rgba(10, 21, 34, 0.62));
