@@ -2147,12 +2147,16 @@ h2 {
 }
 
 .contact-page {
+  --contact-bg-top-offset: 72px;
   position: relative;
 }
 
 .contact-page .contact-bg-video {
   position: fixed;
-  inset: 0;
+  top: var(--contact-bg-top-offset);
+  right: 0;
+  bottom: 0;
+  left: 0;
   z-index: 0;
   overflow: hidden;
   pointer-events: none;
@@ -2174,7 +2178,10 @@ h2 {
 
 .contact-page .contact-bg-overlay {
   position: fixed;
-  inset: 0;
+  top: var(--contact-bg-top-offset);
+  right: 0;
+  bottom: 0;
+  left: 0;
   z-index: 1;
   pointer-events: none;
   background:
@@ -3097,6 +3104,10 @@ h2 {
 }
 
 @media (max-width: 760px) {
+  .contact-page {
+    --contact-bg-top-offset: 112px;
+  }
+
   .topbar {
     flex-direction: column;
     align-items: flex-start;
