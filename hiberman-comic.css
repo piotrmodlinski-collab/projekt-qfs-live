@@ -6,24 +6,11 @@
   --blue: #5f78ff;
   --pink: #ff55b7;
   --yellow: #ffd84e;
-  --mint: #56dfbf;
   background-color: #596ff0;
   background-image: url("https://quantumforgestudio.com/wp-content/uploads/2024/07/TLO1-768x768.png");
   background-position: center center;
   background-repeat: repeat;
   background-size: auto;
-  position: relative;
-}
-
-.hib-comic-body::before {
-  content: "";
-  position: fixed;
-  inset: 0;
-  pointer-events: none;
-  background:
-    radial-gradient(circle, rgba(255, 255, 255, 0.24) 1.2px, transparent 1.2px) 0 0 / 14px 14px,
-    linear-gradient(180deg, rgba(0, 0, 0, 0.08), rgba(0, 0, 0, 0));
-  z-index: 0;
 }
 
 .hib-comic-body .vignette {
@@ -78,398 +65,234 @@
 }
 
 .hib-comic-main {
-  position: relative;
-  z-index: 1;
-  width: min(1220px, calc(100% - 1.2rem));
+  width: min(1240px, calc(100% - 1rem));
   margin: 0 auto;
-  padding: 112px 0 1.1rem;
+  padding: 112px 0 1rem;
   display: grid;
-  gap: 1rem;
+  justify-items: center;
 }
 
-.hib-chapter {
-  position: relative;
+.hib-scroll-shell {
+  width: min(840px, 100%);
   border: 4px solid var(--ink);
-  border-radius: 24px;
+  border-radius: 20px;
   background: var(--paper);
-  box-shadow: 9px 9px 0 rgba(9, 8, 15, 0.95);
-  padding: clamp(1.05rem, 2.3vw, 1.55rem);
+  box-shadow: 10px 10px 0 rgba(9, 8, 15, 0.95);
   overflow: hidden;
+}
+
+.hib-scroll-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.52rem 0.7rem;
+  border-bottom: 4px solid var(--ink);
+  background: linear-gradient(110deg, #ffd84e, #ff84ca);
+}
+
+.hib-scroll-head strong {
+  font: 400 1.22rem/1 "Bangers", cursive;
+  letter-spacing: 0.06em;
+  color: #14122b;
+}
+
+.hib-scroll-head span {
+  font: 800 0.78rem/1 "Nunito", sans-serif;
+  text-transform: uppercase;
+  color: #1b1940;
+  letter-spacing: 0.08em;
+}
+
+.hib-scroll-table {
+  height: calc(100vh - 220px);
+  min-height: 520px;
+  overflow-y: auto;
+  padding: 0.72rem;
+  display: grid;
+  gap: 0.68rem;
+  background:
+    radial-gradient(circle, rgba(255, 255, 255, 0.24) 1.2px, transparent 1.2px) 0 0 / 13px 13px,
+    #fff7d4;
+}
+
+.hib-scroll-table::-webkit-scrollbar {
+  width: 12px;
+}
+
+.hib-scroll-table::-webkit-scrollbar-track {
+  background: #ffeebe;
+  border-left: 3px solid var(--ink);
+}
+
+.hib-scroll-table::-webkit-scrollbar-thumb {
+  background: #f6a7d7;
+  border: 3px solid var(--ink);
+}
+
+.hib-row {
+  border: 3px solid var(--ink);
+  border-radius: 16px;
+  background: #fff;
+  box-shadow: 4px 4px 0 rgba(9, 8, 15, 0.86);
+  padding: 0.72rem;
+  scroll-margin-top: 120px;
+}
+
+.hib-row-cover {
+  display: grid;
+  gap: 0.72rem;
+  grid-template-columns: minmax(0, 1.1fr) minmax(230px, 0.9fr);
+  background: linear-gradient(130deg, #ffd06d, #ff80c7);
 }
 
 .hib-kicker {
   margin: 0;
-  font-family: "Bangers", cursive;
-  font-size: 1rem;
-  letter-spacing: 0.1em;
-  color: #1f2f90;
-  text-transform: uppercase;
-}
-
-.hib-sticker {
-  position: absolute;
-  top: 0.68rem;
-  right: 0.84rem;
-  padding: 0.3rem 0.66rem;
-  border: 3px solid var(--ink);
-  border-radius: 999px;
-  background: #fff;
-  font-family: "Bangers", cursive;
-  font-size: 0.9rem;
-  letter-spacing: 0.09em;
-  transform: rotate(8deg);
-}
-
-.hib-cover {
-  background:
-    linear-gradient(120deg, rgba(255, 222, 109, 0.9), rgba(255, 117, 194, 0.88)),
-    radial-gradient(circle at 18% 18%, rgba(255, 255, 255, 0.4), transparent 48%);
-}
-
-.hib-cover-grid {
-  display: grid;
-  gap: 1rem;
-  grid-template-columns: minmax(0, 1.1fr) minmax(290px, 0.9fr);
-  align-items: stretch;
+  font: 400 0.92rem/1 "Bangers", cursive;
+  letter-spacing: 0.08em;
+  color: #2a2f98;
 }
 
 .hib-cover-copy h1 {
-  margin: 0.26rem 0 0;
+  margin: 0.3rem 0 0;
   font-family: "Bangers", cursive;
-  font-size: clamp(3.1rem, 9vw, 6.3rem);
-  line-height: 0.85;
+  font-size: clamp(2rem, 5vw, 3.4rem);
+  line-height: 0.9;
   letter-spacing: 0.06em;
   color: #fff;
-  -webkit-text-stroke: 3px var(--ink);
-  text-shadow: 4px 4px 0 rgba(9, 8, 15, 0.94);
+  -webkit-text-stroke: 2px var(--ink);
+  text-shadow: 3px 3px 0 rgba(9, 8, 15, 0.92);
 }
 
-.hib-cover-copy h1 span {
-  display: block;
-  font-size: clamp(2rem, 6vw, 3.9rem);
-  margin-top: 0.2rem;
-  color: #ffef95;
+.hib-cover-copy p {
+  margin: 0.56rem 0 0;
+  font: 800 0.94rem/1.55 "Nunito", sans-serif;
+  color: #1c1a3e;
 }
 
-.hib-tagline {
-  margin: 0.82rem 0 0;
-  max-width: 56ch;
-  font: 800 1rem/1.55 "Nunito", sans-serif;
-  color: #151236;
-  padding: 0.75rem 0.9rem;
-  border: 3px solid var(--ink);
-  border-radius: 22px;
-  background: #ffffff;
-  position: relative;
-  box-shadow: 4px 4px 0 rgba(9, 8, 15, 0.88);
-}
-
-.hib-tagline::after {
-  content: "";
-  position: absolute;
-  left: 1.1rem;
-  bottom: -12px;
-  width: 16px;
-  height: 16px;
-  background: #fff;
-  border-right: 3px solid var(--ink);
-  border-bottom: 3px solid var(--ink);
-  transform: rotate(36deg);
-}
-
-.hib-stat-row {
-  margin-top: 0.86rem;
+.hib-pills {
+  margin-top: 0.64rem;
   display: flex;
   flex-wrap: wrap;
-  gap: 0.46rem;
+  gap: 0.4rem;
 }
 
-.hib-stat-row span {
+.hib-pills span {
   border: 3px solid var(--ink);
   border-radius: 999px;
-  background: #f9fbff;
-  padding: 0.34rem 0.62rem;
-  font: 800 0.79rem/1.2 "Nunito", sans-serif;
-  color: #1a1a2f;
-  box-shadow: 3px 3px 0 rgba(9, 8, 15, 0.85);
+  background: #fff;
+  padding: 0.25rem 0.5rem;
+  font: 800 0.73rem/1.2 "Nunito", sans-serif;
+  color: #1a1637;
 }
 
 .hib-cover-art {
   margin: 0;
-  position: relative;
-  border: 4px solid var(--ink);
-  border-radius: 20px;
+  border: 3px solid var(--ink);
+  border-radius: 14px;
   overflow: hidden;
-  transform: rotate(-2deg);
-  box-shadow: 8px 8px 0 rgba(9, 8, 15, 0.95);
+  box-shadow: 4px 4px 0 rgba(9, 8, 15, 0.9);
   background: #fff;
 }
 
 .hib-cover-art img {
   display: block;
   width: 100%;
-  min-height: 520px;
+  min-height: 390px;
   object-fit: cover;
 }
 
-.hib-cover-art figcaption {
-  position: absolute;
-  left: 0.74rem;
-  bottom: 0.74rem;
-  border: 3px solid var(--ink);
-  border-radius: 999px;
-  background: #fff07f;
-  color: #141023;
-  padding: 0.25rem 0.56rem;
-  font: 800 0.76rem/1 "Nunito", sans-serif;
-  text-transform: uppercase;
-}
-
-.hib-comic-body .actions {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.48rem;
-}
-
-.hib-comic-body .btn-primary,
-.hib-comic-body .btn-secondary {
-  border: 3px solid var(--ink);
-  border-radius: 12px;
-  box-shadow: 4px 4px 0 rgba(9, 8, 15, 0.92);
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
+.hib-title-line h2 {
+  margin: 0.25rem 0 0;
   font-family: "Bangers", cursive;
-  font-size: 0.98rem;
-  line-height: 1;
-  padding: 0.58rem 0.86rem;
-}
-
-.hib-comic-body .btn-primary {
-  background: var(--yellow);
-  color: #161218;
-}
-
-.hib-comic-body .btn-primary:hover {
-  transform: translateY(-2px) rotate(-1deg);
-  background: #ffe682;
-}
-
-.hib-comic-body .btn-secondary {
-  background: #fff;
-  color: #19132f;
-}
-
-.hib-comic-body .btn-secondary:hover {
-  transform: translateY(-2px) rotate(1deg);
-  background: #f5f3ff;
-}
-
-.hib-panels {
-  background:
-    linear-gradient(130deg, #ced7ff, #aebfff),
-    radial-gradient(circle at 80% 14%, rgba(255, 255, 255, 0.45), transparent 56%);
-}
-
-.hib-headline {
-  position: relative;
-  margin-bottom: 0.86rem;
-}
-
-.hib-headline h2 {
-  margin: 0.26rem 0 0;
-  font-family: "Bangers", cursive;
-  font-size: clamp(1.8rem, 4.2vw, 3.1rem);
-  line-height: 0.94;
+  font-size: clamp(1.4rem, 3.1vw, 2.2rem);
+  line-height: 0.95;
   letter-spacing: 0.06em;
   color: #fff;
-  -webkit-text-stroke: 2px var(--ink);
+  -webkit-text-stroke: 1.8px var(--ink);
   text-shadow: 3px 3px 0 rgba(9, 8, 15, 0.9);
 }
 
-.hib-burst {
-  position: absolute;
-  right: 0.2rem;
-  top: -0.1rem;
-  width: 72px;
-  height: 72px;
+.hib-grid-3 {
+  margin-top: 0.62rem;
   display: grid;
-  place-items: center;
-  background: #fff680;
-  clip-path: polygon(
-    50% 0%,
-    61% 19%,
-    82% 9%,
-    74% 30%,
-    97% 35%,
-    78% 50%,
-    97% 65%,
-    74% 71%,
-    82% 92%,
-    61% 82%,
-    50% 100%,
-    39% 82%,
-    18% 92%,
-    26% 71%,
-    3% 65%,
-    22% 50%,
-    3% 35%,
-    26% 30%,
-    18% 9%,
-    39% 19%
-  );
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0.5rem;
+}
+
+.hib-card,
+.hib-feature {
   border: 3px solid var(--ink);
-  font-family: "Bangers", cursive;
-  font-size: 1rem;
-  color: #131326;
-  transform: rotate(7deg);
+  border-radius: 12px;
+  padding: 0.56rem;
+  background: #ffe7c0;
+  box-shadow: 3px 3px 0 rgba(9, 8, 15, 0.86);
 }
 
-.hib-panel-wall {
-  display: grid;
-  grid-template-columns: repeat(12, minmax(0, 1fr));
-  gap: 0.6rem;
+.hib-card:nth-child(2) {
+  background: #ffd4ef;
 }
 
-.hib-panel {
-  border: 3px solid var(--ink);
-  border-radius: 16px;
-  padding: 0.72rem 0.76rem;
-  background: #fff;
-  box-shadow: 4px 4px 0 rgba(9, 8, 15, 0.88);
-  font-family: "Nunito", sans-serif;
+.hib-card:nth-child(3) {
+  background: #d9fff2;
 }
 
-.hib-panel h3 {
+.hib-card-id {
   margin: 0;
+  font: 400 0.82rem/1 "Bangers", cursive;
+  letter-spacing: 0.06em;
+  color: #2a2f98;
+}
+
+.hib-card h3,
+.hib-feature h3 {
+  margin: 0.26rem 0 0;
   font-family: "Bangers", cursive;
-  font-size: 1.3rem;
+  font-size: 1.06rem;
   letter-spacing: 0.04em;
   color: #17152b;
 }
 
-.hib-panel p {
-  margin: 0.34rem 0 0;
-  font-size: 0.97rem;
-  line-height: 1.55;
-  color: #1f1a3f;
-  font-weight: 800;
-}
-
-.hib-panel-wide {
-  grid-column: span 6;
-  background: #fff8c8;
-  transform: rotate(-1deg);
-}
-
-.hib-panel-char {
-  grid-column: span 3;
-  background: #ffd4ef;
-}
-
-.hib-panel-char:nth-child(3) {
-  background: #d9fff2;
-  transform: rotate(1deg);
-}
-
-.hib-panel-char:nth-child(4) {
-  background: #ffe6bc;
-  transform: rotate(-1deg);
-}
-
-.hib-panel-id {
-  margin: 0;
-  font-family: "Bangers", cursive;
-  color: #2532a0;
-  letter-spacing: 0.08em;
-  font-size: 0.86rem;
-}
-
-.hib-panel-quote {
-  grid-column: span 6;
-  background: #ffffff;
-  border-radius: 28px;
-  position: relative;
-}
-
-.hib-panel-quote::after {
-  content: "";
-  position: absolute;
-  left: 1.6rem;
-  bottom: -14px;
-  width: 18px;
-  height: 18px;
-  background: #fff;
-  border-right: 3px solid var(--ink);
-  border-bottom: 3px solid var(--ink);
-  transform: rotate(35deg);
-}
-
-.hib-action {
-  background:
-    linear-gradient(140deg, #86b4ff, #6de9d5),
-    radial-gradient(circle at 90% 8%, rgba(255, 255, 255, 0.45), transparent 60%);
-}
-
-.hib-feature-row {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 0.6rem;
-  margin-top: 0.78rem;
-}
-
-.hib-feature {
-  border: 3px solid var(--ink);
-  border-radius: 14px;
-  padding: 0.7rem 0.74rem;
-  background: #fffce8;
-  box-shadow: 4px 4px 0 rgba(9, 8, 15, 0.9);
-}
-
-.hib-feature h3 {
-  margin: 0;
-  font-family: "Bangers", cursive;
-  font-size: 1.05rem;
-  letter-spacing: 0.04em;
-  color: #1b1932;
-}
-
+.hib-card p,
 .hib-feature p {
-  margin: 0.38rem 0 0;
-  font: 800 0.92rem/1.5 "Nunito", sans-serif;
-  color: #1d2245;
+  margin: 0.35rem 0 0;
+  font: 800 0.88rem/1.5 "Nunito", sans-serif;
+  color: #1f1a3f;
+}
+
+.hib-quote {
+  margin: 0.64rem 0 0;
+  border: 3px solid var(--ink);
+  border-radius: 999px;
+  background: #fff;
+  padding: 0.48rem 0.68rem;
+  font: 800 0.88rem/1.45 "Nunito", sans-serif;
+  color: #1a1637;
 }
 
 .hib-video-grid {
-  margin-top: 0.74rem;
+  margin-top: 0.64rem;
   display: grid;
-  gap: 0.6rem;
   grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0.5rem;
 }
 
 .hib-video-card {
   border: 3px solid var(--ink);
-  border-radius: 14px;
+  border-radius: 12px;
   overflow: hidden;
   background: #fff;
-  box-shadow: 4px 4px 0 rgba(9, 8, 15, 0.92);
-}
-
-.hib-video-card:nth-child(2) {
-  transform: rotate(-0.9deg);
-}
-
-.hib-video-card:nth-child(3) {
-  transform: rotate(0.9deg);
+  box-shadow: 3px 3px 0 rgba(9, 8, 15, 0.86);
 }
 
 .hib-video-card h3 {
   margin: 0;
-  padding: 0.44rem 0.62rem;
+  padding: 0.42rem 0.55rem;
   border-bottom: 3px solid var(--ink);
   background: #ffe985;
   color: #141321;
   font-family: "Bangers", cursive;
-  font-size: 0.9rem;
+  font-size: 0.88rem;
   letter-spacing: 0.05em;
 }
 
@@ -480,29 +303,40 @@
   background: #050812;
 }
 
-.hib-finale {
-  background:
-    linear-gradient(130deg, #ffd0eb, #ffe588 62%),
-    radial-gradient(circle at 85% 10%, rgba(255, 255, 255, 0.45), transparent 56%);
-  display: grid;
-  gap: 0.8rem;
-}
-
-.hib-finale-copy h2 {
-  margin: 0.26rem 0 0;
-  font-family: "Bangers", cursive;
-  font-size: clamp(1.8rem, 3.8vw, 2.8rem);
-  line-height: 0.95;
-  letter-spacing: 0.06em;
-  color: #fff;
-  -webkit-text-stroke: 2px var(--ink);
-}
-
-.hib-finale-copy p {
-  margin: 0.6rem 0 0;
-  max-width: 70ch;
-  font: 800 0.99rem/1.6 "Nunito", sans-serif;
+.hib-row-final p {
+  margin: 0.56rem 0 0;
+  font: 800 0.95rem/1.55 "Nunito", sans-serif;
   color: #2a2143;
+}
+
+.hib-comic-body .actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.45rem;
+  margin-top: 0.62rem;
+}
+
+.hib-comic-body .btn-primary,
+.hib-comic-body .btn-secondary {
+  border: 3px solid var(--ink);
+  border-radius: 12px;
+  box-shadow: 4px 4px 0 rgba(9, 8, 15, 0.92);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  font-family: "Bangers", cursive;
+  font-size: 0.95rem;
+  line-height: 1;
+  padding: 0.55rem 0.8rem;
+}
+
+.hib-comic-body .btn-primary {
+  background: var(--yellow);
+  color: #161218;
+}
+
+.hib-comic-body .btn-secondary {
+  background: #fff;
+  color: #19132f;
 }
 
 .hib-comic-body .page-footer {
@@ -520,78 +354,43 @@
   color: #171226;
 }
 
-.hib-comic-body .footer-social-link:hover {
-  border-color: var(--ink);
-  background: #fff28c;
-  color: #121212;
-  transform: translateY(-1px) rotate(-3deg);
-}
-
-@media (max-width: 1080px) {
-  .hib-cover-grid {
+@media (max-width: 980px) {
+  .hib-row-cover {
     grid-template-columns: 1fr;
   }
 
-  .hib-cover-art {
-    transform: none;
-    max-width: 560px;
-  }
-
-  .hib-panel-wide,
-  .hib-panel-quote {
-    grid-column: span 12;
-  }
-
-  .hib-panel-char {
-    grid-column: span 4;
-  }
-}
-
-@media (max-width: 880px) {
-  .hib-feature-row,
+  .hib-grid-3,
   .hib-video-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
-
-  .hib-panel-char {
-    grid-column: span 6;
   }
 }
 
 @media (max-width: 760px) {
-  .hib-comic-body .chrome {
-    padding: 0.42rem 0.62rem;
+  .hib-comic-main {
+    padding-top: 132px;
   }
 
-  .hib-comic-body .logo span {
+  .hib-scroll-head strong {
     font-size: 1rem;
   }
 
-  .hib-comic-main {
-    padding-top: 130px;
+  .hib-scroll-head span {
+    display: none;
   }
 
-  .hib-burst {
-    width: 58px;
-    height: 58px;
-    font-size: 0.82rem;
+  .hib-scroll-table {
+    height: auto;
+    min-height: 0;
+    max-height: none;
+    overflow: visible;
   }
 
-  .hib-feature-row,
+  .hib-grid-3,
   .hib-video-grid {
     grid-template-columns: 1fr;
   }
 
-  .hib-video-card:nth-child(2),
-  .hib-video-card:nth-child(3) {
-    transform: none;
-  }
-
-  .hib-panel-char {
-    grid-column: span 12;
-  }
-
   .hib-cover-art img {
-    min-height: 380px;
+    min-height: 320px;
   }
 }
