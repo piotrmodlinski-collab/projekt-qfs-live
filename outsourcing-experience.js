@@ -2,7 +2,7 @@
   const prefersReduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
   const isMobile = window.matchMedia("(max-width: 900px)").matches;
 
-  const topbar = document.querySelector(".alt-topbar");
+  const topbar = document.querySelector(".chrome, .alt-topbar");
   const hero = document.getElementById("top");
   const services = document.getElementById("services");
   const laptop = document.getElementById("hero-laptop");

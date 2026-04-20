@@ -2203,7 +2203,7 @@ h2 {
 }
 
 .contact-page {
-  --contact-bg-top-offset: 72px;
+  --contact-bg-top-offset: 86px;
   position: relative;
 }
 
@@ -2249,6 +2249,10 @@ h2 {
   position: relative;
   z-index: 2;
   background: transparent;
+}
+
+.contact-page .site-shell main {
+  padding-top: calc(var(--contact-bg-top-offset) + 0.9rem);
 }
 
 .outs-page {
@@ -3176,7 +3180,7 @@ h2 {
 
 @media (max-width: 760px) {
   .contact-page {
-    --contact-bg-top-offset: 112px;
+    --contact-bg-top-offset: 84px;
   }
 
   .topbar {
