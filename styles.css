@@ -2080,6 +2080,10 @@ h2 {
   gap: 0.42rem;
 }
 
+.outs-classic-page .metric-strip {
+  justify-content: center;
+}
+
 .metric-pill {
   border: 1px solid rgba(182, 202, 224, 0.4);
   border-radius: 999px;
