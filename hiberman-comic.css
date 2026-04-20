@@ -200,6 +200,8 @@
   width: 100%;
   min-height: 390px;
   object-fit: cover;
+  transform-origin: top center;
+  will-change: transform, opacity;
 }
 
 .hib-title-line h2 {

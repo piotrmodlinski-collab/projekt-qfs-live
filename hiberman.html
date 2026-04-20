@@ -18,7 +18,7 @@
     <meta name="theme-color" content="#596ff0" />
     <link rel="canonical" href="./hiberman.html" />
     <link rel="stylesheet" href="styles.css?v=48" />
-    <link rel="stylesheet" href="hiberman-comic.css?v=4" />
+    <link rel="stylesheet" href="hiberman-comic.css?v=5" />
   </head>
   <body class="hib-comic-body">
     <div class="vignette" aria-hidden="true"></div>
@@ -215,6 +215,43 @@
       </div>
     </footer>
 
+    <script>
+      (() => {
+        const scroller = document.querySelector(".hib-scroll-table");
+        const cover = document.querySelector(".hib-row-cover");
+        const coverImage = document.querySelector(".hib-cover-art img");
+        const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+        if (!scroller || !cover || !coverImage || reducedMotion) return;
+
+        const clamp = (value, min, max) => Math.max(min, Math.min(max, value));
+        let frame = 0;
+
+        const paint = () => {
+          frame = 0;
+          const scrollerRect = scroller.getBoundingClientRect();
+          const coverRect = cover.getBoundingClientRect();
+          const distance = scrollerRect.top - coverRect.top;
+          const travel = Math.max(coverRect.height * 0.9, 240);
+          const progress = clamp(distance / travel, 0, 1);
+          const translateY = progress * 140;
+          const opacity = clamp(1 - progress * 1.08, 0, 1);
+          const scale = 1 + progress * 0.02;
+
+          coverImage.style.transform = `translate3d(0, ${translateY.toFixed(1)}px, 0) scale(${scale.toFixed(3)})`;
+          coverImage.style.opacity = String(opacity);
+        };
+
+        const onScroll = () => {
+          if (frame) return;
+          frame = window.requestAnimationFrame(paint);
+        };
+
+        scroller.addEventListener("scroll", onScroll, { passive: true });
+        window.addEventListener("resize", onScroll);
+        onScroll();
+      })();
+    </script>
     <script src="app.js?v=10"></script>
   </body>
 </html>
