@@ -799,14 +799,17 @@
         const buttons = Array.from(document.querySelectorAll(".ezx-nav-btn"));
         const panels = Array.from(document.querySelectorAll(".ezx-panel"));
         const indicator = document.querySelector(".ezx-nav-indicator");
+        const sideNav = document.querySelector(".ezx-side-nav");
         const display = document.querySelector(".ezx-display");
         const panelScroll = document.querySelector(".ezx-panel-scroll");
         const displayTitle = document.querySelector("[data-display-title]");
         const displayTag = document.querySelector("[data-display-tag]");
 
-        if (!buttons.length || !panels.length || !panelScroll || !indicator || !display) {
+        if (!buttons.length || !panels.length || !panelScroll || !indicator || !display || !sideNav) {
           return;
         }
+
+        let hasSelection = false;
 
         const positionIndicator = (button) => {
           indicator.style.height = `${button.offsetHeight}px`;
@@ -829,6 +832,7 @@
           display.setAttribute("aria-hidden", "false");
           indicator.classList.add("is-visible");
           positionIndicator(activeButton);
+          hasSelection = true;
 
           if (displayTitle) {
             displayTitle.textContent = activeButton.dataset.title || activeButton.textContent.trim();
@@ -846,7 +850,20 @@
         };
 
         buttons.forEach((button) => {
+          const previewIndicator = () => {
+            positionIndicator(button);
+            indicator.classList.add("is-visible");
+          };
+
+          button.addEventListener("mouseenter", previewIndicator);
+          button.addEventListener("focus", previewIndicator);
           button.addEventListener("click", () => activatePanel(button.dataset.panel, true));
+        });
+
+        sideNav.addEventListener("mouseleave", () => {
+          if (!hasSelection) {
+            indicator.classList.remove("is-visible");
+          }
         });
 
         window.addEventListener("resize", () => {
