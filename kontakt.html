@@ -17,7 +17,7 @@
     <meta property="og:image" content="assets/hero-qfs.png" />
     <meta name="theme-color" content="#070a10" />
     <link rel="canonical" href="./kontakt.html" />
-    <link rel="stylesheet" href="styles.css?v=37" />
+    <link rel="stylesheet" href="styles.css?v=38" />
   </head>
   <body class="contact-page">
     <div class="contact-bg-video" aria-hidden="true">
@@ -98,62 +98,65 @@
           </div>
         </section>
 
-        <section class="section">
-          <div class="section-head">
-            <p class="eyebrow">Formularz</p>
-            <h2>Wyślij zapytanie projektowe</h2>
-          </div>
+        <section class="section contact-form-section">
+          <div class="contact-form-layout">
+            <div class="contact-form-main">
+              <div class="section-head">
+                <p class="eyebrow">Formularz</p>
+                <h2>Wyślij zapytanie projektowe</h2>
+              </div>
 
-          <form class="deploy-form contact-brief-form" action="/api/contact-brief" method="post">
-            <label for="brief-name">Imię i firma</label>
-            <input id="brief-name" name="name" type="text" placeholder="Np. Anna, Studio Nova" required />
+              <form class="deploy-form contact-brief-form" action="/api/contact-brief" method="post">
+                <label for="brief-name">Imię i firma</label>
+                <input id="brief-name" name="name" type="text" placeholder="Np. Anna, Studio Nova" required />
 
-            <label for="brief-mail">E-mail</label>
-            <input id="brief-mail" name="email" type="email" placeholder="kontakt@firma.pl" required />
+                <label for="brief-mail">E-mail</label>
+                <input id="brief-mail" name="email" type="email" placeholder="kontakt@firma.pl" required />
 
-            <label for="brief-scope">Zakres i cele projektu</label>
-            <textarea
-              id="brief-scope"
-              name="scope"
-              rows="4"
-              placeholder="Etap produkcji, platforma, zakres wsparcia, deadline..."
-              required
-            ></textarea>
+                <label for="brief-scope">Zakres i cele projektu</label>
+                <textarea
+                  id="brief-scope"
+                  name="scope"
+                  rows="4"
+                  placeholder="Etap produkcji, platforma, zakres wsparcia, deadline..."
+                  required
+                ></textarea>
 
-            <button class="btn-primary" type="submit">Wyślij brief</button>
-          </form>
-        </section>
+                <button class="btn-primary" type="submit">Wyślij brief</button>
+              </form>
+            </div>
 
-        <section class="section">
-          <div class="section-head">
-            <p class="eyebrow">Co wysłać w briefie</p>
-            <h2>Minimum informacji, aby ruszyć od razu</h2>
-          </div>
-          <div class="split-3">
-            <article class="card">
-              <h3>Zakres gry</h3>
-              <ul class="list tight">
-                <li>Platforma i silnik</li>
-                <li>Tryb gry i skala contentu</li>
-                <li>Planowany milestone</li>
-              </ul>
-            </article>
-            <article class="card">
-              <h3>Potrzebny support</h3>
-              <ul class="list tight">
-                <li>Gameplay / systems / UI</li>
-                <li>Art / optimization / QA</li>
-                <li>Full feature ownership</li>
-              </ul>
-            </article>
-            <article class="card">
-              <h3>Priorytety biznesowe</h3>
-              <ul class="list tight">
-                <li>Termin i budżet</li>
-                <li>Ryzyka techniczne</li>
-                <li>KPI dla release</li>
-              </ul>
-            </article>
+            <aside class="contact-brief-info" aria-label="Informacje do briefu">
+              <p class="eyebrow">Co wysłać w briefie</p>
+              <h3>Minimum informacji, aby ruszyć od razu</h3>
+
+              <section class="contact-brief-block" aria-label="Zakres gry">
+                <h4>Zakres gry</h4>
+                <ul class="list">
+                  <li>Platforma i silnik</li>
+                  <li>Tryb gry i skala contentu</li>
+                  <li>Planowany milestone</li>
+                </ul>
+              </section>
+
+              <section class="contact-brief-block" aria-label="Potrzebny support">
+                <h4>Potrzebny support</h4>
+                <ul class="list">
+                  <li>Gameplay / systems / UI</li>
+                  <li>Art / optimization / QA</li>
+                  <li>Full feature ownership</li>
+                </ul>
+              </section>
+
+              <section class="contact-brief-block" aria-label="Priorytety biznesowe">
+                <h4>Priorytety biznesowe</h4>
+                <ul class="list">
+                  <li>Termin i budżet</li>
+                  <li>Ryzyka techniczne</li>
+                  <li>KPI dla release</li>
+                </ul>
+              </section>
+            </aside>
           </div>
         </section>
       </main>

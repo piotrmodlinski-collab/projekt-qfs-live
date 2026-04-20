@@ -2146,6 +2146,55 @@ h2 {
   padding: 0.42rem 0.5rem;
 }
 
+.contact-page .contact-form-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(270px, 340px);
+  gap: 0.9rem;
+  align-items: start;
+}
+
+.contact-page .contact-form-main .section-head {
+  margin-bottom: 0.7rem;
+}
+
+.contact-page .contact-form-main .contact-brief-form {
+  width: 100%;
+}
+
+.contact-page .contact-brief-info {
+  position: sticky;
+  top: calc(var(--contact-bg-top-offset) + 0.9rem);
+  border: 1px solid rgba(177, 197, 221, 0.34);
+  border-radius: 10px;
+  background: linear-gradient(180deg, rgba(10, 22, 37, 0.72), rgba(10, 22, 37, 0.52));
+  padding: 0.82rem 0.86rem;
+}
+
+.contact-page .contact-brief-info h3 {
+  margin: 0.22rem 0 0.68rem;
+  font-size: 1rem;
+  color: #f2f7ff;
+}
+
+.contact-page .contact-brief-block + .contact-brief-block {
+  margin-top: 0.64rem;
+  padding-top: 0.64rem;
+  border-top: 1px solid rgba(182, 201, 224, 0.22);
+}
+
+.contact-page .contact-brief-block h4 {
+  margin: 0 0 0.32rem;
+  font-size: 0.82rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: #f0d58a;
+}
+
+.contact-page .contact-brief-info .list {
+  gap: 0.28rem;
+  font-size: 0.86rem;
+}
+
 .contact-page {
   --contact-bg-top-offset: 72px;
   position: relative;
@@ -2401,6 +2450,15 @@ h2 {
 }
 
 @media (max-width: 980px) {
+  .contact-page .contact-form-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .contact-page .contact-brief-info {
+    position: static;
+    top: auto;
+  }
+
   .outs-scope-layout {
     grid-template-columns: 1fr;
   }
