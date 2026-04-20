@@ -2855,6 +2855,45 @@ h2 {
   background: linear-gradient(180deg, rgba(10, 22, 37, 0), rgba(10, 22, 37, 0.46));
 }
 
+.page-footer p {
+  margin: 0;
+}
+
+.footer-social {
+  margin-top: 0.56rem;
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 0.42rem;
+}
+
+.footer-social-link {
+  width: 34px;
+  height: 34px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid rgba(238, 221, 112, 0.44);
+  border-radius: 8px;
+  background: rgba(10, 21, 34, 0.72);
+  color: #d8e7fb;
+  transition: border-color 0.2s ease, transform 0.2s ease, background 0.2s ease, color 0.2s ease;
+}
+
+.footer-social-link:hover {
+  border-color: rgba(241, 214, 132, 0.9);
+  background: rgba(241, 214, 132, 0.14);
+  color: #f4f8ff;
+  transform: translateY(-1px);
+}
+
+.footer-social-link svg {
+  width: 16px;
+  height: 16px;
+  display: block;
+  fill: currentColor;
+}
+
 .ezo-page {
   display: grid;
   gap: 0.9rem;
