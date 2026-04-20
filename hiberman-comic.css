@@ -1,16 +1,43 @@
 @import url("https://fonts.googleapis.com/css2?family=Bangers&family=Nunito:wght@500;700;800;900&display=swap");
 
+html,
+body {
+  height: 100%;
+}
+
 .hib-comic-body {
   --ink: #09080f;
   --paper: #fff8d8;
   --blue: #5f78ff;
   --pink: #ff55b7;
   --yellow: #ffd84e;
-  background-color: #596ff0;
-  background-image: url("https://quantumforgestudio.com/wp-content/uploads/2024/07/TLO1-768x768.png");
-  background-position: center center;
-  background-repeat: repeat;
-  background-size: auto;
+  background: #05070f;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+}
+
+.hib-bg-video-wrap {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.hib-bg-video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.hib-bg-overlay {
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(180deg, rgba(4, 6, 12, 0.78), rgba(6, 8, 15, 0.86)),
+    radial-gradient(900px 420px at 30% 20%, rgba(55, 76, 186, 0.18), transparent 70%);
 }
 
 .hib-comic-body .vignette {
@@ -65,20 +92,28 @@
 }
 
 .hib-comic-main {
-  width: min(1240px, calc(100% - 1rem));
+  width: min(1340px, calc(100% - 1rem));
   margin: 0 auto;
-  padding: 112px 0 1rem;
+  padding: 106px 0 0;
   display: grid;
   justify-items: center;
+  flex: 1 1 auto;
+  min-height: 0;
+  position: relative;
+  z-index: 2;
 }
 
 .hib-scroll-shell {
-  width: min(840px, 100%);
+  width: min(1090px, 100%);
   border: 4px solid var(--ink);
   border-radius: 20px;
   background: var(--paper);
   box-shadow: 10px 10px 0 rgba(9, 8, 15, 0.95);
   overflow: hidden;
+  height: 100%;
+  max-height: calc(100vh - 190px);
+  min-height: 420px;
+  position: relative;
 }
 
 .hib-scroll-head {
@@ -105,8 +140,8 @@
 }
 
 .hib-scroll-table {
-  height: calc(100vh - 220px);
-  min-height: 520px;
+  height: calc(100% - 56px);
+  min-height: 0;
   overflow-y: auto;
   padding: 0.72rem;
   display: grid;
@@ -347,6 +382,9 @@
   background: #fff4cb;
   color: #161222;
   box-shadow: 0 -5px 0 rgba(9, 8, 15, 0.8);
+  position: relative;
+  z-index: 2;
+  margin-top: 0.4rem;
 }
 
 .hib-comic-body .footer-social-link {
@@ -369,7 +407,7 @@
 
 @media (max-width: 760px) {
   .hib-comic-main {
-    padding-top: 132px;
+    padding-top: 128px;
   }
 
   .hib-scroll-head strong {
@@ -380,11 +418,13 @@
     display: none;
   }
 
+  .hib-scroll-shell {
+    max-height: calc(100vh - 222px);
+  }
+
   .hib-scroll-table {
-    height: auto;
-    min-height: 0;
-    max-height: none;
-    overflow: visible;
+    height: calc(100% - 52px);
+    overflow-y: auto;
   }
 
   .hib-grid-3,
