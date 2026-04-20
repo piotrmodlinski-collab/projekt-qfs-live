@@ -78,9 +78,10 @@
       .ezx-main {
         flex: 1 1 auto;
         min-height: 0;
-        width: min(1480px, calc(100% - 1rem));
-        margin: 0 auto;
+        width: calc(100% - 0.2rem);
+        margin: 0;
         padding: 108px 0 0;
+        padding-left: 0.1rem;
         position: relative;
         z-index: 2;
         display: flex;
@@ -88,7 +89,7 @@
       }
 
       .ezx-shell {
-        width: min(1340px, 100%);
+        width: min(1480px, 100%);
         height: 100%;
         max-height: calc(100vh - 186px);
         min-height: 430px;
@@ -104,11 +105,11 @@
 
       .ezx-side {
         border: 0;
-        padding: 0.4rem 0.5rem 0.4rem 0.2rem;
+        padding: 0.2rem 0.5rem 0.4rem 0;
         background: transparent;
         display: flex;
         flex-direction: column;
-        justify-content: center;
+        justify-content: flex-start;
         align-items: flex-start;
       }
 
@@ -118,8 +119,23 @@
         letter-spacing: 0.08em;
         color: #ffffff;
         text-transform: uppercase;
-        margin-left: 0.24rem;
-        margin-bottom: 0.72rem;
+        margin-left: 0;
+        margin-bottom: 1.18rem;
+        margin-top: 0;
+      }
+
+      .ezx-brand-logo {
+        display: block;
+        width: min(460px, 100%);
+        height: auto;
+      }
+
+      .ezx-brand-fallback {
+        display: none;
+        font: 800 clamp(2.45rem, 4.6vw, 4.2rem) / 0.95 "Exo 2", sans-serif;
+        letter-spacing: 0.08em;
+        color: #ffffff;
+        text-transform: uppercase;
       }
 
       .ezx-brand-sub {
@@ -132,8 +148,8 @@
         display: grid;
         gap: 0.12rem;
         padding: 0.28rem 0;
-        margin-left: 0;
-        width: min(430px, 100%);
+        margin-left: -0.18rem;
+        width: min(460px, 100%);
       }
 
       .ezx-nav-indicator {
@@ -480,7 +496,7 @@
         .ezx-side {
           border-bottom: 0;
           padding-bottom: 0.82rem;
-          padding-left: 0.2rem;
+          padding-left: 0;
           justify-content: flex-start;
         }
 
@@ -495,6 +511,10 @@
         .ezx-brand-sub,
         .ezx-nav-foot {
           margin-left: 0;
+        }
+
+        .ezx-brand {
+          margin-bottom: 0.82rem;
         }
 
         .ezx-nav-btn {
@@ -559,7 +579,15 @@
     <main class="ezx-main">
       <section class="ezx-shell" aria-label="Ezoteva menu i content panel">
         <aside class="ezx-side">
-          <h1 class="ezx-brand">Ezoteva</h1>
+          <h1 class="ezx-brand">
+            <img
+              class="ezx-brand-logo"
+              src="assets/ezoteva/ezoteva-logo.png"
+              alt="Ezoteva logo"
+              onerror="this.style.display='none'; this.nextElementSibling.style.display='block';"
+            />
+            <span class="ezx-brand-fallback">Ezoteva</span>
+          </h1>
           <p class="ezx-brand-sub">Main interface // project sequence</p>
 
           <nav class="ezx-side-nav" aria-label="Sekcje projektu Ezoteva">
