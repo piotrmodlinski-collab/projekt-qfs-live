@@ -443,6 +443,7 @@ main {
 .service-examples-grid { margin-top: 0.56rem; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 0.58rem; }
 .example-card { border: 1px solid rgba(126, 153, 215, 0.3); border-radius: 10px; background: rgba(8, 14, 28, 0.74); padding: 0.55rem; min-height: 130px; }
 .example-card h5 { margin: 0 0 0.45rem; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.08em; color: #8fc3ff; }
+.example-card-media { border: 0; border-radius: 0; background: transparent; padding: 0; min-height: 0; }
 .example-empty { margin: 0.35rem 0 0; font-size: 0.84rem; color: #95accf; }
 .service-example-list { margin: 0; padding-left: 1rem; display: grid; gap: 0.32rem; color: #d2e2ff; font-size: 0.86rem; }
 
@@ -452,6 +453,7 @@ main {
 }
 
 .service-media { width: 100%; display: block; margin-top: 0; border-radius: 8px; border: 1px solid rgba(138, 170, 255, 0.35); aspect-ratio: 16 / 9; object-fit: cover; }
+.example-card-media .service-media { border: 0; border-radius: 0; box-shadow: none; }
 
 .carousel-arrow {
   position: absolute;
@@ -491,6 +493,14 @@ main {
     radial-gradient(circle at 50% 42%, rgba(96, 178, 255, 0.2), rgba(8, 14, 28, 0.92) 62%),
     linear-gradient(180deg, rgba(12, 21, 40, 0.92), rgba(8, 14, 28, 0.84));
 }
+.example-card-media .service-media-fallback {
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+}
+.example-card-media .service-media-fallback span {
+  display: none;
+}
 .service-media-fallback img {
   width: min(30%, 84px);
   opacity: 0.45;
@@ -511,6 +521,7 @@ main {
 .service-video { margin-top: 0.15rem; border-radius: 8px; overflow: hidden; border: 1px solid rgba(138, 170, 255, 0.35); position: relative; }
 .service-video iframe { width: 100%; display: block; aspect-ratio: 16 / 9; border: 0; }
 .service-video video { width: 100%; display: block; aspect-ratio: 16 / 9; border: 0; object-fit: cover; background: #050b16; }
+.example-card-media .service-video { border: 0; border-radius: 0; background: transparent; }
 .service-video iframe[hidden],
 .service-video video[hidden] {
   display: none !important;
