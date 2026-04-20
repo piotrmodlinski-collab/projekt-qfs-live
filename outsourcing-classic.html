@@ -3,12 +3,12 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>QFS | Outsourcing</title>
+    <title>QFS | Outsourcing Classic</title>
     <meta
       name="description"
       content="Outsourcing QFS: kompleksowe wsparcie produkcji gier od designu po wydanie, w modelu transparentnej współpracy."
     />
-    <meta property="og:title" content="QFS | Outsourcing" />
+    <meta property="og:title" content="QFS | Outsourcing Classic" />
     <meta
       property="og:description"
       content="Game design, narracja, programowanie, grafika, animacja, audio i level design w jednym modelu delivery."
@@ -16,197 +16,209 @@
     <meta property="og:type" content="website" />
     <meta property="og:image" content="assets/qfs-bg-3.png" />
     <meta name="theme-color" content="#0a1421" />
-    <link rel="canonical" href="./outsourcing.html" />
-    <link rel="stylesheet" href="styles.css?v=32" />
+    <link rel="canonical" href="./outsourcing-classic.html" />
+    <link rel="stylesheet" href="styles.css?v=33" />
   </head>
-  <body class="outs-classic-page">
-    <div class="site-shell">
-      <header class="topbar">
-        <a class="brand" href="index.html">
-          <img src="assets/logo-qfs.png" alt="QFS logo" />
-          <strong>QUANTUM FORGE STUDIO</strong>
-        </a>
-                <nav class="nav" aria-label="Nawigacja główna">
-          <a href="#outs-start" data-nav="home">Start</a>
-          <a href="#zakres" data-nav="outsourcing">Usługi</a>
-          <a href="#outs-proces" data-nav="produkcje">Proces</a>
-          <a href="#outs-contact" data-nav="kontakt">Kontakt</a>
-        </nav>
-      </header>
+  <body>
+    <div class="vignette" aria-hidden="true"></div>
 
-      <main class="outs-page">
-        <section id="outs-start" class="section outs-hero">
-          <div class="outs-hero-copy">
-            <p class="eyebrow">Outsourcing</p>
+    <header class="chrome" id="top">
+      <a class="logo" href="index.html" aria-label="QFS start strony">
+        <img src="assets/logo-qfs.png" alt="QFS logo" />
+        <span>Quantum Forge Studio</span>
+      </a>
+      <nav class="menu" aria-label="Sekcje strony outsourcing">
+        <a href="#outs-start" data-nav="outs-start" class="is-active">Start</a>
+        <a href="#zakres" data-nav="zakres">Usługi</a>
+        <a href="#outs-proces" data-nav="outs-proces">Proces</a>
+        <a href="#outs-contact" data-nav="outs-contact">Kontakt</a>
+      </nav>
+    </header>
+
+    <main>
+      <section id="outs-start" class="scene scene-3" data-section="outs-start">
+        <div class="scene-shell reveal">
+          <article class="lore-card game-frame alliance-frame">
+            <p class="small-label quest-label">Outsourcing</p>
             <h1>Kompleksowe wsparcie produkcji gier</h1>
-            <p class="lead">
-              Integrujemy się z zespołem partnera jako niezależny moduł wykonawczy. Dowozimy
-              kluczowe funkcje bez zakłócania głównego cyklu produkcji i z pełną transparentnością
-              statusu prac.
-            </p>
-            <div class="actions mt">
-              <a class="btn-primary" href="kontakt.html">Umów rozmowę projektową</a>
-              <a class="btn-secondary" href="#zakres">Zobacz obszary wsparcia</a>
-            </div>
-          </div>
-          <aside class="outs-hero-panel" aria-label="Model współpracy QFS">
-            <h2>Model współpracy</h2>
-            <ul class="list">
-              <li>Kick-off i analiza techniczna projektu</li>
-              <li>Plan sprintów i priorytetów pod milestone</li>
-              <li>Weekly delivery report: postęp, ryzyka, KPI</li>
-              <li>Przejrzysta ścieżka eskalacji i decyzji</li>
-            </ul>
-          </aside>
-        </section>
-
-        <section id="zakres" class="section">
-          <div class="section-head">
-            <p class="eyebrow">Zakres usług</p>
-            <h2>Obszary, które realizujemy outsourcingowo</h2>
-          </div>
-          <div class="outs-services-grid">
-            <article class="outs-service-card">
-              <h3>Game Design</h3>
-              <p>Projektujemy pętlę rozgrywki, systemy, ekonomię i dokumentację GDD/TDD.</p>
-              <div class="outs-video-embed">
-                <iframe
-                  src="https://www.youtube.com/embed/5HGbW4pt8VQ"
-                  title="Game Design - materiał referencyjny"
-                  loading="lazy"
-                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                  referrerpolicy="strict-origin-when-cross-origin"
-                  allowfullscreen
-                ></iframe>
-              </div>
-            </article>
-            <article class="outs-service-card">
-              <h3>Animacja</h3>
-              <p>Tworzymy animacje gameplayowe, cutsceny i interakcje środowiskowe.</p>
-            </article>
-            <article class="outs-service-card">
-              <h3>Storytelling</h3>
-              <picture>
-                <source srcset="assets/outsourcing/storytelling.webp" type="image/webp" />
-                <img
-                  class="outs-service-media"
-                  src="assets/outsourcing/storytelling.png"
-                  alt="Storytelling - fabula, dialogi i emocje"
-                  loading="lazy"
-                />
-              </picture>
-              <p>Budujemy narrację, questy i pacing, który wzmacnia immersję gracza.</p>
-            </article>
-            <article class="outs-service-card">
-              <h3>Programming</h3>
-              <img class="outs-service-media" src="assets/outsourcing/programming.jpg" alt="Programming" loading="lazy" />
-              <p>Implementujemy mechaniki, AI, fizykę i stabilne systemy technologiczne.</p>
-            </article>
-            <article class="outs-service-card">
-              <h3>3D / 2D Modeling</h3>
-              <img class="outs-service-media" src="assets/outsourcing/modeling-2d.png" alt="3D 2D Modeling" loading="lazy" />
-              <p>Dostarczamy assety zgodne ze stylem projektu i wymaganiami wydajności.</p>
-            </article>
-            <article class="outs-service-card">
-              <h3>SFX / VFX</h3>
-              <p>Tworzymy warstwę dźwięku i efektów, która wzmacnia feedback i klimat gry.</p>
-              <div class="outs-video-embed">
-                <video
-                  src="assets/outsourcing/vfx.mp4"
-                  controls
-                  preload="metadata"
-                  playsinline
-                ></video>
-              </div>
-            </article>
-            <article class="outs-service-card">
-              <h3>Level Design</h3>
-              <img class="outs-service-media" src="assets/outsourcing/level-design.jpg" alt="Level Design" loading="lazy" />
-              <p>Projektujemy mapy, flow i punkty zainteresowania pod konkretne cele gracza.</p>
-              <div class="outs-video-embed">
-                <iframe
-                  src="https://www.youtube.com/embed/5HGbW4pt8VQ"
-                  title="Level Design - materiał referencyjny"
-                  loading="lazy"
-                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                  referrerpolicy="strict-origin-when-cross-origin"
-                  allowfullscreen
-                ></iframe>
-              </div>
-            </article>
-            <article class="outs-service-card">
-              <h3>Produkcja i wydanie</h3>
-              <div class="outs-media-carousel" data-media-carousel>
-                <button class="outs-carousel-arrow outs-carousel-prev" type="button" aria-label="Poprzedni obraz">
-                  &#10094;
-                </button>
-                <div class="outs-media-carousel-stage">
-                  <img class="outs-service-media" data-carousel-item src="assets/hiberman.png" alt="Hiberman" loading="lazy" />
-                  <img class="outs-service-media" data-carousel-item src="assets/ezoteva.jpg" alt="Ezoteva" loading="lazy" hidden />
+            <div class="outs-hero">
+              <div class="outs-hero-copy">
+                <p class="lead">
+                  Integrujemy się z zespołem partnera jako niezależny moduł wykonawczy. Dowozimy
+                  kluczowe funkcje bez zakłócania głównego cyklu produkcji i z pełną transparentnością
+                  statusu prac.
+                </p>
+                <div class="actions mt">
+                  <a class="btn-primary" href="kontakt.html">Umów rozmowę projektową</a>
+                  <a class="btn-secondary" href="#zakres">Zobacz obszary wsparcia</a>
                 </div>
-                <button class="outs-carousel-arrow outs-carousel-next" type="button" aria-label="Nastepny obraz">
-                  &#10095;
-                </button>
               </div>
-              <p>Prowadzimy QA, optymalizację i wsparcie release pod realne terminy.</p>
-            </article>
-          </div>
-        </section>
+              <aside class="outs-hero-panel" aria-label="Model współpracy QFS">
+                <h2>Model współpracy</h2>
+                <ul class="list">
+                  <li>Kick-off i analiza techniczna projektu</li>
+                  <li>Plan sprintów i priorytetów pod milestone</li>
+                  <li>Weekly delivery report: postęp, ryzyka, KPI</li>
+                  <li>Przejrzysta ścieżka eskalacji i decyzji</li>
+                </ul>
+              </aside>
+            </div>
+          </article>
+        </div>
+      </section>
 
-        <section id="outs-proces" class="section">
-          <div class="section-head">
-            <p class="eyebrow">Proces</p>
-            <h2>Jak wygląda współpraca krok po kroku</h2>
-          </div>
-          <div class="outs-steps">
-            <article class="outs-step">
-              <span>01</span>
-              <h3>Diagnoza projektu</h3>
-              <p>Mapujemy potrzeby, ryzyka i oczekiwany efekt biznesowy.</p>
-            </article>
-            <article class="outs-step">
-              <span>02</span>
-              <h3>Plan delivery</h3>
-              <p>Ustalamy zakres, harmonogram i odpowiedzialności po obu stronach.</p>
-            </article>
-            <article class="outs-step">
-              <span>03</span>
-              <h3>Realizacja sprintowa</h3>
-              <p>Dowożenie funkcji, iteracje i raportowanie statusu w cyklu tygodniowym.</p>
-            </article>
-            <article class="outs-step">
-              <span>04</span>
-              <h3>Handover i wsparcie</h3>
-              <p>Finalny QA pass, dokumentacja i wsparcie po wdrożeniu.</p>
-            </article>
-          </div>
-          <div class="metric-strip">
-            <span class="metric-pill">Transparentne raportowanie</span>
-            <span class="metric-pill">Integracja z Twoim pipeline</span>
-            <span class="metric-pill">Jakość i terminowość delivery</span>
-          </div>
-        </section>
+      <section id="zakres" class="scene scene-2" data-section="zakres">
+        <div class="scene-shell reveal">
+          <article class="lore-card game-frame production-frame">
+            <div class="section-head">
+              <p class="eyebrow">Zakres usług</p>
+              <h2>Obszary, które realizujemy outsourcingowo</h2>
+            </div>
+            <div class="outs-services-grid">
+              <article class="outs-service-card">
+                <h3>Game Design</h3>
+                <p>Projektujemy pętlę rozgrywki, systemy, ekonomię i dokumentację GDD/TDD.</p>
+                <div class="outs-video-embed">
+                  <iframe
+                    src="https://www.youtube.com/embed/5HGbW4pt8VQ"
+                    title="Game Design - materiał referencyjny"
+                    loading="lazy"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                    referrerpolicy="strict-origin-when-cross-origin"
+                    allowfullscreen
+                  ></iframe>
+                </div>
+              </article>
+              <article class="outs-service-card">
+                <h3>Animacja</h3>
+                <p>Tworzymy animacje gameplayowe, cutsceny i interakcje środowiskowe.</p>
+              </article>
+              <article class="outs-service-card">
+                <h3>Storytelling</h3>
+                <picture>
+                  <source srcset="assets/outsourcing/storytelling.webp" type="image/webp" />
+                  <img
+                    class="outs-service-media"
+                    src="assets/outsourcing/storytelling.png"
+                    alt="Storytelling - fabuła, dialogi i emocje"
+                    loading="lazy"
+                  />
+                </picture>
+                <p>Budujemy narrację, questy i pacing, który wzmacnia immersję gracza.</p>
+              </article>
+              <article class="outs-service-card">
+                <h3>Programming</h3>
+                <img class="outs-service-media" src="assets/outsourcing/programming.jpg" alt="Programming" loading="lazy" />
+                <p>Implementujemy mechaniki, AI, fizykę i stabilne systemy technologiczne.</p>
+              </article>
+              <article class="outs-service-card">
+                <h3>3D / 2D Modeling</h3>
+                <img class="outs-service-media" src="assets/outsourcing/modeling-2d.png" alt="3D 2D Modeling" loading="lazy" />
+                <p>Dostarczamy assety zgodne ze stylem projektu i wymaganiami wydajności.</p>
+              </article>
+              <article class="outs-service-card">
+                <h3>SFX / VFX</h3>
+                <p>Tworzymy warstwę dźwięku i efektów, która wzmacnia feedback i klimat gry.</p>
+                <div class="outs-video-embed">
+                  <video src="assets/outsourcing/vfx.mp4" controls preload="metadata" playsinline></video>
+                </div>
+              </article>
+              <article class="outs-service-card">
+                <h3>Level Design</h3>
+                <img class="outs-service-media" src="assets/outsourcing/level-design.jpg" alt="Level Design" loading="lazy" />
+                <p>Projektujemy mapy, flow i punkty zainteresowania pod konkretne cele gracza.</p>
+                <div class="outs-video-embed">
+                  <iframe
+                    src="https://www.youtube.com/embed/5HGbW4pt8VQ"
+                    title="Level Design - materiał referencyjny"
+                    loading="lazy"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                    referrerpolicy="strict-origin-when-cross-origin"
+                    allowfullscreen
+                  ></iframe>
+                </div>
+              </article>
+              <article class="outs-service-card">
+                <h3>Produkcja i wydanie</h3>
+                <div class="outs-media-carousel" data-media-carousel>
+                  <button class="outs-carousel-arrow outs-carousel-prev" type="button" aria-label="Poprzedni obraz">
+                    &#10094;
+                  </button>
+                  <div class="outs-media-carousel-stage">
+                    <img class="outs-service-media" data-carousel-item src="assets/hiberman.png" alt="Hiberman" loading="lazy" />
+                    <img class="outs-service-media" data-carousel-item src="assets/ezoteva.jpg" alt="Ezoteva" loading="lazy" hidden />
+                  </div>
+                  <button class="outs-carousel-arrow outs-carousel-next" type="button" aria-label="Następny obraz">
+                    &#10095;
+                  </button>
+                </div>
+                <p>Prowadzimy QA, optymalizację i wsparcie release pod realne terminy.</p>
+              </article>
+            </div>
+          </article>
+        </div>
+      </section>
 
-        <section id="outs-contact" class="section outs-cta">
-          <div>
-            <p class="eyebrow">Gotowi do startu</p>
-            <h2>Potrzebujesz wsparcia pod konkretny milestone?</h2>
-            <p class="lead">
-              Napisz, na jakim etapie jest projekt i który obszar chcesz odciążyć. Przygotujemy
-              wariant współpracy dopasowany do Twojego zespołu i tempa produkcji.
-            </p>
-          </div>
-          <div class="actions">
-            <a class="btn-primary" href="kontakt.html">Skontaktuj się</a>
-            <a class="btn-secondary" href="produkcje.html">Zobacz produkcje QFS</a>
-          </div>
-        </section>
-      </main>
+      <section id="outs-proces" class="scene scene-1" data-section="outs-proces">
+        <div class="scene-shell reveal">
+          <article class="lore-card game-frame alliance-frame">
+            <div class="section-head">
+              <p class="eyebrow">Proces</p>
+              <h2>Jak wygląda współpraca krok po kroku</h2>
+            </div>
+            <div class="outs-steps">
+              <article class="outs-step">
+                <span>01</span>
+                <h3>Diagnoza projektu</h3>
+                <p>Mapujemy potrzeby, ryzyka i oczekiwany efekt biznesowy.</p>
+              </article>
+              <article class="outs-step">
+                <span>02</span>
+                <h3>Plan delivery</h3>
+                <p>Ustalamy zakres, harmonogram i odpowiedzialności po obu stronach.</p>
+              </article>
+              <article class="outs-step">
+                <span>03</span>
+                <h3>Realizacja sprintowa</h3>
+                <p>Dowożenie funkcji, iteracje i raportowanie statusu w cyklu tygodniowym.</p>
+              </article>
+              <article class="outs-step">
+                <span>04</span>
+                <h3>Handover i wsparcie</h3>
+                <p>Finalny QA pass, dokumentacja i wsparcie po wdrożeniu.</p>
+              </article>
+            </div>
+            <div class="metric-strip">
+              <span class="metric-pill">Transparentne raportowanie</span>
+              <span class="metric-pill">Integracja z Twoim pipeline</span>
+              <span class="metric-pill">Jakość i terminowość delivery</span>
+            </div>
+          </article>
+        </div>
+      </section>
 
-      <footer>
-        <p>QFS Outsourcing | profesjonalne wsparcie produkcji gier.</p>
-      </footer>
-    </div>
+      <section id="outs-contact" class="scene scene-4" data-section="outs-contact">
+        <div class="scene-shell reveal">
+          <article class="lore-card game-frame alliance-frame">
+            <div class="outs-cta">
+              <div>
+                <p class="eyebrow">Gotowi do startu</p>
+                <h2>Potrzebujesz wsparcia pod konkretny milestone?</h2>
+                <p class="lead">
+                  Napisz, na jakim etapie jest projekt i który obszar chcesz odciążyć. Przygotujemy
+                  wariant współpracy dopasowany do Twojego zespołu i tempa produkcji.
+                </p>
+              </div>
+              <div class="actions">
+                <a class="btn-primary" href="kontakt.html">Skontaktuj się</a>
+                <a class="btn-secondary" href="produkcje.html">Zobacz produkcje QFS</a>
+              </div>
+            </div>
+          </article>
+        </div>
+      </section>
+    </main>
+
     <script>
       (() => {
         const carousels = Array.from(document.querySelectorAll("[data-media-carousel]"));
@@ -245,4 +257,3 @@
     <script src="app.js"></script>
   </body>
 </html>
-
