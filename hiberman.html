@@ -251,6 +251,21 @@
         onScroll();
       })();
     </script>
+    <script>
+      (() => {
+        const scroller = document.querySelector(".hib-scroll-table");
+        if (!scroller) return;
+
+        const routeWheelToScroller = (event) => {
+          if (event.ctrlKey) return;
+          if (scroller.scrollHeight <= scroller.clientHeight) return;
+          event.preventDefault();
+          scroller.scrollTop += event.deltaY;
+        };
+
+        window.addEventListener("wheel", routeWheelToScroller, { passive: false });
+      })();
+    </script>
     <script src="app.js?v=10"></script>
   </body>
 </html>
