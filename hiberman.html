@@ -1,4 +1,4 @@
-﻿<!doctype html>
+<!doctype html>
 <html lang="pl">
   <head>
     <meta charset="UTF-8" />
@@ -6,215 +6,247 @@
     <title>QFS | Hiberman</title>
     <meta
       name="description"
-      content="Hiberman: Escape Quest - komiksowa przygoda QFS z trzema bohaterami, cutscenkami i dynamiczną walką."
+      content="Hiberman: Escape Quest - komiksowa kampania akcji QFS z trzema bohaterami, cutscenkami i dynamiczną walką."
     />
     <meta property="og:title" content="QFS | Hiberman" />
     <meta
       property="og:description"
-      content="Dżordż, Jimmy i Kadłubek w kampanii Hiberman: Escape Quest. Styl komiksowy, humor i akcja."
+      content="Komiksowe IP QFS: Dżordż, Jimmy i Kadłubek w świecie pełnym humoru, chaosu i boss encounterów."
     />
     <meta property="og:type" content="website" />
-    <meta property="og:image" content="assets/hiberman/hiberman-pion.png" />
-    <meta name="theme-color" content="#10151f" />
+    <meta property="og:image" content="assets/hiberman/hiberman-pion-1024.png" />
+    <meta name="theme-color" content="#0a1220" />
     <link rel="canonical" href="./hiberman.html" />
-    <link rel="stylesheet" href="styles.css?v=39" />
+    <link rel="stylesheet" href="styles.css?v=48" />
+    <link rel="stylesheet" href="hiberman-comic.css?v=1" />
   </head>
-  <body>
-    <div class="site-shell hib-page-shell">
-      <header class="topbar">
-        <a class="brand" href="index.html">
-          <img src="assets/logo-qfs.png" alt="QFS logo" />
-          <strong>QUANTUM FORGE STUDIO</strong>
+  <body class="hib-comic-body">
+    <div class="vignette" aria-hidden="true"></div>
+
+    <header class="chrome" id="top">
+      <a class="logo" href="index.html" aria-label="QFS start strony">
+        <img src="assets/logo-qfs.png" alt="QFS logo" />
+        <span>Quantum Forge Studio</span>
+      </a>
+      <nav class="menu" aria-label="Sekcje strony Hiberman">
+        <a href="index.html" data-nav="qfs">QFS</a>
+        <a href="#hib-start" data-nav="hib-start" class="is-active">Hiberman</a>
+        <a href="#hib-story" data-nav="hib-story">Fabuła</a>
+        <a href="#hib-gameplay" data-nav="hib-gameplay">Gameplay</a>
+        <a href="#hib-contact" data-nav="hib-contact">Kontakt</a>
+      </nav>
+    </header>
+
+    <main>
+      <section id="hib-start" class="scene scene-2" data-section="hib-start">
+        <div class="scene-shell reveal">
+          <article class="lore-card game-frame hib-comic-frame hib-hero-frame">
+            <div class="hib-hero-grid">
+              <div class="hib-hero-copy">
+                <p class="small-label quest-label">Produkcje własne // Comic Action IP</p>
+                <h1>HIBERMAN: ESCAPE QUEST</h1>
+                <p class="hib-lead">
+                  Szalona kampania akcji oparta na serialowym uniwersum. Dżordż, Jimmy i Kadłubek
+                  wpadają w cyfrowy chaos i walczą o ucieczkę z gry pełnej humoru, zwrotów akcji oraz
+                  groteskowych przeciwników.
+                </p>
+                <div class="metric-strip hib-metric-strip">
+                  <span class="metric-pill">3 grywalnych bohaterów</span>
+                  <span class="metric-pill">Serial + gra w jednym świecie</span>
+                  <span class="metric-pill">Cutscenki i dynamiczna walka</span>
+                </div>
+                <div class="actions mt">
+                  <a class="btn-primary" href="kontakt.html">Umów prezentację projektu</a>
+                  <a
+                    class="btn-secondary"
+                    href="https://quantumforgestudio.com/hiberman/"
+                    target="_blank"
+                    rel="noreferrer noopener"
+                    >Zobacz oryginalną stronę</a
+                  >
+                </div>
+              </div>
+
+              <figure class="hib-key-art" aria-label="Key visual Hiberman">
+                <img
+                  src="assets/hiberman/hiberman-pion-1024.png"
+                  alt="Hiberman - key visual projektu"
+                  loading="lazy"
+                />
+                <figcaption>Issue #01 // Escape Quest</figcaption>
+              </figure>
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <section id="hib-story" class="scene scene-1" data-section="hib-story">
+        <div class="scene-shell reveal">
+          <article class="lore-card game-frame hib-comic-frame">
+            <div class="hib-section-head">
+              <p class="small-label quest-label">Panel fabularny</p>
+              <h2>Komiksowa drużyna i rytm kampanii</h2>
+            </div>
+
+            <div class="hib-story-grid">
+              <article class="hib-story-card">
+                <span>POSTAĆ 01</span>
+                <h3>Dżordż</h3>
+                <p>
+                  Przypadkowy podróżnik z przyszłości. Rzucony 100 lat do przodu, staje się osią
+                  fabularnego chaosu i motorem całej wyprawy.
+                </p>
+              </article>
+              <article class="hib-story-card">
+                <span>POSTAĆ 02</span>
+                <h3>Jimmy</h3>
+                <p>
+                  Mistrz garażowej wojny i autor eksperymentów, które często wymykają się spod
+                  kontroli. Napędza akcję i ton humorystyczny.
+                </p>
+              </article>
+              <article class="hib-story-card">
+                <span>POSTAĆ 03</span>
+                <h3>Kadłubek</h3>
+                <p>
+                  Najbardziej nieprzewidywalny członek ekipy. Dostarcza absurd, timing i punkty
+                  zwrotne, które budują komiksowy charakter świata.
+                </p>
+              </article>
+            </div>
+
+            <div class="hib-bubble">
+              Serialowy lore i humor przechodzą do gry bez utraty tempa: mocne intro, czytelne
+              questy i finały rozdziałów z boss encounterami.
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <section id="hib-gameplay" class="scene scene-3" data-section="hib-gameplay">
+        <div class="scene-shell reveal">
+          <article class="lore-card game-frame hib-comic-frame">
+            <div class="hib-section-head">
+              <p class="small-label quest-label">Gameplay reels</p>
+              <h2>Tempo walki, systemy i boss encounters</h2>
+            </div>
+
+            <div class="hib-systems-grid">
+              <article class="hib-system-card">
+                <h3>Uzbrój się po zęby</h3>
+                <p>
+                  Od klasycznych broni po absurdalne narzędzia. System pozwala łączyć styl walki z
+                  osobowością bohatera.
+                </p>
+              </article>
+              <article class="hib-system-card">
+                <h3>Czas na walkę</h3>
+                <p>
+                  Nietypowi wrogowie z charakterem: od kościotrupów po wirusy i bakterie. Każde
+                  starcie ma inny rytm i zestaw reakcji.
+                </p>
+              </article>
+              <article class="hib-system-card">
+                <h3>Pokonaj gigantów</h3>
+                <p>
+                  Pojedynki bossowe jako kulminacja rozdziałów. Każdy boss ma własny zestaw ataków i
+                  wymaga innej strategii.
+                </p>
+              </article>
+            </div>
+
+            <div class="hib-video-grid">
+              <article class="hib-video-card">
+                <h3>Combat loop</h3>
+                <video
+                  controls
+                  preload="metadata"
+                  src="https://quantumforgestudio.com/wp-content/uploads/2024/07/01strzelanie720p_1.mp4"
+                ></video>
+              </article>
+              <article class="hib-video-card">
+                <h3>Wrogowie i pacing</h3>
+                <video
+                  controls
+                  preload="metadata"
+                  src="https://quantumforgestudio.com/wp-content/uploads/2024/07/02-wrogowie720p.mp4"
+                ></video>
+              </article>
+              <article class="hib-video-card">
+                <h3>Boss i promo cut</h3>
+                <video
+                  controls
+                  preload="metadata"
+                  src="https://quantumforgestudio.com/wp-content/uploads/2024/07/GAMEPLAY123.mp4"
+                ></video>
+              </article>
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <section id="hib-contact" class="scene scene-4" data-section="hib-contact">
+        <div class="scene-shell reveal">
+          <article class="lore-card game-frame hib-comic-frame hib-contact-card">
+            <div>
+              <p class="small-label quest-label">Dalej</p>
+              <h2>Chcesz rozwijać Hiberman z QFS?</h2>
+              <p class="hib-lead">
+                Możemy przygotować roadmapę rozwoju contentu, rozdziałów i cutscenek pod milestone
+                wydawniczy lub współprodukcję.
+              </p>
+            </div>
+            <div class="actions">
+              <a class="btn-primary" href="kontakt.html">Porozmawiajmy o Hiberman</a>
+              <a class="btn-secondary" href="index.html#produkcje">Wróć do produkcji</a>
+            </div>
+          </article>
+        </div>
+      </section>
+    </main>
+
+    <footer class="page-footer">
+      <p>QFS Contact | Polska / Europa | Studio GameDev</p>
+      <div class="footer-social" aria-label="QFS social media">
+        <a
+          class="footer-social-link"
+          href="https://www.facebook.com/QuantumForgeStudio/"
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label="Facebook"
+        >
+          <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M16 8.049C16 3.603 12.418 0 8 0S0 3.603 0 8.049c0 4.017 2.926 7.347 6.75 7.951v-5.625H4.719V8.049H6.75V6.275c0-2.017 1.195-3.131 3.022-3.131.876 0 1.791.157 1.791.157V5.28h-1.009c-.994 0-1.304.621-1.304 1.258V8.05h2.219l-.354 2.327H9.25V16C13.074 15.396 16 12.066 16 8.049z"/></svg>
         </a>
-                <nav class="nav" aria-label="Nawigacja główna">
-          <a href="index.html#studio" data-nav="home">Start</a>
-          <a href="index.html#produkcje" data-nav="produkcje">Produkcje</a>
-          <a href="index.html#outsourcing" data-nav="outsourcing">Outsourcing</a>
-          <a href="index.html#onas-panel" data-nav="zespol">Zespół</a>
-          <a href="index.html#kontakt" data-nav="kontakt">Kontakt</a>
-        </nav>
-      </header>
+        <a
+          class="footer-social-link"
+          href="https://www.twitch.tv/quantum_forge_pl"
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label="Twitch"
+        >
+          <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M2.149 0 .143 2.009v11.998h4.287v2.285h2.287l2.287-2.285h3.431L15.862 10.58V0H2.149zm12.285 10.009-2.001 2H8.999l-2 2v-2H4.713V1.429h9.721v8.58z"/><path d="M11.001 4.857h-1.429v3.429h1.429V4.857zm-3.714 0H5.858v3.429h1.429V4.857z"/></svg>
+        </a>
+        <a
+          class="footer-social-link"
+          href="https://www.linkedin.com/company/quantum-forges-studio/about/"
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label="LinkedIn"
+        >
+          <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M0 1.146C0 .513.526 0 1.175 0h13.65C15.473 0 16 .513 16 1.146v13.708c0 .633-.527 1.146-1.175 1.146H1.175C.526 16 0 15.487 0 14.854V1.146z"/><path d="M4.943 13.394V6.169H2.542v7.225h2.401zm-1.2-8.214h-.015c-.806 0-1.327-.554-1.327-1.248 0-.708.537-1.248 1.358-1.248.821 0 1.327.54 1.342 1.248 0 .694-.52 1.248-1.358 1.248zM13.58 13.394V9.25c0-2.22-1.184-3.252-2.764-3.252-1.274 0-1.845.7-2.165 1.193v.025h-.016a5.53 5.53 0 0 1 .016-.025V6.169h-2.4c.03.678 0 7.225 0 7.225h2.4V9.359c0-.216.016-.432.08-.586.173-.431.568-.878 1.232-.878.87 0 1.217.662 1.217 1.634v3.865h2.401z"/></svg>
+        </a>
+        <a
+          class="footer-social-link"
+          href="https://discord.gg/cBXQkCCUMD"
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label="Discord"
+        >
+          <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M13.545 2.907A13.227 13.227 0 0 0 10.226 1.65a.052.052 0 0 0-.056.026c-.144.25-.305.577-.417.835a12.19 12.19 0 0 0-3.506 0 8.2 8.2 0 0 0-.423-.835.051.051 0 0 0-.056-.026 13.145 13.145 0 0 0-3.32 1.257.05.05 0 0 0-.024.02C.307 6.039-.32 9.077.003 12.077a.06.06 0 0 0 .023.04 13.2 13.2 0 0 0 3.994 2.01.05.05 0 0 0 .055-.019c.307-.42.58-.863.814-1.329a.05.05 0 0 0-.01-.059 8.6 8.6 0 0 1-1.245-.59.05.05 0 0 1-.005-.084c.083-.062.167-.126.248-.191a.05.05 0 0 1 .052-.007c2.619 1.196 5.454 1.196 8.042 0a.05.05 0 0 1 .053.006c.082.066.166.13.249.192a.05.05 0 0 1-.004.084c-.398.236-.813.433-1.246.59a.05.05 0 0 0-.009.059c.239.466.512.909.814 1.329a.05.05 0 0 0 .055.019 13.184 13.184 0 0 0 4-2.01.05.05 0 0 0 .023-.04c.386-3.467-.646-6.478-2.421-9.15a.043.043 0 0 0-.024-.02zM5.33 10.845c-.784 0-1.427-.72-1.427-1.604 0-.887.632-1.604 1.427-1.604.8 0 1.44.724 1.427 1.604 0 .887-.632 1.604-1.427 1.604zm5.288 0c-.784 0-1.426-.72-1.426-1.604 0-.887.631-1.604 1.426-1.604.8 0 1.44.724 1.427 1.604 0 .887-.626 1.604-1.427 1.604z"/></svg>
+        </a>
+      </div>
+    </footer>
 
-      <main class="hib-page">
-        <section class="section hib-hero">
-          <div class="hib-hero-copy">
-            <p class="eyebrow">Produkcje własne // Styl komiksowy</p>
-            <h1>HIBERMAN: ESCAPE QUEST</h1>
-            <p class="lead">
-              Szalona kampania akcji oparta na serialowym uniwersum. Dżordż, Jimmy i Kadłubek
-              wpadają w cyfrowy chaos i walczą o ucieczkę z gry pełnej humoru, zwrotów akcji oraz
-              groteskowych przeciwników.
-            </p>
-            <div class="metric-strip">
-              <span class="metric-pill">3 grywalnych bohaterów</span>
-              <span class="metric-pill">Serial + gra w jednym świecie</span>
-              <span class="metric-pill">Cutscenki i dynamiczna walka</span>
-            </div>
-            <div class="actions mt">
-              <a class="btn-primary" href="kontakt.html">Umów prezentację projektu</a>
-              <a
-                class="btn-secondary"
-                href="https://quantumforgestudio.com/hiberman/"
-                target="_blank"
-                rel="noreferrer noopener"
-                >Zobacz oryginalną stronę</a
-              >
-            </div>
-          </div>
-          <figure class="hib-hero-art" aria-label="Key visual Hiberman">
-            <img src="assets/hiberman/hiberman-pion.png" alt="Hiberman - key visual projektu" loading="lazy" />
-          </figure>
-        </section>
-
-        <section class="section">
-          <div class="section-head">
-            <p class="eyebrow">Grafiki źródłowe</p>
-            <h2>Kadry z oficjalnej podstrony</h2>
-          </div>
-          <div class="hib-panels">
-            <figure class="hib-panel-shot">
-              <img src="assets/hiberman/hiberman-pion.png" alt="Hiberman - panel główny" loading="lazy" />
-            </figure>
-            <figure class="hib-panel-shot">
-              <img src="assets/hiberman/hiberman-pion-1024.png" alt="Hiberman - panel alternatywny" loading="lazy" />
-            </figure>
-          </div>
-        </section>
-
-        <section class="section">
-          <div class="section-head">
-            <p class="eyebrow">Bohaterowie kampanii</p>
-            <h2>Drużyna z komiksowej planszy</h2>
-          </div>
-          <div class="hib-cast-grid">
-            <article class="hib-cast-card">
-              <p class="hib-cast-id">POSTAĆ 01</p>
-              <h3>Dżordż</h3>
-              <p>
-                Przypadkowy podróżnik z przyszłości. Rzucony 100 lat do przodu, staje się osią
-                fabularnego chaosu i motorem całej wyprawy.
-              </p>
-            </article>
-            <article class="hib-cast-card">
-              <p class="hib-cast-id">POSTAĆ 02</p>
-              <h3>Jimmy</h3>
-              <p>
-                Mistrz garażowej wojny i autor eksperymentów, które często wymykają się spod
-                kontroli. Napędza akcję i ton humorystyczny.
-              </p>
-            </article>
-            <article class="hib-cast-card">
-              <p class="hib-cast-id">POSTAĆ 03</p>
-              <h3>Kadłubek</h3>
-              <p>
-                Najbardziej nieprzewidywalny członek ekipy. Dostarcza absurd, timing i punkty
-                zwrotne, które budują komiksowy charakter świata.
-              </p>
-            </article>
-          </div>
-        </section>
-
-        <section class="section hib-flow">
-          <div class="section-head">
-            <p class="eyebrow">Pipeline fabuły</p>
-            <h2>Jak działa produkcja komiksowej przygody</h2>
-          </div>
-          <div class="hib-flow-grid">
-            <article class="hib-flow-card">
-              <span>PLANSZA 01</span>
-              <h3>Setup świata</h3>
-              <p>Serialowy lore i humor zostają przełożone na grywalną kampanię.</p>
-            </article>
-            <article class="hib-flow-card">
-              <span>PLANSZA 02</span>
-              <h3>Cutscenki</h3>
-              <p>Animowane sekwencje spinają fabułę i podbijają charakter postaci.</p>
-            </article>
-            <article class="hib-flow-card">
-              <span>PLANSZA 03</span>
-              <h3>Akcja i chaos</h3>
-              <p>Tempo walki, różnorodne bronie i nagłe zwroty utrzymują rytm rozgrywki.</p>
-            </article>
-            <article class="hib-flow-card">
-              <span>PLANSZA 04</span>
-              <h3>Boss encounters</h3>
-              <p>Finały rozdziałów opierają się na unikalnych sztuczkach i patternach bossów.</p>
-            </article>
-          </div>
-        </section>
-
-        <section class="section hib-systems">
-          <div class="section-head">
-            <p class="eyebrow">Tryby akcji</p>
-            <h2>Arsenał, przeciwnicy i bossowie</h2>
-          </div>
-          <div class="hib-systems-grid">
-            <article class="hib-system-card">
-              <h3>Uzbrój się po zęby</h3>
-              <p>
-                Od klasycznych broni po kompletnie absurdalne narzędzia. System pozwala łączyć styl
-                walki z osobowością bohatera.
-              </p>
-            </article>
-            <article class="hib-system-card">
-              <h3>Czas na walkę</h3>
-              <p>
-                Nietypowi wrogowie z charakterem: od kościotrupów po wirusy i bakterie. Każde starcie
-                ma inny rytm i inny zestaw reakcji.
-              </p>
-            </article>
-            <article class="hib-system-card">
-              <h3>Pokonaj gigantów</h3>
-              <p>
-                Pojedynki bossowe jako kulminacja rozdziałów. Każdy boss ma własny zestaw ataków i
-                wymaga innej strategii.
-              </p>
-            </article>
-          </div>
-        </section>
-
-        <section class="section">
-          <div class="section-head">
-            <p class="eyebrow">Gameplay reels</p>
-            <h2>Materiał z produkcji Hiberman</h2>
-          </div>
-          <div class="hib-video-grid">
-            <article class="hib-video-card">
-              <h3>Combat loop</h3>
-              <video controls preload="metadata" src="https://quantumforgestudio.com/wp-content/uploads/2024/07/01strzelanie720p_1.mp4"></video>
-            </article>
-            <article class="hib-video-card">
-              <h3>Wrogowie i pacing</h3>
-              <video controls preload="metadata" src="https://quantumforgestudio.com/wp-content/uploads/2024/07/02-wrogowie720p.mp4"></video>
-            </article>
-            <article class="hib-video-card">
-              <h3>Boss i promo cut</h3>
-              <video controls preload="metadata" src="https://quantumforgestudio.com/wp-content/uploads/2024/07/GAMEPLAY123.mp4"></video>
-            </article>
-          </div>
-        </section>
-
-        <section class="section">
-          <div class="section-head">
-            <p class="eyebrow">Dalej</p>
-            <h2>Chcesz rozwijać Hiberman z QFS?</h2>
-            <p class="lead">
-              Możemy przygotować roadmapę rozwoju contentu, rozdziałów i cutscenek pod milestone
-              wydawniczy lub współprodukcję.
-            </p>
-          </div>
-          <div class="actions">
-            <a class="btn-primary" href="kontakt.html">Porozmawiajmy o Hiberman</a>
-            <a class="btn-secondary" href="index.html#produkcje">Wróć do produkcji</a>
-          </div>
-        </section>
-      </main>
-
-      <footer>
-        <p>QFS Hiberman Page | Comic Production Style</p>
-      </footer>
-    </div>
-    <script src="app.js"></script>
+    <script src="app.js?v=10"></script>
   </body>
 </html>
-
