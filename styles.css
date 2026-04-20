@@ -2252,12 +2252,30 @@ h2 {
   position: relative;
   z-index: 2;
   background: transparent;
+  min-height: 100svh;
+  display: flex;
+  flex-direction: column;
 }
 
 .contact-page .site-shell main {
+  flex: 1 0 auto;
   width: min(1200px, 100%);
   padding-top: calc(var(--contact-bg-top-offset) + 0.9rem);
   padding-bottom: 2.4rem;
+}
+
+.contact-page .site-shell footer {
+  width: min(1200px, 100%);
+  margin: auto auto 0;
+  padding: 0.7rem 0.9rem 1.25rem;
+  border-top: 1px solid rgba(238, 221, 112, 0.38);
+  color: #c8d9ee;
+  text-align: center;
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  background: linear-gradient(180deg, rgba(10, 22, 37, 0), rgba(10, 22, 37, 0.46));
 }
 
 .contact-page .section {
