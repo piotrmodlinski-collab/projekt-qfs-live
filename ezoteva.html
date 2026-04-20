@@ -145,8 +145,13 @@
         border-radius: 9px;
         background: transparent;
         box-shadow: 0 0 8px rgba(248, 195, 92, 0.12);
-        transition: transform 0.26s ease, height 0.26s ease;
+        transition: transform 0.26s ease, height 0.26s ease, opacity 0.2s ease;
         pointer-events: none;
+        opacity: 0;
+      }
+
+      .ezx-nav-indicator.is-visible {
+        opacity: 1;
       }
 
       .ezx-nav-indicator::before {
@@ -205,6 +210,18 @@
         display: flex;
         flex-direction: column;
         min-width: 0;
+        opacity: 0;
+        visibility: hidden;
+        pointer-events: none;
+        transform: translateY(8px);
+        transition: opacity 0.22s ease, transform 0.22s ease;
+      }
+
+      .ezx-display.is-visible {
+        opacity: 1;
+        visibility: visible;
+        pointer-events: auto;
+        transform: translateY(0);
       }
 
       .ezx-display-head {
@@ -547,7 +564,7 @@
 
           <nav class="ezx-side-nav" aria-label="Sekcje projektu Ezoteva">
             <span class="ezx-nav-indicator" aria-hidden="true"></span>
-            <button class="ezx-nav-btn is-active" type="button" data-panel="demo" data-title="Zobacz demo" data-tag="Launch sequence">
+            <button class="ezx-nav-btn" type="button" data-panel="demo" data-title="Zobacz demo" data-tag="Launch sequence">
               Zobacz demo
             </button>
             <button class="ezx-nav-btn" type="button" data-panel="swiat" data-title="Świat" data-tag="Lore and setting">
@@ -572,14 +589,14 @@
           </div>
         </aside>
 
-        <div class="ezx-display">
+        <div class="ezx-display" aria-hidden="true">
           <div class="ezx-display-head">
             <strong data-display-title>Zobacz demo</strong>
             <span data-display-tag>Launch sequence</span>
           </div>
 
           <div class="ezx-panel-scroll" role="region" aria-label="Panel treści Ezotevy">
-            <article class="ezx-panel is-active" data-panel="demo">
+            <article class="ezx-panel" data-panel="demo">
               <p class="ezx-kicker">Launch the Xperience</p>
               <h2 class="ezx-title">Xplore the fractured future of Ezoteva</h2>
               <p class="ezx-lead">
@@ -746,11 +763,12 @@
         const buttons = Array.from(document.querySelectorAll(".ezx-nav-btn"));
         const panels = Array.from(document.querySelectorAll(".ezx-panel"));
         const indicator = document.querySelector(".ezx-nav-indicator");
+        const display = document.querySelector(".ezx-display");
         const panelScroll = document.querySelector(".ezx-panel-scroll");
         const displayTitle = document.querySelector("[data-display-title]");
         const displayTag = document.querySelector("[data-display-tag]");
 
-        if (!buttons.length || !panels.length || !panelScroll || !indicator) {
+        if (!buttons.length || !panels.length || !panelScroll || !indicator || !display) {
           return;
         }
 
@@ -771,6 +789,9 @@
             panel.classList.toggle("is-active", panel === activePanel);
           });
 
+          display.classList.add("is-visible");
+          display.setAttribute("aria-hidden", "false");
+          indicator.classList.add("is-visible");
           positionIndicator(activeButton);
 
           if (displayTitle) {
@@ -792,9 +813,6 @@
           button.addEventListener("click", () => activatePanel(button.dataset.panel, true));
         });
 
-        const initial = buttons.find((button) => button.classList.contains("is-active")) || buttons[0];
-        activatePanel(initial.dataset.panel, false);
-
         window.addEventListener("resize", () => {
           const activeButton = buttons.find((button) => button.classList.contains("is-active"));
           if (activeButton) {
@@ -804,6 +822,7 @@
 
         const routeWheelToPanel = (event) => {
           if (event.ctrlKey) return;
+          if (!display.classList.contains("is-visible")) return;
           if (panelScroll.scrollHeight <= panelScroll.clientHeight) return;
           event.preventDefault();
           panelScroll.scrollTop += event.deltaY;
