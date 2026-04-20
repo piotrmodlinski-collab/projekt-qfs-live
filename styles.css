@@ -2294,6 +2294,28 @@ h2 {
   letter-spacing: 0.03em;
 }
 
+.contact-page .contact-head-top {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.58rem;
+  margin-bottom: 0.24rem;
+}
+
+.contact-page .contact-head-top .eyebrow {
+  margin: 0;
+}
+
+.contact-page .contact-head-top .metric-strip {
+  margin-top: 0;
+  gap: 0.34rem;
+}
+
+.contact-page .contact-head-top .metric-pill {
+  font-size: 0.62rem;
+  padding: 0.28rem 0.54rem;
+}
+
 .contact-page .duo {
   margin-top: 0.72rem;
   display: grid;
@@ -2558,6 +2580,10 @@ h2 {
 }
 
 @media (max-width: 760px) {
+  .contact-page .contact-head-top {
+    align-items: flex-start;
+  }
+
   .contact-page .contact-form-title {
     white-space: normal;
   }
