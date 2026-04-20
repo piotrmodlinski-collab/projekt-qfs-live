@@ -133,10 +133,36 @@
 
       .ezx-side-nav {
         margin-top: 1rem;
+        position: relative;
         display: grid;
         gap: 0.16rem;
-        padding: 0;
+        padding: 0.28rem 0;
         margin-left: 0.52rem;
+      }
+
+      .ezx-nav-indicator {
+        position: absolute;
+        left: 0;
+        right: 0;
+        top: 0;
+        border: 1px solid rgba(248, 195, 92, 0.78);
+        border-radius: 10px;
+        background: transparent;
+        box-shadow: 0 0 14px rgba(248, 195, 92, 0.14);
+        transition: transform 0.26s ease, height 0.26s ease;
+        pointer-events: none;
+      }
+
+      .ezx-nav-indicator::before {
+        content: "";
+        position: absolute;
+        left: 0.32rem;
+        top: 0.26rem;
+        bottom: 0.26rem;
+        width: 0.46rem;
+        border-radius: 999px;
+        background: linear-gradient(180deg, #f8cc63, #d49f39);
+        box-shadow: 0 0 8px rgba(248, 201, 104, 0.45);
       }
 
       .ezx-nav-btn {
@@ -165,8 +191,6 @@
       .ezx-nav-btn.is-active {
         color: #ffffff;
         text-shadow: 0 0 12px rgba(255, 255, 255, 0.2);
-        border-color: rgba(183, 199, 219, 0.42);
-        background: rgba(8, 18, 30, 0.54);
       }
 
       .ezx-nav-foot {
@@ -448,8 +472,8 @@
         }
 
         .ezx-side-nav {
-          grid-template-columns: repeat(2, minmax(0, 1fr));
-          gap: 0.22rem;
+          grid-template-columns: 1fr;
+          gap: 0.16rem;
           margin-left: 0;
         }
 
@@ -524,6 +548,7 @@
           <p class="ezx-brand-sub">Main interface // project sequence</p>
 
           <nav class="ezx-side-nav" aria-label="Sekcje projektu Ezoteva">
+            <span class="ezx-nav-indicator" aria-hidden="true"></span>
             <button class="ezx-nav-btn is-active" type="button" data-panel="demo" data-title="Zobacz demo" data-tag="Launch sequence">
               Zobacz demo
             </button>
@@ -722,13 +747,19 @@
       (() => {
         const buttons = Array.from(document.querySelectorAll(".ezx-nav-btn"));
         const panels = Array.from(document.querySelectorAll(".ezx-panel"));
+        const indicator = document.querySelector(".ezx-nav-indicator");
         const panelScroll = document.querySelector(".ezx-panel-scroll");
         const displayTitle = document.querySelector("[data-display-title]");
         const displayTag = document.querySelector("[data-display-tag]");
 
-        if (!buttons.length || !panels.length || !panelScroll) {
+        if (!buttons.length || !panels.length || !panelScroll || !indicator) {
           return;
         }
+
+        const positionIndicator = (button) => {
+          indicator.style.height = `${button.offsetHeight}px`;
+          indicator.style.transform = `translateY(${button.offsetTop}px)`;
+        };
 
         const activatePanel = (panelName, smoothReset) => {
           const activeButton = buttons.find((button) => button.dataset.panel === panelName) || buttons[0];
@@ -741,6 +772,8 @@
           panels.forEach((panel) => {
             panel.classList.toggle("is-active", panel === activePanel);
           });
+
+          positionIndicator(activeButton);
 
           if (displayTitle) {
             displayTitle.textContent = activeButton.dataset.title || activeButton.textContent.trim();
@@ -763,6 +796,13 @@
 
         const initial = buttons.find((button) => button.classList.contains("is-active")) || buttons[0];
         activatePanel(initial.dataset.panel, false);
+
+        window.addEventListener("resize", () => {
+          const activeButton = buttons.find((button) => button.classList.contains("is-active"));
+          if (activeButton) {
+            positionIndicator(activeButton);
+          }
+        });
 
         const routeWheelToPanel = (event) => {
           if (event.ctrlKey) return;
