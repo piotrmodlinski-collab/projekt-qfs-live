@@ -274,13 +274,6 @@ body {
   background: #d9fff2;
 }
 
-.hib-card-id {
-  margin: 0;
-  font: 400 0.82rem/1 "Bangers", cursive;
-  letter-spacing: 0.06em;
-  color: #2a2f98;
-}
-
 .hib-card h3,
 .hib-feature h3 {
   margin: 0.26rem 0 0;
