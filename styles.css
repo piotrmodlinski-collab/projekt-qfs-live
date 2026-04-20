@@ -2157,6 +2157,13 @@ h2 {
   margin-bottom: 0.7rem;
 }
 
+.contact-page .contact-form-title {
+  font-size: clamp(1.16rem, 1.75vw, 1.48rem);
+  line-height: 1.12;
+  letter-spacing: 0.03em;
+  white-space: nowrap;
+}
+
 .contact-page .contact-form-main .contact-brief-form {
   width: 100%;
 }
@@ -2465,6 +2472,12 @@ h2 {
 
   .outs-scope-gallery {
     grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 760px) {
+  .contact-page .contact-form-title {
+    white-space: normal;
   }
 }
 
