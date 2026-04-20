@@ -16,6 +16,7 @@ const rootDir = __dirname;
 const secureViewsDir = path.join(rootDir, ".secure");
 const panelDataFile = path.join(secureViewsDir, "panel-data.json");
 const taskAttachmentUploadsDir = path.join(secureViewsDir, "uploads");
+const contactBriefsFile = path.join(secureViewsDir, "contact-briefs.jsonl");
 
 const MAX_TASK_ATTACHMENTS = 12;
 const MAX_ATTACHMENT_SIZE_BYTES = 15 * 1024 * 1024;
@@ -628,6 +629,50 @@ function safeCompareStrings(inputValue, expectedValue) {
   return crypto.timingSafeEqual(inputBuffer, expectedBuffer);
 }
 
+function sanitizePlainInput(value, maxLength) {
+  return String(value || "")
+    .replace(/\s+/g, " ")
+    .trim()
+    .slice(0, maxLength);
+}
+
+function isValidEmailAddress(value) {
+  const normalized = String(value || "").trim().toLowerCase();
+  return /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(normalized);
+}
+
+function getSafeRefererPath(req, fallbackPath) {
+  const fallback = fallbackPath || "/kontakt";
+  const referer = String(req.get("referer") || "").trim();
+  const requestHost = String(req.get("host") || "").toLowerCase();
+
+  if (!referer || !requestHost) {
+    return fallback;
+  }
+
+  try {
+    const parsed = new URL(referer);
+    if (String(parsed.host || "").toLowerCase() !== requestHost) {
+      return fallback;
+    }
+    const pathWithQueryAndHash = `${parsed.pathname || "/"}${parsed.search || ""}${parsed.hash || ""}`;
+    if (!pathWithQueryAndHash.startsWith("/")) {
+      return fallback;
+    }
+    return pathWithQueryAndHash;
+  } catch (error) {
+    return fallback;
+  }
+}
+
+function appendQueryParam(pathValue, key, value) {
+  const hashIndex = String(pathValue || "").indexOf("#");
+  const hash = hashIndex >= 0 ? pathValue.slice(hashIndex) : "";
+  const basePath = hashIndex >= 0 ? pathValue.slice(0, hashIndex) : String(pathValue || "");
+  const separator = basePath.includes("?") ? "&" : "?";
+  return `${basePath}${separator}${encodeURIComponent(key)}=${encodeURIComponent(value)}${hash}`;
+}
+
 function isValidLocalPanelCredentials(login, password) {
   return safeCompareStrings(login, localPanelLogin) && safeCompareStrings(password, localPanelPassword);
 }
@@ -668,6 +713,13 @@ if (!process.env.PANEL_LOGIN || !process.env.PANEL_PASSWORD) {
 const authLimiter = rateLimit({
   windowMs: 15 * 60 * 1000,
   limit: 30,
+  standardHeaders: true,
+  legacyHeaders: false,
+});
+
+const contactBriefLimiter = rateLimit({
+  windowMs: 10 * 60 * 1000,
+  limit: 10,
   standardHeaders: true,
   legacyHeaders: false,
 });
@@ -1643,6 +1695,40 @@ app.post("/wyloguj", noIndex, requireAuth, (req, res, next) => {
       return res.redirect("/logowanie?status=wylogowano");
     });
   });
+});
+
+app.post("/api/contact-brief", contactBriefLimiter, (req, res) => {
+  const refererPath = getSafeRefererPath(req, "/kontakt");
+  const successRedirect = appendQueryParam(refererPath, "brief", "sent");
+  const errorRedirect = appendQueryParam(refererPath, "brief", "error");
+
+  const fullName = sanitizePlainInput(req.body.name || req.body["Imie i firma"] || req.body["Imię i firma"], 120);
+  const email = String(req.body.email || req.body["E-mail"] || "").trim().toLowerCase();
+  const scope = sanitizePlainInput(req.body.scope || req.body["Zakres i cele"], 3000);
+
+  if (!fullName || !scope || !isValidEmailAddress(email)) {
+    return res.redirect(303, errorRedirect);
+  }
+
+  const brief = {
+    id: `brief-${Date.now()}-${Math.random().toString(36).slice(2, 8)}`,
+    fullName,
+    email,
+    scope,
+    submittedAt: nowIso(),
+    sourcePath: refererPath,
+    ip: String(req.ip || ""),
+    userAgent: sanitizePlainInput(req.get("user-agent") || "", 255),
+  };
+
+  try {
+    fs.appendFileSync(contactBriefsFile, `${JSON.stringify(brief)}\n`, "utf8");
+  } catch (error) {
+    console.error("[QFS CONTACT] Nie udalo sie zapisac briefu.", error.message);
+    return res.redirect(303, errorRedirect);
+  }
+
+  return res.redirect(303, successRedirect);
 });
 
 app.get("/", sendPublicFile("index.html"));

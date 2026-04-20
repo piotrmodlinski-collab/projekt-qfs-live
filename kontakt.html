@@ -93,17 +93,17 @@
             <h2>Wyślij zapytanie projektowe</h2>
           </div>
 
-          <form class="deploy-form" action="mailto:hello@quantumforgestudio.com" method="post" enctype="text/plain">
+          <form class="deploy-form" action="/api/contact-brief" method="post">
             <label for="brief-name">Imię i firma</label>
-            <input id="brief-name" name="Imię i firma" type="text" placeholder="Np. Anna, Studio Nova" required />
+            <input id="brief-name" name="name" type="text" placeholder="Np. Anna, Studio Nova" required />
 
             <label for="brief-mail">E-mail</label>
-            <input id="brief-mail" name="E-mail" type="email" placeholder="kontakt@firma.pl" required />
+            <input id="brief-mail" name="email" type="email" placeholder="kontakt@firma.pl" required />
 
             <label for="brief-scope">Zakres i cele projektu</label>
             <textarea
               id="brief-scope"
-              name="Zakres i cele"
+              name="scope"
               rows="4"
               placeholder="Etap produkcji, platforma, zakres wsparcia, deadline..."
               required

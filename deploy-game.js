@@ -458,7 +458,7 @@ import { OBJLoader } from "three/addons/loaders/OBJLoader.js";
 
   if (formEl) {
     formEl.addEventListener("submit", function () {
-      setStatus("Brief gotowy do wysyĹ‚ki. DziÄ™ki, wracamy do Ciebie z planem wdroĹĽenia.");
+      setStatus("Brief jest wysylany bezpiecznie. Dziekujemy, wracamy z planem wdrozenia.");
     });
   }
 

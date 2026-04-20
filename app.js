@@ -387,3 +387,42 @@
   render("next");
 })();
 
+(function () {
+  var params = new URLSearchParams(window.location.search);
+  var status = params.get("brief");
+  if (!status) {
+    return;
+  }
+
+  var forms = Array.prototype.slice.call(document.querySelectorAll(".deploy-form"));
+  if (!forms.length) {
+    return;
+  }
+
+  var isSuccess = status === "sent";
+  var message = isSuccess
+    ? "Dziekujemy! Brief zostal bezpiecznie wyslany."
+    : "Nie udalo sie wyslac briefu. Sprawdz pola i sprobuj ponownie.";
+
+  forms.forEach(function (form) {
+    var feedback = form.querySelector(".deploy-form-feedback");
+    if (!feedback) {
+      feedback = document.createElement("p");
+      feedback.className = "deploy-form-feedback";
+      form.appendChild(feedback);
+    }
+
+    feedback.textContent = message;
+    feedback.classList.toggle("is-success", isSuccess);
+    feedback.classList.toggle("is-error", !isSuccess);
+    feedback.setAttribute("role", "status");
+  });
+
+  if (window.history && window.history.replaceState) {
+    params.delete("brief");
+    var query = params.toString();
+    var cleanUrl = window.location.pathname + (query ? "?" + query : "") + window.location.hash;
+    window.history.replaceState({}, document.title, cleanUrl);
+  }
+})();
+
