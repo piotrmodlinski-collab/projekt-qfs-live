@@ -1744,6 +1744,7 @@ app.get("/", sendPublicFile("index.html"));
   "hiberman.html",
   "404.html",
   "styles.css",
+  "hiberman-comic.css",
   "outsourcing-alt.css",
   "outsourcing-experience.js",
   "app.js",
