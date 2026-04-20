@@ -378,6 +378,22 @@ body {
   position: relative;
   z-index: 2;
   margin-top: 0.4rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.38rem 0.72rem 0.46rem;
+  font-size: 0.62rem;
+  letter-spacing: 0.05em;
+}
+
+.hib-comic-body .page-footer p {
+  margin: 0;
+}
+
+.hib-comic-body .footer-social {
+  margin-top: 0;
+  gap: 0.28rem;
 }
 
 .hib-comic-body .footer-social-link {
@@ -385,6 +401,14 @@ body {
   border-radius: 10px;
   background: #fff;
   color: #171226;
+  width: 28px;
+  height: 28px;
+  border-width: 2px;
+}
+
+.hib-comic-body .footer-social-link svg {
+  width: 13px;
+  height: 13px;
 }
 
 @media (max-width: 980px) {
@@ -418,6 +442,12 @@ body {
   .hib-scroll-table {
     height: calc(100% - 52px);
     overflow-y: auto;
+  }
+
+  .hib-comic-body .page-footer {
+    gap: 0.36rem;
+    padding: 0.34rem 0.56rem 0.4rem;
+    font-size: 0.56rem;
   }
 
   .hib-grid-3,
