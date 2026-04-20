@@ -17,9 +17,9 @@
     <meta property="og:image" content="assets/hero-qfs.png" />
     <meta name="theme-color" content="#070a10" />
     <link rel="canonical" href="./kontakt.html" />
-    <link rel="stylesheet" href="styles.css?v=24" />
+    <link rel="stylesheet" href="styles.css?v=35" />
   </head>
-  <body>
+  <body class="contact-page">
     <div class="site-shell">
       <header class="topbar">
         <a class="brand" href="index.html">
@@ -93,7 +93,7 @@
             <h2>Wyślij zapytanie projektowe</h2>
           </div>
 
-          <form class="deploy-form" action="/api/contact-brief" method="post">
+          <form class="deploy-form contact-brief-form" action="/api/contact-brief" method="post">
             <label for="brief-name">Imię i firma</label>
             <input id="brief-name" name="name" type="text" placeholder="Np. Anna, Studio Nova" required />
 

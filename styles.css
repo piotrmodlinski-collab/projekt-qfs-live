@@ -2096,6 +2096,56 @@ h2 {
   padding: 0.34rem 0.62rem;
 }
 
+.contact-page .contact-brief-form {
+  width: min(680px, 100%);
+  gap: 0.5rem;
+  padding: 0.9rem 0.95rem;
+  border: 1px solid rgba(177, 197, 221, 0.34);
+  border-radius: 10px;
+  background: linear-gradient(180deg, rgba(10, 22, 37, 0.72), rgba(10, 22, 37, 0.52));
+}
+
+.contact-page .contact-brief-form label {
+  font-size: 0.72rem;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: #cfe0f7;
+}
+
+.contact-page .contact-brief-form input,
+.contact-page .contact-brief-form textarea {
+  border: 1px solid rgba(172, 192, 216, 0.32);
+  border-radius: 7px;
+  background: rgba(8, 18, 31, 0.74);
+  color: #eaf2ff;
+  padding: 0.5rem 0.58rem;
+  font-size: 0.9rem;
+}
+
+.contact-page .contact-brief-form input::placeholder,
+.contact-page .contact-brief-form textarea::placeholder {
+  color: rgba(202, 218, 239, 0.7);
+}
+
+.contact-page .contact-brief-form input:focus,
+.contact-page .contact-brief-form textarea:focus {
+  outline: 2px solid rgba(210, 178, 101, 0.32);
+  border-color: rgba(210, 178, 101, 0.72);
+}
+
+.contact-page .contact-brief-form .btn-primary {
+  margin-top: 0.28rem;
+  justify-self: start;
+  padding: 0.46rem 0.76rem;
+  font-size: 0.72rem;
+}
+
+.contact-page .contact-brief-form .deploy-form-feedback {
+  margin-top: 0.2rem;
+  font-size: 0.76rem;
+  padding: 0.42rem 0.5rem;
+}
+
 .outs-page {
   display: grid;
   gap: 0.9rem;
