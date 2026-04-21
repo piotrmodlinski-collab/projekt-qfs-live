@@ -1183,6 +1183,7 @@
       <nav class="tabs" aria-label="Zakładki panelu">
         <button class="tab active" type="button" data-tab="kanban">Kanban</button>
         <button class="tab" type="button" data-tab="backlog">Backlog</button>
+        <button class="tab" type="button" data-tab="activity">Aktywność</button>
         <button class="tab" type="button" data-tab="schedule">Harmonogramy</button>
         <button class="tab" type="button" data-tab="archive">Archiwum</button>
       </nav>
@@ -1265,6 +1266,15 @@
         <h2 class="title">Backlog</h2>
         <p class="sub">Osobna tablica z zadaniami backlogu. Szybkie przeniesienie do To Do.</p>
         <div class="kanban" id="backlog-board"></div>
+      </article>
+    </section>
+
+    <section class="pane" id="pane-activity">
+      <article class="card">
+        <h2 class="title">Aktywność</h2>
+        <p class="sub">Zliczanie tasków per użytkownik dla statusów Done i Review.</p>
+        <div class="metrics" id="activity-metrics"></div>
+        <div class="list" id="activity-list"></div>
       </article>
     </section>
 
@@ -1804,6 +1814,81 @@
         }).join("");
       }
 
+      function renderActivity() {
+        var metrics = document.getElementById("activity-metrics");
+        var list = document.getElementById("activity-list");
+        if (!metrics || !list) return;
+
+        var assigneeMap = new Map();
+        var doneTotal = 0;
+        var reviewTotal = 0;
+
+        state.tasks.forEach(function (task) {
+          var status = String(task.status || "");
+          if (status !== "done" && status !== "review") return;
+
+          var assignee = String(task.assignee || "Nieprzypisane").trim() || "Nieprzypisane";
+          var key = assignee.toLowerCase();
+          if (!assigneeMap.has(key)) {
+            assigneeMap.set(key, { name: assignee, done: 0, review: 0, tasks: [] });
+          }
+          var bucket = assigneeMap.get(key);
+
+          if (status === "done") {
+            bucket.done += 1;
+            doneTotal += 1;
+          } else if (status === "review") {
+            bucket.review += 1;
+            reviewTotal += 1;
+          }
+          bucket.tasks.push(task);
+        });
+
+        var rows = Array.from(assigneeMap.values()).sort(function (a, b) {
+          var totalA = a.done + a.review;
+          var totalB = b.done + b.review;
+          if (totalA !== totalB) return totalB - totalA;
+          return a.name.localeCompare(b.name, "pl-PL");
+        });
+
+        metrics.innerHTML = [
+          '<div class="metric"><small>Użytkownicy</small><strong>' + rows.length + "</strong></div>",
+          '<div class="metric"><small>Review</small><strong>' + reviewTotal + "</strong></div>",
+          '<div class="metric"><small>Done</small><strong>' + doneTotal + "</strong></div>",
+          '<div class="metric"><small>Razem</small><strong>' + (doneTotal + reviewTotal) + "</strong></div>"
+        ].join("");
+
+        if (!rows.length) {
+          list.innerHTML = '<p class="empty">Brak tasków w statusach Review/Done.</p>';
+          return;
+        }
+
+        list.innerHTML = rows.map(function (row) {
+          var total = row.done + row.review;
+          var recent = row.tasks
+            .slice()
+            .sort(function (a, b) {
+              return new Date(b.updatedAt || b.createdAt || 0).getTime() - new Date(a.updatedAt || a.createdAt || 0).getTime();
+            })
+            .slice(0, 4)
+            .map(function (task) {
+              var label = STATUS_LABELS[task.status] || task.status;
+              return '<li><small>' + esc(label) + ":</small> " + esc(task.title) + "</li>";
+            })
+            .join("");
+
+          return (
+            '<article class="item">' +
+              '<div class="item-head">' +
+                "<h4>" + esc(row.name) + "</h4>" +
+                "<small>Review: " + row.review + " | Done: " + row.done + " | Razem: " + total + "</small>" +
+              "</div>" +
+              '<ul style="margin:.12rem 0 0 1.05rem; padding:0; display:grid; gap:.16rem;">' + recent + "</ul>" +
+            "</article>"
+          );
+        }).join("");
+      }
+
       function taskOptions(selectedId) {
         var opts = ['<option value="">Brak powiązania</option>'];
         state.tasks.forEach(function (task) {
@@ -2174,6 +2259,7 @@
         renderMetrics();
         renderKanban();
         renderBacklog();
+        renderActivity();
         renderArchive();
         renderSchedules();
         renderUsers();
