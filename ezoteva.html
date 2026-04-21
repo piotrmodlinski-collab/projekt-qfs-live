@@ -19,6 +19,8 @@
     <link rel="canonical" href="./ezoteva.html" />
     <link rel="stylesheet" href="styles.css?v=48" />
     <style>
+      @import url("https://fonts.googleapis.com/css2?family=Exo+2:wght@500;700;800&family=Rajdhani:wght@500;600;700&display=swap");
+
       html,
       body {
         height: 100%;
@@ -31,6 +33,16 @@
         flex-direction: column;
         background: #050d19;
         position: relative;
+      }
+
+      .ezx-body::before {
+        content: "";
+        position: fixed;
+        inset: 0 auto 0 0;
+        width: min(38vw, 620px);
+        z-index: 1;
+        pointer-events: none;
+        background: linear-gradient(90deg, rgba(2, 4, 9, 0.96), rgba(2, 4, 9, 0.78) 46%, rgba(2, 4, 9, 0) 100%);
       }
 
       .ezx-bg-video-wrap {
@@ -163,10 +175,10 @@
         left: 0;
         right: 0;
         top: 0;
-        border: 2px solid rgba(238, 221, 112, 0.95);
+        border: 1.5px solid rgba(238, 221, 112, 0.82);
         border-radius: 9px;
         background: transparent;
-        box-shadow: 0 0 12px rgba(238, 221, 112, 0.26);
+        box-shadow: 0 0 8px rgba(238, 221, 112, 0.18);
         transition: transform 0.26s ease, height 0.26s ease, opacity 0.2s ease;
         pointer-events: none;
         opacity: 0;
@@ -181,22 +193,22 @@
         position: absolute;
         left: 0.16rem;
         top: 50%;
-        width: 2.28rem;
-        height: calc(100% - 0.38rem);
+        width: 2rem;
+        height: calc(100% - 0.44rem);
         transform: translateY(-50%);
-        border-radius: 8px;
+        border-radius: 7px;
         background: linear-gradient(180deg, var(--gold-bright), var(--gold));
-        box-shadow: 0 0 8px rgba(238, 221, 112, 0.45);
+        box-shadow: 0 0 6px rgba(238, 221, 112, 0.32);
       }
 
       .ezx-nav-btn {
         appearance: none;
         border: 1px solid transparent;
         background: transparent;
-        color: #ffffff;
+        color: rgba(249, 252, 255, 0.96);
         text-align: left;
-        font: 600 clamp(2.2rem, 3.8vw, 3.2rem) / 1.03 "Rajdhani", sans-serif;
-        letter-spacing: 0.02em;
+        font: 500 clamp(2rem, 3.6vw, 3rem) / 1.01 "Rajdhani", sans-serif;
+        letter-spacing: 0.015em;
         width: 100%;
         padding: 0.44rem 0.62rem 0.44rem 4.15rem;
         border-radius: 9px;
@@ -210,12 +222,12 @@
       .ezx-nav-btn:focus-visible {
         color: #ffffff;
         outline: none;
-        transform: translateX(3px);
+        transform: translateX(2px);
       }
 
       .ezx-nav-btn.is-active {
         color: #ffffff;
-        text-shadow: 0 0 12px rgba(255, 255, 255, 0.2);
+        text-shadow: 0 0 10px rgba(255, 255, 255, 0.16);
       }
 
       .ezx-nav-foot {
@@ -270,11 +282,11 @@
       }
 
       .ezx-display-head strong {
-        color: #f3f7ff;
-        font: 700 clamp(1.8rem, 4.2vw, 3.65rem) / 0.95 "Cinzel", serif;
-        letter-spacing: 0.065em;
+        color: #f4f8ff;
+        font: 700 clamp(1.86rem, 3.9vw, 3.24rem) / 0.95 "Rajdhani", sans-serif;
+        letter-spacing: 0.05em;
         text-transform: uppercase;
-        text-shadow: 0 8px 24px rgba(0, 0, 0, 0.5);
+        text-shadow: 0 6px 18px rgba(0, 0, 0, 0.38);
       }
 
       .ezx-display-head span {
@@ -348,9 +360,9 @@
       .ezx-title {
         margin: 0.34rem 0 0;
         color: #f2f8ff;
-        font: 800 clamp(1.46rem, 3.2vw, 2.38rem) / 0.98 "Exo 2", sans-serif;
+        font: 700 clamp(1.42rem, 2.9vw, 2.2rem) / 1 "Rajdhani", sans-serif;
         text-transform: uppercase;
-        letter-spacing: 0.04em;
+        letter-spacing: 0.035em;
       }
 
       .ezx-lead {
@@ -373,7 +385,7 @@
         padding: 0.56rem 0.8rem;
         background: rgba(7, 16, 26, 0.6);
         color: #e7eef8;
-        font: 700 0.9rem/1 "Exo 2", sans-serif;
+        font: 700 0.92rem/1 "Rajdhani", sans-serif;
         text-transform: uppercase;
         letter-spacing: 0.05em;
       }
