@@ -1182,6 +1182,7 @@
       </div>
       <nav class="tabs" aria-label="Zakładki panelu">
         <button class="tab active" type="button" data-tab="kanban">Kanban</button>
+        <button class="tab" type="button" data-tab="backlog">Backlog</button>
         <button class="tab" type="button" data-tab="schedule">Harmonogramy</button>
         <button class="tab" type="button" data-tab="archive">Archiwum</button>
       </nav>
@@ -1228,7 +1229,7 @@
         <div class="section-head">
           <div>
             <h2 class="title">Tablica zapytań - Kanban</h2>
-            <p class="sub">Tradycyjny przepływ: Backlog, To Do, In Progress, Review, Done. Większa pojemność zadań i szybkie przenoszenie.</p>
+            <p class="sub">Tradycyjny przepływ: To Do, In Progress, On hold, Review, Done. Większa pojemność zadań i szybkie przenoszenie.</p>
           </div>
           <button class="btn add-task-toggle" type="button" id="toggle-task-form" aria-expanded="false" aria-controls="task-form-wrap">
             <span class="plus" id="toggle-task-form-icon">+</span>
@@ -1256,6 +1257,14 @@
         </div>
 
         <div class="kanban" id="kanban"></div>
+      </article>
+    </section>
+
+    <section class="pane" id="pane-backlog">
+      <article class="card">
+        <h2 class="title">Backlog</h2>
+        <p class="sub">Osobna tablica z zadaniami backlogu. Szybkie przeniesienie do To Do.</p>
+        <div class="kanban" id="backlog-board"></div>
       </article>
     </section>
 
@@ -1632,7 +1641,8 @@
           return;
         }
 
-        var columns = state.statuses.map(function (status) {
+        var kanbanStatuses = state.statuses.filter(function (status) { return status.key !== "backlog"; });
+        var columns = kanbanStatuses.map(function (status) {
           var items = state.tasks.filter(function (task) { return task.status === status.key; });
           var cards = items.length
             ? items.map(function (task) {
@@ -1694,6 +1704,9 @@
                     '</div>' +
                     '<div class="actions">' +
                       '<div class="btns">' +
+                        (task.status === "review"
+                          ? '<button class="btn task-icon-btn" type="button" data-action="mark-done" title="Przenieś do Done" aria-label="Przenieś do Done"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 6 9 17l-5-5" /></svg></button>'
+                          : '') +
                         (can("archive")
                           ? '<button class="btn btn-danger task-icon-btn" type="button" data-action="archive" title="Archiwizuj zadanie" aria-label="Archiwizuj zadanie"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 5h18v4H3z" /><path d="M5 9v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V9" /><path d="M10 13h4" /></svg></button>'
                           : '') +
@@ -1713,6 +1726,49 @@
         });
 
         board.innerHTML = columns.join("");
+      }
+
+      function renderBacklog() {
+        var board = document.getElementById("backlog-board");
+        if (!board) return;
+        if (!can("kanban")) {
+          board.innerHTML = '<p class="empty">Brak uprawnień do Backlogu.</p>';
+          return;
+        }
+
+        var backlogTasks = state.tasks.filter(function (task) { return task.status === "backlog"; });
+        var cards = backlogTasks.length
+          ? backlogTasks.map(function (task) {
+              var due = task.dueDate ? new Date(task.dueDate).toLocaleDateString("pl-PL") : "brak terminu";
+              var chips = (task.labels || []).map(function (label) {
+                var key = labelKey(label);
+                return '<span class="chip" data-label="' + esc(key) + '">' + esc(label) + '</span>';
+              }).join("");
+
+              return (
+                '<article class="task" data-task-id="' + esc(task.id) + '">' +
+                  '<div class="task-top">' +
+                    '<h4>' + esc(task.title) + '</h4>' +
+                    '<span class="prio ' + esc(task.priority) + '" title="Priorytet: ' + esc(PRIORITY_LABELS[task.priority] || task.priority) + '" aria-label="Priorytet: ' + esc(PRIORITY_LABELS[task.priority] || task.priority) + '"></span>' +
+                  '</div>' +
+                  (task.description ? '<small>' + esc(task.description) + '</small>' : '') +
+                  '<small>Osoba: ' + esc(task.assignee || "Nieprzypisane") + ' | Termin: ' + esc(due) + '</small>' +
+                  (chips ? '<div class="chips">' + chips + '</div>' : '') +
+                  '<div class="actions">' +
+                    '<div class="btns">' +
+                      '<button class="btn task-edit-btn" type="button" data-action="move-to-todo">Przenieś do To Do</button>' +
+                    '</div>' +
+                  '</div>' +
+                '</article>'
+              );
+            }).join("")
+          : '<p class="empty">Backlog jest pusty.</p>';
+
+        board.innerHTML =
+          '<section class="col" data-col-status="backlog">' +
+            '<header class="col-head"><b>Backlog</b><span class="count">' + backlogTasks.length + '</span></header>' +
+            '<div class="col-body">' + cards + '</div>' +
+          '</section>';
       }
       function findTask(taskId) {
         var all = state.tasks.concat(state.archived);
@@ -2117,6 +2173,7 @@
         renderTaskSelects();
         renderMetrics();
         renderKanban();
+        renderBacklog();
         renderArchive();
         renderSchedules();
         renderUsers();
@@ -2275,7 +2332,14 @@
             var taskId = card.getAttribute("data-task-id");
             var action = btn.getAttribute("data-action");
             try {
-              if (action === "archive") {
+              if (action === "mark-done") {
+                await api("/api/panel/task/" + encodeURIComponent(taskId), {
+                  method: "PATCH",
+                  headers: { "Content-Type": "application/json" },
+                  body: JSON.stringify({ status: "done" })
+                });
+                await refreshState("Zadanie przeniesione do Done.");
+              } else if (action === "archive") {
                 var confirmArchive = window.confirm('Zarchiwizować zadanie "' + ((findTaskById(taskId) || {}).title || "bez nazwy") + '"?');
                 if (!confirmArchive) {
                   setStatus("Anulowano archiwizację zadania.");
@@ -2463,6 +2527,36 @@
           } finally {
             dragContext.taskId = null;
             dragContext.targetStatus = null;
+          }
+        });
+      }
+
+      function bindBacklog() {
+        var board = document.getElementById("backlog-board");
+        if (!board) return;
+
+        board.addEventListener("click", async function (event) {
+          var btn = event.target.closest('button[data-action="move-to-todo"]');
+          if (!btn) return;
+          if (!can("kanban")) { setStatus("Brak uprawnień do zmiany statusu zadania.", "bad"); return; }
+
+          var card = btn.closest(".task");
+          if (!card) return;
+          var taskId = card.getAttribute("data-task-id");
+          if (!taskId) return;
+
+          var task = findTaskById(taskId);
+          if (!task) return;
+
+          try {
+            await api("/api/panel/task/" + encodeURIComponent(taskId), {
+              method: "PATCH",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({ status: "todo" })
+            });
+            await refreshState('Przeniesiono zadanie "' + (task.title || "bez nazwy") + '" do To Do.');
+          } catch (error) {
+            setStatus(error.message || "Nie udało się przenieść zadania z backlogu.", "bad");
           }
         });
       }
@@ -3041,6 +3135,7 @@
       bindRefresh();
       bindTaskForm();
       bindKanbanDragAndDrop();
+      bindBacklog();
       bindArchive();
       bindSchedules();
       bindUsers();
