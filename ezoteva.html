@@ -226,16 +226,26 @@
         display: flex;
         flex-direction: column;
         min-width: 0;
-        width: min(1080px, 100%);
+        width: min(1060px, 100%);
         margin: 0 auto;
-        height: 100%;
-        align-self: stretch;
+        height: auto;
+        max-height: min(72vh, 700px);
+        align-self: center;
         justify-self: center;
+        border: 2px solid rgba(238, 221, 112, 0.95);
+        border-radius: 2px;
+        padding: 0.82rem;
+        background:
+          linear-gradient(180deg, rgba(8, 18, 31, 0.82), rgba(8, 18, 31, 0.66)),
+          radial-gradient(900px 300px at 22% 16%, rgba(238, 221, 112, 0.08), transparent 70%);
+        box-shadow:
+          inset 0 0 0 1px rgba(255, 239, 156, 0.38),
+          0 14px 28px rgba(0, 0, 0, 0.42);
         opacity: 0;
         visibility: hidden;
         pointer-events: none;
         transform-origin: top center;
-        transform: translateY(-22px) scaleY(0.88);
+        transform: translateY(-16px) scaleY(0.94);
         transition: opacity 0.28s ease, transform 0.3s ease;
       }
 
@@ -251,22 +261,27 @@
         align-items: center;
         justify-content: space-between;
         gap: 0.8rem;
-        padding: 0.58rem 0.9rem;
-        border-bottom: 1px solid rgba(183, 199, 219, 0.34);
-        background:
-          linear-gradient(180deg, rgba(8, 18, 31, 0.82), rgba(8, 18, 31, 0.66)),
-          radial-gradient(900px 300px at 22% 16%, rgba(238, 221, 112, 0.08), transparent 70%);
+        flex-wrap: wrap;
+        padding: 0 0 0.68rem;
+        border-bottom: 1px solid rgba(214, 225, 242, 0.35);
       }
 
       .ezx-display-head strong {
         color: #eaf3ff;
-        font: 700 0.96rem/1.2 "Exo 2", sans-serif;
-        letter-spacing: 0.05em;
+        font: 800 clamp(1.12rem, 1.7vw, 1.56rem) / 1.04 "Exo 2", sans-serif;
+        letter-spacing: 0.045em;
         text-transform: uppercase;
       }
 
       .ezx-display-head span {
-        color: #f3d6a6;
+        display: inline-flex;
+        align-items: center;
+        gap: 0.45rem;
+        padding: 0.32rem 0.58rem;
+        border: 1px solid rgba(238, 221, 112, 0.5);
+        background: rgba(12, 22, 36, 0.72);
+        box-shadow: inset 0 0 0 1px rgba(255, 238, 150, 0.14);
+        color: #f6da89;
         font: 700 0.72rem/1 "Rajdhani", sans-serif;
         letter-spacing: 0.1em;
         text-transform: uppercase;
@@ -276,7 +291,7 @@
         flex: 1 1 auto;
         min-height: 0;
         overflow-y: auto;
-        padding: 0.86rem;
+        padding: 0.8rem 0.1rem 0.1rem;
       }
 
       .ezx-panel-scroll::-webkit-scrollbar {
@@ -294,11 +309,11 @@
 
       .ezx-panel {
         display: none;
-        border: 1px solid rgba(183, 199, 219, 0.34);
-        border-radius: 10px;
-        background: linear-gradient(170deg, rgba(7, 16, 26, 0.5), rgba(7, 16, 26, 0.36));
-        box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.06), 0 16px 30px rgba(0, 0, 0, 0.36);
-        padding: 0.94rem;
+        border: 0;
+        border-radius: 0;
+        background: transparent;
+        box-shadow: none;
+        padding: 0 0.66rem 0.66rem;
         animation: ezx-fade-in 0.28s ease;
       }
 
@@ -607,9 +622,6 @@
             <button class="ezx-nav-btn" type="button" data-panel="demo" data-title="Zobacz demo" data-tag="Launch sequence">
               Zobacz demo
             </button>
-            <button class="ezx-nav-btn" type="button" data-panel="swiat" data-title="Świat" data-tag="Lore and setting">
-              Świat
-            </button>
             <button class="ezx-nav-btn" type="button" data-panel="wyroznia" data-title="Wyróżnia nas" data-tag="Value proposition">
               Wyróżnia nas
             </button>
@@ -656,34 +668,6 @@
                   allow="autoplay; encrypted-media; picture-in-picture; fullscreen"
                   referrerpolicy="strict-origin-when-cross-origin"
                 ></iframe>
-              </div>
-            </article>
-
-            <article class="ezx-panel" data-panel="swiat">
-              <p class="ezx-kicker">World state</p>
-              <h2 class="ezx-title">Świat po bio-tech załamaniu</h2>
-              <p class="ezx-lead">
-                Ezoteva to ekosystem po katastrofie biologiczno-technicznej. Lokacje
-                działają jak żywe organizmy: mutują układ zagrożeń, nagradzają eksplorację
-                i karzą brak adaptacji.
-              </p>
-              <div class="ezx-grid">
-                <article class="ezx-card">
-                  <h3>Strefy proceduralne</h3>
-                  <p>Mapa przebudowuje flow sesji i wymusza szybkie decyzje taktyczne.</p>
-                </article>
-                <article class="ezx-card">
-                  <h3>Warstwa audio</h3>
-                  <p>Dźwięk pełni rolę systemu orientacji i sygnału zagrożeń.</p>
-                </article>
-                <article class="ezx-card">
-                  <h3>Wertykalna eksploracja</h3>
-                  <p>Każda strefa ma własny rytm wejścia, ryzyka i nagrody.</p>
-                </article>
-                <article class="ezx-card">
-                  <h3>Presja zasobów</h3>
-                  <p>Tempo progresji kontroluje balans między walką a przetrwaniem.</p>
-                </article>
               </div>
             </article>
 
