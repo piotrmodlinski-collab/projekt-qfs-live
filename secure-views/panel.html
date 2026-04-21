@@ -1,0 +1,3050 @@
+﻿<!doctype html>
+<html lang="pl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="robots" content="noindex, nofollow, noarchive" />
+  <title>QFS | Panel Operacyjny</title>
+  <link rel="icon" type="image/png" href="/assets/logo-qfs.png" />
+  <style>
+    @import url("https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap");
+
+    :root {
+      --bg: #091421;
+      --panel: rgba(8, 18, 31, 0.75);
+      --line: rgba(241, 210, 129, 0.8);
+      --line-soft: rgba(151, 173, 197, 0.32);
+      --text: #dce8f8;
+      --muted: #cfddf1;
+      --gold: #d1aa71;
+      --gold-bright: #f3d6a6;
+      --good: #81e3be;
+      --bad: #ff9a9a;
+    }
+    * { box-sizing: border-box; }
+    html, body {
+      margin: 0;
+      min-height: 100%;
+      color: var(--text);
+      font-family: "Inter", "Segoe UI", Arial, sans-serif;
+      background: #07111c;
+    }
+    body {
+      position: relative;
+      min-height: 100vh;
+      overflow-x: hidden;
+      background: transparent;
+    }
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      z-index: -2;
+      background:
+        radial-gradient(1200px 380px at 12% -10%, rgba(90, 123, 155, 0.2), transparent 60%),
+        radial-gradient(1200px 400px at 88% 120%, rgba(62, 92, 126, 0.26), transparent 62%),
+        linear-gradient(180deg, #07111c, #0a1726 42%, #091421);
+    }
+    body::after {
+      content: "";
+      position: fixed;
+      inset: 0;
+      z-index: -1;
+      pointer-events: none;
+      background:
+        radial-gradient(1000px 280px at 50% -12%, rgba(209, 170, 113, 0.08), transparent 66%),
+        linear-gradient(90deg, rgba(255, 255, 255, 0.015) 1px, transparent 1px) 0 0 / 80px 100%;
+    }
+    button, input, select, textarea { font: inherit; }
+    .wrap { width: min(1680px, 100%); margin: 0 auto; padding: 0 .7rem 1rem; }
+    .top {
+      position: sticky;
+      top: 0;
+      z-index: 30;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      gap: 0.8rem;
+      align-items: center;
+      border-bottom: 1px solid rgba(150, 172, 198, 0.35);
+      border-radius: 0;
+      padding: 0.72rem 1rem;
+      margin: 0;
+      background: rgba(5, 12, 21, 0.82);
+      backdrop-filter: blur(8px);
+      box-shadow: none;
+    }
+    .brand-zone { display: grid; gap: .2rem; min-width: 320px; }
+    .brand-wrap { display: flex; align-items: center; gap: .7rem; }
+    .brand-icon {
+      width: 44px;
+      height: 44px;
+      border-radius: 0;
+      border: none;
+      box-shadow: none;
+      object-fit: contain;
+      background: transparent;
+    }
+    .brand-head { display: grid; gap: .15rem; }
+    .brand {
+      margin: 0;
+      text-transform: uppercase;
+      letter-spacing: .09em;
+      font-size: .94rem;
+      font-family: "Cinzel", serif;
+      font-weight: 600;
+    }
+    .brand-sub {
+      font-size: .68rem;
+      text-transform: uppercase;
+      letter-spacing: .08em;
+      color: #b9cce6;
+      opacity: .92;
+    }
+    .meta { color: var(--muted); font-size: .8rem; margin-top: .2rem; }
+    .tabs { display: flex; gap: .45rem; flex-wrap: wrap; justify-content: center; flex: 1 1 520px; }
+    .btn, .tab {
+      border: 1px solid rgba(160, 182, 208, 0.35);
+      border-radius: 8px;
+      background: rgba(9, 20, 34, 0.65);
+      color: #d6e4f8;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      font-weight: 700;
+      font-size: 0.72rem;
+      padding: 0.46rem 0.72rem;
+      cursor: pointer;
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.04);
+      transition: 0.25s ease, transform 0.2s ease, box-shadow 0.2s ease;
+    }
+    .tab.active, .btn:hover, .tab:hover {
+      border-color: rgba(241, 210, 129, 0.8);
+      color: #f5f9ff;
+      background: linear-gradient(120deg, rgba(209, 170, 113, 0.28), rgba(143, 178, 199, 0.18));
+      transform: translateY(-1px);
+      box-shadow: 0 8px 18px rgba(0, 0, 0, 0.35);
+    }
+    .btn-danger { border-color: rgba(255, 145, 145, .55); color: #ffd8d8; }
+    .theme-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: .35rem;
+      min-width: 122px;
+      justify-content: center;
+    }
+    .theme-icon { font-size: .92rem; line-height: 1; }
+    .top-actions { margin-top: 0; display: flex; gap: .45rem; align-items: center; flex-wrap: wrap; justify-content: flex-end; }
+    .icon-btn {
+      width: 38px;
+      height: 38px;
+      padding: 0;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .icon-btn svg {
+      width: 18px;
+      height: 18px;
+      stroke: currentColor;
+      fill: none;
+      stroke-width: 1.8;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+    .sr-only {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      margin: -1px;
+      overflow: hidden;
+      clip: rect(0, 0, 0, 0);
+      white-space: nowrap;
+      border: 0;
+    }
+    .status {
+      margin-top: .8rem;
+      border: 1px solid var(--line-soft);
+      border-radius: 12px;
+      padding: .52rem .66rem;
+      background: linear-gradient(180deg, rgba(8, 18, 31, 0.75), rgba(8, 18, 31, 0.58));
+      font-size: .82rem;
+    }
+    .status.good { border-color: rgba(129, 227, 190, .55); color: var(--good); }
+    .status.bad { border-color: rgba(255, 154, 154, .62); color: var(--bad); }
+    .pane { display: none; margin-top: .8rem; }
+    .pane.active { display: block; }
+    .card {
+      border: 1px solid var(--line-soft);
+      border-radius: 12px;
+      background: linear-gradient(180deg, rgba(8, 18, 31, 0.75), rgba(8, 18, 31, 0.58));
+      padding: clamp(1rem, 2.5vw, 1.5rem);
+      position: relative;
+      overflow: hidden;
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.05), 0 14px 28px rgba(0, 0, 0, 0.25);
+    }
+    .card::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      background: linear-gradient(180deg, rgba(8, 18, 30, 0.38), rgba(8, 18, 30, 0.52));
+      z-index: 0;
+    }
+    .card > * {
+      position: relative;
+      z-index: 1;
+    }
+    .title {
+      margin: 0;
+      font-size: .9rem;
+      text-transform: uppercase;
+      letter-spacing: .08em;
+      font-family: "Cinzel", serif;
+      font-weight: 600;
+    }
+    .sub { margin: .4rem 0 0; color: var(--muted); font-size: .84rem; }
+    .section-head {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: .8rem;
+      flex-wrap: wrap;
+    }
+    .add-task-toggle {
+      display: inline-flex;
+      align-items: center;
+      gap: .32rem;
+      min-width: 166px;
+      justify-content: center;
+    }
+    .add-task-toggle .plus {
+      font-size: .95rem;
+      line-height: 1;
+      font-weight: 800;
+    }
+    .task-form-wrap {
+      margin-top: .68rem;
+      overflow: hidden;
+      max-height: 1000px;
+      opacity: 1;
+      transition: max-height .28s ease, opacity .18s ease;
+    }
+    .task-form-wrap.is-collapsed {
+      max-height: 0;
+      opacity: 0;
+      pointer-events: none;
+      margin-top: 0;
+    }
+    .schedule-form-wrap {
+      margin-top: .68rem;
+      overflow: hidden;
+      max-height: 2400px;
+      opacity: 1;
+      transition: max-height .32s ease, opacity .2s ease;
+    }
+    .schedule-form-wrap.is-collapsed {
+      max-height: 0;
+      opacity: 0;
+      pointer-events: none;
+      margin-top: 0;
+    }
+    .metrics { margin-top: .7rem; display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: .55rem; }
+    .metric { border: 1px solid rgba(177, 197, 221, 0.36); border-radius: 10px; padding: .62rem; background: linear-gradient(180deg, rgba(10, 22, 37, 0.68), rgba(10, 22, 37, 0.5)); }
+    .metric small { color: var(--muted); text-transform: uppercase; letter-spacing: .06em; }
+    .metric strong { display: block; margin-top: .25rem; }
+    .grid3 { margin-top: .65rem; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: .56rem; }
+    .field { display: grid; gap: .25rem; }
+    .field label { color: var(--muted); font-size: .72rem; text-transform: uppercase; letter-spacing: .07em; }
+    .field input, .field select, .field textarea {
+      width: 100%;
+      border: 1px solid rgba(156, 178, 205, .45);
+      border-radius: 8px;
+      background: rgba(6, 15, 27, .88);
+      color: #ecf4ff;
+      padding: .45rem .52rem;
+    }
+    .field textarea { min-height: 78px; resize: vertical; }
+    .row { margin-top: .6rem; display: flex; gap: .45rem; flex-wrap: wrap; }
+    .kanban {
+      margin-top: .8rem;
+      display: grid;
+      grid-template-columns: repeat(5, minmax(0, 1fr));
+      gap: .6rem;
+      overflow-x: hidden;
+      padding-bottom: .2rem;
+    }
+    .col {
+      border: 1px solid rgba(177, 197, 221, 0.36);
+      border-radius: 10px;
+      background: linear-gradient(180deg, rgba(10, 22, 37, 0.68), rgba(10, 22, 37, 0.5));
+      min-height: 420px;
+    }
+    .col.drop-target {
+      border-color: rgba(129, 227, 190, 0.8);
+      box-shadow: inset 0 0 0 1px rgba(129, 227, 190, 0.3);
+    }
+    .col-head { padding: .5rem .56rem; border-bottom: 1px solid rgba(156,178,205,.25); display:flex; justify-content:space-between; align-items:center; }
+    .col-head b { font-size: .76rem; text-transform: uppercase; letter-spacing: .07em; }
+    .count { border: 1px solid rgba(232,205,112,.58); border-radius: 999px; padding: .05rem .42rem; font-size: .68rem; color: #ffe5a0; }
+    .col-body { padding: .52rem; display: grid; gap: .5rem; }
+    .task {
+      border: 1px solid rgba(176, 196, 218, 0.35);
+      border-radius: 9px;
+      background: linear-gradient(180deg, rgba(11, 24, 40, 0.7), rgba(11, 24, 40, 0.54));
+      padding: .5rem;
+      display: grid;
+      gap: .4rem;
+      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.22);
+    }
+    .task.is-expanded {
+      border-color: rgba(238, 221, 112, 0.66);
+      box-shadow: 0 12px 24px rgba(0, 0, 0, 0.28), inset 0 0 0 1px rgba(255, 239, 156, 0.18);
+    }
+    .task[draggable="true"] {
+      cursor: grab;
+    }
+    .task.dragging {
+      opacity: .45;
+      cursor: grabbing;
+      border-color: rgba(129, 227, 190, 0.65);
+    }
+    .task-top { display:flex; justify-content:space-between; gap:.4rem; }
+    .task h4 { margin:0; font-size:.82rem; }
+    .task small { color: var(--muted); font-size:.72rem; }
+    .chips { display:flex; flex-wrap: wrap; gap:.3rem; }
+    .chip {
+      border: 1px solid rgba(123, 153, 189, 0.72);
+      border-radius: 999px;
+      font-size: .63rem;
+      font-weight: 700;
+      letter-spacing: .04em;
+      text-transform: uppercase;
+      padding: .16rem .5rem;
+      color: #e9f3ff;
+      background: #274260;
+    }
+    .chip[data-label*="qa"],
+    .chip[data-label*="test"] { background: #1e4f7b; border-color: #5ea6df; color: #e9f5ff; }
+    .chip[data-label*="pipeline"],
+    .chip[data-label*="deploy"],
+    .chip[data-label*="release"] { background: #5f3f1f; border-color: #e0a763; color: #fff1df; }
+    .chip[data-label*="ui"],
+    .chip[data-label*="ux"],
+    .chip[data-label*="design"] { background: #355055; border-color: #73b2a5; color: #ecfffb; }
+    .chip[data-label*="backend"],
+    .chip[data-label*="api"] { background: #3d2f5f; border-color: #9c8ad9; color: #f1ecff; }
+    .chip[data-label*="frontend"] { background: #205668; border-color: #67bfd8; color: #e9faff; }
+    .chip[data-label*="ops"],
+    .chip[data-label*="devops"] { background: #4b3f23; border-color: #d7be77; color: #fff7df; }
+    .chip[data-label*="security"],
+    .chip[data-label*="sec"] { background: #5b2424; border-color: #e28383; color: #ffe8e8; }
+    .chip[data-label*="copy"],
+    .chip[data-label*="content"] { background: #3f3452; border-color: #aa97d2; color: #f3ecff; }
+    .chip[data-label*="research"],
+    .chip[data-label*="analiza"] { background: #2a4e4a; border-color: #6fb8ad; color: #e9fffb; }
+    .prio {
+      width: 12px;
+      height: 12px;
+      border-radius: 999px;
+      border: 1px solid transparent;
+      box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.25), inset 0 -1px 0 rgba(0, 0, 0, 0.25);
+      font-size: 0;
+      line-height: 0;
+      color: transparent;
+      display: inline-block;
+      flex: 0 0 12px;
+    }
+    .prio.low {
+      background: #25b36b;
+      border-color: #6ce09f;
+    }
+    .prio.medium {
+      background: #f39a2e;
+      border-color: #ffbd6b;
+    }
+    .prio.high,
+    .prio.critical {
+      background: #d33b3b;
+      border-color: #f27a7a;
+    }
+    .actions { display:flex; justify-content:flex-end; gap:.36rem; }
+    .btns { display:flex; gap:.32rem; }
+    .task-edit {
+      display: none;
+      margin-top: .2rem;
+      padding-top: .5rem;
+      border-top: 1px solid rgba(183, 199, 219, 0.28);
+    }
+    .task-edit.is-open {
+      display: block;
+    }
+    .task-edit-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: .42rem;
+    }
+    .task-edit .field { gap: .2rem; }
+    .task-edit .field label {
+      font-size: .62rem;
+      letter-spacing: .05em;
+    }
+    .task-edit .field input,
+    .task-edit .field select,
+    .task-edit .field textarea {
+      font-size: .72rem;
+      padding: .34rem .42rem;
+    }
+    .task-edit .field textarea {
+      min-height: 62px;
+    }
+    .task-edit-actions {
+      margin-top: .42rem;
+      display: flex;
+      gap: .34rem;
+      justify-content: flex-end;
+      flex-wrap: wrap;
+    }
+    .task-edit-btn {
+      padding: .34rem .56rem;
+      font-size: .64rem;
+    }
+    .task-edit-grid .full {
+      grid-column: 1 / -1;
+    }
+    .task-attachments {
+      margin-top: .46rem;
+      border-top: 1px dashed rgba(183, 199, 219, 0.34);
+      padding-top: .46rem;
+      display: grid;
+      gap: .36rem;
+    }
+    .task-attachments-head {
+      font-size: .62rem;
+      letter-spacing: .05em;
+      text-transform: uppercase;
+      color: #c9d8ee;
+    }
+    .task-attachments-upload {
+      display: flex;
+      gap: .32rem;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+    .task-attachments-upload input[type="file"] {
+      max-width: 100%;
+      font-size: .7rem;
+      color: #d9e8ff;
+    }
+    .task-attachments-list {
+      display: grid;
+      gap: .28rem;
+    }
+    .task-attachment-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: .4rem;
+      border: 1px solid rgba(155, 176, 201, 0.35);
+      border-radius: 8px;
+      background: rgba(7, 16, 28, 0.62);
+      padding: .28rem .38rem;
+    }
+    .task-attachment-link {
+      color: #dce9ff;
+      font-size: .7rem;
+      text-decoration: none;
+      max-width: 80%;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+    .task-attachment-link:hover {
+      text-decoration: underline;
+      color: #f6faff;
+    }
+    .task-attachment-size {
+      font-size: .64rem;
+      color: #aac0dd;
+      margin-left: .25rem;
+    }
+    .task-attachment-empty {
+      font-size: .7rem;
+      color: #9fb2cd;
+      margin: 0;
+    }
+    .task-attachment-remove {
+      width: 24px;
+      height: 24px;
+      min-width: 24px;
+      border-radius: 6px;
+      padding: 0;
+      font-size: .68rem;
+      line-height: 1;
+    }
+    .task-icon-btn {
+      width: 28px;
+      height: 28px;
+      padding: 0;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .task-icon-btn svg {
+      width: 15px;
+      height: 15px;
+      stroke: currentColor;
+      fill: none;
+      stroke-width: 1.8;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+    .list { margin-top:.7rem; display:grid; gap:.56rem; }
+    .item { border:1px solid var(--line-soft); border-radius:9px; background: rgba(8,18,31,.83); padding:.56rem; display:grid; gap:.42rem; }
+    .item-head { display:flex; justify-content:space-between; align-items:center; gap:.4rem; flex-wrap:wrap; }
+    .item h4 { margin:0; font-size:.85rem; }
+    .item small { color: var(--muted); }
+    .item-actions { display:flex; gap:.4rem; flex-wrap:wrap; align-items:center; }
+    .item-actions input, .item-actions select { border:1px solid rgba(156,178,205,.45); border-radius:7px; background:rgba(6,15,27,.86); color:#edf5ff; padding:.3rem .38rem; }
+    .empty { margin:0; color: var(--muted); font-size:.82rem; }
+    .perm { display:flex; gap:.54rem; flex-wrap:wrap; }
+    .perm label { font-size:.72rem; color:#d8e5f8; display:inline-flex; gap:.26rem; align-items:center; }
+    .lock { margin-top:.64rem; border:1px solid rgba(255,154,154,.58); border-radius:8px; padding:.52rem .6rem; background:rgba(44,14,22,.45); color:#ffd6d6; }
+    .settings-box {
+      margin-top: .9rem;
+      border: 1px solid var(--line-soft);
+      border-radius: 10px;
+      padding: .65rem;
+      background: rgba(8, 18, 31, .75);
+    }
+    .settings-row {
+      margin-top: .55rem;
+      display: flex;
+      gap: .45rem;
+      flex-wrap: wrap;
+      align-items: center;
+    }
+    .settings-row input {
+      min-width: min(220px, 100%);
+      flex: 1 1 220px;
+      border: 1px solid rgba(156,178,205,.45);
+      border-radius: 7px;
+      background: rgba(6,15,27,.86);
+      color: #edf5ff;
+      padding: .36rem .42rem;
+    }
+    .assignee-chip-list {
+      margin-top: .55rem;
+      display: flex;
+      flex-wrap: wrap;
+      gap: .42rem;
+    }
+    .assignee-chip {
+      display: inline-flex;
+      align-items: center;
+      gap: .32rem;
+      padding: .18rem .44rem;
+      border-radius: 999px;
+      border: 1px solid rgba(232,205,112,.52);
+      background: rgba(8, 18, 31, .82);
+      color: #ffe7ab;
+      font-size: .7rem;
+      letter-spacing: .02em;
+    }
+    .assignee-chip button {
+      border: 1px solid rgba(255,145,145,.45);
+      border-radius: 999px;
+      background: rgba(54, 19, 19, .5);
+      color: #ffd6d6;
+      font-size: .62rem;
+      padding: .04rem .28rem;
+      cursor: pointer;
+    }
+    .assignee-chip button:hover { border-color: rgba(255,145,145,.8); }
+    .gantt-board {
+      margin-top: .75rem;
+      border: 1px solid var(--line-soft);
+      border-radius: 10px;
+      background: rgba(8, 18, 31, .72);
+      overflow: hidden;
+      --day-w: 44px;
+    }
+    .gantt-grid {
+      display: grid;
+      grid-template-columns: minmax(340px, 420px) 1fr;
+      min-height: 260px;
+    }
+    .gantt-left {
+      border-right: 1px solid var(--line-soft);
+      background: rgba(7, 16, 28, .6);
+    }
+    .gantt-left-head {
+      height: 40px;
+      display: flex;
+      align-items: center;
+      padding: 0 .62rem;
+      border-bottom: 1px solid var(--line-soft);
+      text-transform: uppercase;
+      letter-spacing: .08em;
+      font-size: .69rem;
+      color: var(--muted);
+      font-weight: 700;
+    }
+    .gantt-right {
+      overflow: auto;
+      background:
+        linear-gradient(90deg, rgba(255,255,255,.03) 1px, transparent 1px) 0 0 / var(--day-w) 100%;
+    }
+    .gantt-time-head {
+      height: 40px;
+      display: grid;
+      border-bottom: 1px solid var(--line-soft);
+    }
+    .gantt-day {
+      border-right: 1px solid rgba(156, 178, 205, .22);
+      display: grid;
+      align-content: center;
+      justify-items: center;
+      gap: .05rem;
+      font-size: .66rem;
+      color: var(--muted);
+      background: rgba(255,255,255,.02);
+    }
+    .gantt-day strong {
+      font-size: .7rem;
+      color: #dfe9f8;
+      font-weight: 700;
+    }
+    .gantt-time-body {
+      position: relative;
+    }
+    .gantt-row-left {
+      border-bottom: 1px solid rgba(156, 178, 205, .16);
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: .4rem;
+      padding: 0 .58rem;
+      min-height: 40px;
+    }
+    .gantt-task-row {
+      cursor: pointer;
+      align-content: center;
+    }
+    .gantt-task-row:hover {
+      background: rgba(255,255,255,.03);
+    }
+    .gantt-task-edit {
+      width: 100%;
+      display: none;
+      margin-top: .2rem;
+      padding: .45rem .15rem .5rem;
+      border-top: 1px dashed rgba(156, 178, 205, .28);
+    }
+    .gantt-task-edit.is-open {
+      display: block;
+    }
+    .gantt-task-edit-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: .38rem;
+    }
+    .gantt-task-edit-grid .full {
+      grid-column: 1 / -1;
+    }
+    .gantt-task-edit .field {
+      display: grid;
+      gap: .18rem;
+    }
+    .gantt-task-edit .field label {
+      font-size: .6rem;
+      text-transform: uppercase;
+      letter-spacing: .05em;
+      color: var(--muted);
+    }
+    .gantt-task-edit .field input,
+    .gantt-task-edit .field select,
+    .gantt-task-edit .field textarea {
+      width: 100%;
+      border: 1px solid rgba(156, 178, 205, .45);
+      border-radius: 7px;
+      background: rgba(6, 15, 27, .86);
+      color: #edf5ff;
+      padding: .3rem .36rem;
+      font-size: .68rem;
+    }
+    .gantt-task-edit .field textarea {
+      min-height: 58px;
+      resize: vertical;
+    }
+    .gantt-task-edit-actions {
+      margin-top: .38rem;
+      display: flex;
+      justify-content: flex-end;
+      gap: .32rem;
+      flex-wrap: wrap;
+    }
+    .gantt-row-left.sub {
+      min-height: 32px;
+      padding-left: 1.65rem;
+      background: rgba(255,255,255,.02);
+    }
+    .gantt-row-left.group {
+      min-height: 30px;
+      background: rgba(13, 28, 44, .72);
+      border-top: 1px solid rgba(126, 209, 255, .26);
+      border-bottom: 1px solid rgba(126, 209, 255, .2);
+      padding-left: .7rem;
+    }
+    .gantt-group-title {
+      font-size: .72rem;
+      font-weight: 700;
+      letter-spacing: .06em;
+      text-transform: uppercase;
+      color: #d4e7ff;
+    }
+    .gantt-row-right {
+      border-bottom: 1px solid rgba(156, 178, 205, .16);
+      min-height: 40px;
+      position: relative;
+    }
+    .gantt-row-right.sub {
+      min-height: 32px;
+      background: rgba(255,255,255,.02);
+    }
+    .gantt-row-right.group {
+      min-height: 30px;
+      background: rgba(13, 28, 44, .46);
+      border-bottom: 1px solid rgba(126, 209, 255, .16);
+    }
+    .gantt-title {
+      font-size: .78rem;
+      font-weight: 600;
+      color: #edf4ff;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      max-width: 220px;
+    }
+    .gantt-title.sub {
+      font-size: .72rem;
+      font-weight: 500;
+      color: #dbe7f8;
+      max-width: 235px;
+    }
+    .gantt-meta {
+      font-size: .65rem;
+      color: var(--muted);
+      white-space: nowrap;
+    }
+    .gantt-chip {
+      font-size: .6rem;
+      letter-spacing: .05em;
+      text-transform: uppercase;
+      border-radius: 999px;
+      padding: .08rem .38rem;
+      border: 1px solid rgba(156, 178, 205, .45);
+      color: #dce9fa;
+    }
+    .gantt-chip.backlog { border-color: rgba(159, 178, 203, .55); color: #dbe6f7; }
+    .gantt-chip.todo { border-color: rgba(126, 209, 255, .62); color: #c5e7ff; }
+    .gantt-chip.in_progress { border-color: rgba(247, 199, 119, .65); color: #ffd79d; }
+    .gantt-chip.review { border-color: rgba(186, 153, 255, .65); color: #dcc9ff; }
+    .gantt-chip.done { border-color: rgba(148, 239, 190, .7); color: #c5ffe5; }
+    .gantt-bar {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      height: 16px;
+      border-radius: 999px;
+      border: 1px solid rgba(156, 178, 205, .55);
+      background: rgba(126, 209, 255, .28);
+      box-shadow: 0 4px 10px rgba(0,0,0,.22);
+      overflow: hidden;
+    }
+    .gantt-bar[draggable="true"] {
+      cursor: grab;
+    }
+    .gantt-bar.dragging {
+      opacity: .55;
+      cursor: grabbing;
+      box-shadow: 0 0 0 1px rgba(126, 209, 255, 0.45), 0 6px 14px rgba(0,0,0,.26);
+    }
+    .gantt-resize-handle {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 10px;
+      height: 18px;
+      border: 1px solid rgba(210, 228, 248, .65);
+      background: rgba(13, 30, 46, .75);
+      border-radius: 3px;
+      cursor: ew-resize;
+      z-index: 2;
+    }
+    .gantt-resize-handle.start { left: -5px; }
+    .gantt-resize-handle.end { right: -5px; }
+    .gantt-resize-handle.dragging {
+      box-shadow: 0 0 0 1px rgba(126, 209, 255, 0.45), 0 4px 10px rgba(0,0,0,.25);
+    }
+    .gantt-bar.sub {
+      height: 12px;
+      background: rgba(247, 199, 119, .28);
+      border-color: rgba(247, 199, 119, .6);
+    }
+    .gantt-bar.done {
+      background: rgba(148, 239, 190, .3);
+      border-color: rgba(148, 239, 190, .7);
+    }
+    .gantt-bar span {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      padding: 0 .34rem;
+      font-size: .59rem;
+      color: #f4f8ff;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .gantt-actions {
+      margin-left: auto;
+      display: flex;
+      gap: .22rem;
+    }
+    .gantt-action-btn {
+      width: 22px;
+      height: 22px;
+      border-radius: 6px;
+      border: 1px solid rgba(156, 178, 205, .45);
+      background: rgba(6, 15, 27, .86);
+      color: #e8f1ff;
+      font-size: .67rem;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      padding: 0;
+    }
+    .gantt-action-btn:hover { border-color: var(--line); }
+    .gantt-action-btn.danger { border-color: rgba(255,145,145,.55); color: #ffd7d7; }
+    .gantt-action-btn:disabled {
+      opacity: .45;
+      cursor: not-allowed;
+      border-color: rgba(156,178,205,.3);
+      color: #9ab0cb;
+    }
+    .gantt-empty {
+      padding: .9rem;
+      color: var(--muted);
+      font-size: .82rem;
+    }
+
+    /* Visual sync with landing page (styles.css) */
+    body[data-theme="dark"] {
+      color: #e7eef8;
+      background:
+        linear-gradient(180deg, rgba(7, 17, 28, 0.42), rgba(8, 18, 27, 0.48)),
+        url("/assets/5edbc638-016c-4880-8a31-1d62fbed8716.png") center / 118% auto no-repeat fixed,
+        #08121b;
+    }
+    body[data-theme="dark"]::before {
+      background: none;
+    }
+    body[data-theme="dark"]::after {
+      background:
+        radial-gradient(980px 280px at 50% -14%, rgba(209, 170, 113, 0.08), transparent 66%),
+        linear-gradient(90deg, rgba(255, 255, 255, 0.014) 1px, transparent 1px) 0 0 / 80px 100%;
+    }
+    body[data-theme="dark"] .top {
+      border-bottom: 1px solid rgba(140, 160, 182, 0.34);
+      background: rgba(5, 11, 20, 0.76);
+      backdrop-filter: blur(8px);
+    }
+    body[data-theme="dark"] .brand-sub,
+    body[data-theme="dark"] .meta {
+      color: #bdc9d9;
+    }
+    body[data-theme="dark"] .btn,
+    body[data-theme="dark"] .tab {
+      border-color: rgba(183, 199, 219, 0.35);
+      border-radius: 8px;
+      background: rgba(7, 16, 26, 0.6);
+      color: #d7e2f1;
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.05);
+    }
+    body[data-theme="dark"] .tab.active,
+    body[data-theme="dark"] .btn:hover,
+    body[data-theme="dark"] .tab:hover {
+      border-color: rgba(209, 170, 113, 0.82);
+      background: linear-gradient(120deg, rgba(209, 170, 113, 0.28), rgba(143, 178, 199, 0.18));
+      color: #f4f8ff;
+      box-shadow: 0 8px 18px rgba(0, 0, 0, 0.35);
+    }
+    body[data-theme="dark"] .status,
+    body[data-theme="dark"] .card {
+      border: 2px solid rgba(238, 221, 112, 0.86);
+      border-radius: 4px;
+      background:
+        linear-gradient(180deg, rgba(8, 18, 31, 0.72), rgba(8, 18, 31, 0.56)),
+        radial-gradient(900px 300px at 22% 16%, rgba(238, 221, 112, 0.08), transparent 70%);
+      box-shadow:
+        inset 0 0 0 1px rgba(255, 239, 156, 0.3),
+        0 14px 28px rgba(0, 0, 0, 0.36);
+    }
+    body[data-theme="dark"] .metric,
+    body[data-theme="dark"] .col,
+    body[data-theme="dark"] .item,
+    body[data-theme="dark"] .task,
+    body[data-theme="dark"] .gantt-board,
+    body[data-theme="dark"] .gantt-left,
+    body[data-theme="dark"] .gantt-row-left,
+    body[data-theme="dark"] .gantt-row-right {
+      border-color: rgba(183, 199, 219, 0.36);
+      background: linear-gradient(180deg, rgba(10, 22, 37, 0.58), rgba(10, 22, 37, 0.44));
+    }
+    body[data-theme="dark"] .field input,
+    body[data-theme="dark"] .field select,
+    body[data-theme="dark"] .field textarea,
+    body[data-theme="dark"] .actions select,
+    body[data-theme="dark"] .item-actions input,
+    body[data-theme="dark"] .item-actions select {
+      border: 1px solid rgba(183, 199, 219, 0.45);
+      background: rgba(9, 20, 34, 0.9);
+      color: #edf4ff;
+    }
+    body[data-theme="dark"] .field label {
+      color: #d8e3f5;
+    }
+
+    body[data-theme="light"] {
+      color: #1f3045;
+      background:
+        url("/assets/5edbc638-016c-4880-8a31-1d62fbed8716.png") center / 118% auto no-repeat fixed,
+        #c9d8ea;
+    }
+    body[data-theme="light"]::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      z-index: -2;
+      background: none;
+    }
+    body[data-theme="light"]::after {
+      content: "";
+      position: fixed;
+      inset: 0;
+      z-index: -1;
+      pointer-events: none;
+      background: none;
+    }
+    body[data-theme="light"] .top {
+      border-color: rgba(95, 120, 150, 0.3);
+      background: rgba(239, 246, 254, 0.78);
+    }
+    body[data-theme="light"] .brand-icon {
+      background: transparent;
+      border: none;
+      box-shadow: none;
+    }
+    body[data-theme="light"] .brand-sub { color: #5d7693; }
+    body[data-theme="light"] .meta { color: #5f748f; }
+    body[data-theme="light"] .btn,
+    body[data-theme="light"] .tab {
+      border-color: rgba(95, 120, 150, 0.35);
+      background: rgba(245, 250, 255, 0.88);
+      color: #22344b;
+    }
+    body[data-theme="light"] .tab.active,
+    body[data-theme="light"] .btn:hover,
+    body[data-theme="light"] .tab:hover {
+      border-color: rgba(195, 161, 67, 0.82);
+      color: #1a2a3f;
+      background: linear-gradient(120deg, rgba(195, 161, 67, 0.2), rgba(203, 217, 233, 0.5));
+    }
+    body[data-theme="light"] .status {
+      border-color: rgba(95, 120, 150, 0.3);
+      background: rgba(236, 245, 254, 0.8);
+      color: #2a3a4f;
+    }
+    body[data-theme="light"] .card,
+    body[data-theme="light"] .metric,
+    body[data-theme="light"] .col,
+    body[data-theme="light"] .item {
+      border-color: rgba(95, 120, 150, 0.3);
+      background: linear-gradient(180deg, rgba(236, 246, 255, 0.78), rgba(223, 236, 251, 0.74));
+    }
+    body[data-theme="light"] .sub,
+    body[data-theme="light"] .field label,
+    body[data-theme="light"] .empty,
+    body[data-theme="light"] .item small,
+    body[data-theme="light"] .task small {
+      color: #2a3f58;
+    }
+    body[data-theme="light"] .field label {
+      font-weight: 700;
+      letter-spacing: .075em;
+      text-shadow: 0 1px 0 rgba(255, 255, 255, 0.55);
+    }
+    body[data-theme="light"] .field input,
+    body[data-theme="light"] .field select,
+    body[data-theme="light"] .field textarea,
+    body[data-theme="light"] .actions select,
+    body[data-theme="light"] .item-actions input,
+    body[data-theme="light"] .item-actions select {
+      border-color: rgba(95, 120, 150, 0.35);
+      background: rgba(255, 255, 255, 0.98);
+      color: #25374f;
+    }
+    body[data-theme="light"] .task {
+      border-color: rgba(95, 120, 150, 0.36);
+      background: rgba(237, 246, 255, 0.82);
+    }
+    body[data-theme="light"] .task-attachment-item {
+      border-color: rgba(95, 120, 150, 0.32);
+      background: rgba(255, 255, 255, 0.92);
+    }
+    body[data-theme="light"] .task-attachment-link {
+      color: #2a3d56;
+    }
+    body[data-theme="light"] .task-attachment-size,
+    body[data-theme="light"] .task-attachment-empty {
+      color: #5e7693;
+    }
+    body[data-theme="light"] .chip {
+      border-color: rgba(67, 100, 136, 0.42);
+      color: #f5f9ff;
+      background: #3b6088;
+    }
+    body[data-theme="light"] .chip[data-label*="qa"],
+    body[data-theme="light"] .chip[data-label*="test"] { background: #2f6ea5; border-color: #5c9ed6; }
+    body[data-theme="light"] .chip[data-label*="pipeline"],
+    body[data-theme="light"] .chip[data-label*="deploy"],
+    body[data-theme="light"] .chip[data-label*="release"] { background: #8a5b2e; border-color: #ce9557; }
+    body[data-theme="light"] .chip[data-label*="ui"],
+    body[data-theme="light"] .chip[data-label*="ux"],
+    body[data-theme="light"] .chip[data-label*="design"] { background: #3f7276; border-color: #70a9a6; }
+    body[data-theme="light"] .chip[data-label*="backend"],
+    body[data-theme="light"] .chip[data-label*="api"] { background: #5b4a87; border-color: #9282bf; }
+    body[data-theme="light"] .chip[data-label*="frontend"] { background: #33788c; border-color: #64a9bd; }
+    body[data-theme="light"] .chip[data-label*="ops"],
+    body[data-theme="light"] .chip[data-label*="devops"] { background: #7b6835; border-color: #bca064; }
+    body[data-theme="light"] .chip[data-label*="security"],
+    body[data-theme="light"] .chip[data-label*="sec"] { background: #8a3f45; border-color: #cf737a; }
+    body[data-theme="light"] .chip[data-label*="copy"],
+    body[data-theme="light"] .chip[data-label*="content"] { background: #64507f; border-color: #9a83bd; }
+    body[data-theme="light"] .chip[data-label*="research"],
+    body[data-theme="light"] .chip[data-label*="analiza"] { background: #3c6f69; border-color: #6ba49d; }
+    body[data-theme="light"] .count {
+      border-color: rgba(195, 161, 67, 0.6);
+      color: #7a6024;
+      background: rgba(247, 236, 206, 0.45);
+    }
+    body[data-theme="light"] .prio.low { background: #1f9a5d; border-color: #56cb8f; }
+    body[data-theme="light"] .prio.medium { background: #df8120; border-color: #f2ae63; }
+    body[data-theme="light"] .prio.high,
+    body[data-theme="light"] .prio.critical { background: #c53030; border-color: #e66a6a; }
+    body[data-theme="light"] .perm label { color: #2a3e57; }
+    body[data-theme="light"] .lock {
+      border-color: rgba(208, 108, 108, 0.45);
+      background: rgba(255, 234, 234, 0.78);
+      color: #852a2a;
+    }
+    body[data-theme="light"] .settings-box {
+      border-color: rgba(95, 120, 150, 0.3);
+      background: rgba(245, 251, 255, 0.92);
+    }
+    body[data-theme="light"] .settings-row input {
+      border-color: rgba(95, 120, 150, 0.35);
+      background: rgba(255, 255, 255, 0.98);
+      color: #25374f;
+    }
+    body[data-theme="light"] .assignee-chip {
+      border-color: rgba(195, 161, 67, 0.6);
+      background: rgba(247, 236, 206, 0.48);
+      color: #6f571c;
+    }
+    body[data-theme="light"] .assignee-chip button {
+      border-color: rgba(208, 108, 108, 0.5);
+      background: rgba(255, 235, 235, 0.96);
+      color: #8e3131;
+    }
+    body[data-theme="light"] .gantt-board {
+      border-color: rgba(95, 120, 150, 0.3);
+      background: rgba(245, 251, 255, 0.95);
+    }
+    body[data-theme="light"] .gantt-left {
+      border-right-color: rgba(95, 120, 150, 0.25);
+      background: rgba(244, 250, 255, 0.95);
+    }
+    body[data-theme="light"] .gantt-left-head,
+    body[data-theme="light"] .gantt-time-head {
+      border-bottom-color: rgba(95, 120, 150, 0.25);
+    }
+    body[data-theme="light"] .gantt-day {
+      border-right-color: rgba(95, 120, 150, 0.2);
+      background: rgba(255,255,255,.65);
+      color: #617791;
+    }
+    body[data-theme="light"] .gantt-day strong { color: #2a3f56; }
+    body[data-theme="light"] .gantt-row-left,
+    body[data-theme="light"] .gantt-row-right {
+      border-bottom-color: rgba(95, 120, 150, 0.2);
+    }
+    body[data-theme="light"] .gantt-row-left.sub,
+    body[data-theme="light"] .gantt-row-right.sub {
+      background: rgba(233, 243, 253, 0.5);
+    }
+    body[data-theme="light"] .gantt-row-left.group {
+      background: rgba(99, 138, 170, 0.2);
+      border-top-color: rgba(69, 111, 146, 0.44);
+      border-bottom-color: rgba(69, 111, 146, 0.36);
+    }
+    body[data-theme="light"] .gantt-row-right.group {
+      background: rgba(99, 138, 170, 0.12);
+      border-bottom-color: rgba(69, 111, 146, 0.26);
+    }
+    body[data-theme="light"] .gantt-group-title { color: #1d3a57; }
+    body[data-theme="light"] .gantt-title { color: #24384e; }
+    body[data-theme="light"] .gantt-title.sub { color: #324a63; }
+    body[data-theme="light"] .gantt-meta { color: #617791; }
+    body[data-theme="light"] .gantt-chip { color: #314a63; background: rgba(255,255,255,.78); }
+    body[data-theme="light"] .gantt-bar {
+      border-color: rgba(95, 120, 150, 0.38);
+      background: rgba(86, 164, 214, 0.3);
+    }
+    body[data-theme="light"] .gantt-bar.sub {
+      background: rgba(215, 158, 66, 0.34);
+      border-color: rgba(190, 139, 57, 0.5);
+    }
+    body[data-theme="light"] .gantt-bar.done {
+      background: rgba(108, 198, 151, 0.34);
+      border-color: rgba(92, 170, 129, 0.5);
+    }
+    body[data-theme="light"] .gantt-bar span { color: #18304a; }
+    body[data-theme="light"] .gantt-action-btn {
+      border-color: rgba(95, 120, 150, 0.35);
+      background: rgba(255,255,255,.92);
+      color: #2c4259;
+    }
+    body[data-theme="light"] .gantt-task-edit .field input,
+    body[data-theme="light"] .gantt-task-edit .field select,
+    body[data-theme="light"] .gantt-task-edit .field textarea {
+      border-color: rgba(95, 120, 150, 0.35);
+      background: rgba(255, 255, 255, 0.98);
+      color: #25374f;
+    }
+
+    @media (max-width: 1420px) {
+      .metrics { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+      .kanban { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    }
+
+    @media (max-width: 1120px) {
+      .metrics { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .grid3 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .kanban { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    }
+
+    @media (max-width: 700px) {
+      .metrics { grid-template-columns: 1fr; }
+      .grid3 { grid-template-columns: 1fr; }
+      .kanban { grid-template-columns: 1fr; }
+      .task-edit-grid { grid-template-columns: 1fr; }
+      .gantt-task-edit-grid { grid-template-columns: 1fr; }
+    }
+
+    @media (max-width: 980px) {
+      .top { align-items: flex-start; }
+      .brand-zone { min-width: 0; width: 100%; }
+      .tabs { justify-content: start; }
+      .grid3 { grid-template-columns: 1fr; }
+      .top-actions { justify-content: start; }
+      .gantt-grid { grid-template-columns: 1fr; }
+      .gantt-left { border-right: none; border-bottom: 1px solid var(--line-soft); }
+    }
+  </style>
+</head>
+<body data-theme="dark">
+  <div class="wrap">
+    <header class="top">
+      <div class="brand-zone">
+        <div class="brand-wrap">
+          <img class="brand-icon" src="/assets/logo-qfs.png" alt="QFS logo" />
+          <div class="brand-head">
+            <h1 class="brand">QFS // Tablica Operacyjna</h1>
+            <div class="brand-sub">Panel produkcyjny Quantum Forge Studio</div>
+          </div>
+        </div>
+        <div class="meta" id="meta-user">Ładowanie sesji...</div>
+      </div>
+      <nav class="tabs" aria-label="Zakładki panelu">
+        <button class="tab active" type="button" data-tab="kanban">Kanban</button>
+        <button class="tab" type="button" data-tab="schedule">Harmonogramy</button>
+        <button class="tab" type="button" data-tab="archive">Archiwum</button>
+      </nav>
+      <div class="top-actions">
+        <button class="btn theme-btn" type="button" id="theme-toggle" aria-label="Zmień motyw panelu">
+          <span class="theme-icon" id="theme-icon">🌙</span>
+          <span id="theme-label">Ciemny</span>
+        </button>
+        <button class="btn icon-btn" type="button" id="open-users-tab" title="Użytkownicy" aria-label="Użytkownicy">
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <circle cx="9" cy="7" r="4" />
+            <path d="M2 21v-1a6 6 0 0 1 6-6h2a6 6 0 0 1 6 6v1" />
+            <path d="M18 8a3 3 0 1 1 0 6" />
+            <path d="M22 21v-1a5 5 0 0 0-4-4.84" />
+          </svg>
+          <span class="sr-only">Użytkownicy</span>
+        </button>
+        <button class="btn icon-btn" type="button" id="refresh" title="Odśwież dane" aria-label="Odśwież dane">
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M3 12a9 9 0 0 1 15.3-6.36L21 8" />
+            <path d="M21 3v5h-5" />
+            <path d="M21 12a9 9 0 0 1-15.3 6.36L3 16" />
+            <path d="M8 16H3v5" />
+          </svg>
+          <span class="sr-only">Odśwież</span>
+        </button>
+        <form action="/wyloguj" method="post">
+          <button class="btn btn-danger icon-btn" type="submit" title="Wyloguj" aria-label="Wyloguj">
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" />
+              <path d="M16 17l5-5-5-5" />
+              <path d="M21 12H9" />
+            </svg>
+            <span class="sr-only">Wyloguj</span>
+          </button>
+        </form>
+      </div>
+    </header>
+
+    <div class="status" id="status">Panel gotowy.</div>
+
+    <section class="pane active" id="pane-kanban">
+      <article class="card">
+        <div class="section-head">
+          <div>
+            <h2 class="title">Tablica zapytań - Kanban</h2>
+            <p class="sub">Tradycyjny przepływ: Backlog, To Do, In Progress, Review, Done. Większa pojemność zadań i szybkie przenoszenie.</p>
+          </div>
+          <button class="btn add-task-toggle" type="button" id="toggle-task-form" aria-expanded="false" aria-controls="task-form-wrap">
+            <span class="plus" id="toggle-task-form-icon">+</span>
+            <span id="toggle-task-form-label">Dodaj zadanie</span>
+          </button>
+        </div>
+        <div class="metrics" id="metrics"></div>
+
+        <div id="task-form-wrap" class="task-form-wrap is-collapsed">
+          <form id="task-form">
+            <div class="grid3">
+              <div class="field"><label for="task-title">Tytuł zadania</label><input id="task-title" name="title" required maxlength="120" /></div>
+              <div class="field"><label for="task-priority">Priorytet</label><select id="task-priority" name="priority"><option value="low">Low</option><option value="medium" selected>Medium</option><option value="high">High</option><option value="critical">Critical</option></select></div>
+              <div class="field"><label for="task-assignee">Odpowiedzialny</label><select id="task-assignee" name="assignee"></select></div>
+              <div class="field"><label for="task-due">Termin</label><input id="task-due" name="dueDate" type="date" /></div>
+              <div class="field"><label for="task-start">Od</label><input id="task-start" name="startDate" type="date" /></div>
+              <div class="field"><label for="task-end">Do</label><input id="task-end" name="endDate" type="date" /></div>
+              <div class="field"><label for="task-main-label">Etykieta główna</label><select id="task-main-label" name="mainLabel"></select></div>
+              <div class="field"><label for="task-labels">Etykiety (po przecinku)</label><input id="task-labels" name="labels" maxlength="180" list="task-labels-options" /></div>
+            </div>
+            <div class="field" style="margin-top:.62rem"><label for="task-description">Opis</label><textarea id="task-description" name="description"></textarea></div>
+            <datalist id="task-labels-options"></datalist>
+            <div class="row"><button class="btn" type="submit">Dodaj zadanie</button></div>
+          </form>
+        </div>
+
+        <div class="kanban" id="kanban"></div>
+      </article>
+    </section>
+
+    <section class="pane" id="pane-schedule">
+      <article class="card">
+        <div class="section-head">
+          <div>
+            <h2 class="title">Harmonogramy i terminy</h2>
+            <p class="sub">Terminy pod taski, aktualizacja slotów czasowych i statusów.</p>
+          </div>
+          <button class="btn add-task-toggle" type="button" id="toggle-schedule-form" aria-expanded="false" aria-controls="schedule-form-wrap">
+            <span class="plus" id="toggle-schedule-form-icon">+</span>
+            <span id="toggle-schedule-form-label">Dodaj harmonogram</span>
+          </button>
+        </div>
+        <div id="schedule-form-wrap" class="schedule-form-wrap is-collapsed">
+          <form id="schedule-form">
+            <div class="grid3">
+              <div class="field"><label for="sch-title">Tytuł</label><input id="sch-title" name="title" required maxlength="120" /></div>
+              <div class="field"><label for="sch-date">Data</label><input id="sch-date" name="date" type="date" required /></div>
+              <div class="field"><label for="sch-task">Powiązane zadanie</label><select id="sch-task" name="taskId" required></select></div>
+              <div class="field"><label for="sch-start">Start</label><input id="sch-start" name="start" type="time" value="09:00" /></div>
+              <div class="field"><label for="sch-end">Koniec</label><input id="sch-end" name="end" type="time" value="10:00" /></div>
+              <div class="field"><label for="sch-owner">Właściciel</label><input id="sch-owner" name="owner" maxlength="64" /></div>
+            </div>
+            <div class="field" style="margin-top:.62rem"><label for="sch-note">Notatka</label><textarea id="sch-note" name="note"></textarea></div>
+            <div class="row"><button class="btn" type="submit">Dodaj harmonogram</button></div>
+          </form>
+        </div>
+        <div class="gantt-board" id="gantt-board"></div>
+      </article>
+    </section>
+
+    <section class="pane" id="pane-archive">
+      <article class="card">
+        <h2 class="title">Archiwum</h2>
+        <p class="sub">Lista zadań zarchiwizowanych i opcja przywracania.</p>
+        <div class="list" id="archive-list"></div>
+      </article>
+    </section>
+
+    <section class="pane" id="pane-users">
+      <article class="card">
+        <h2 class="title">Użytkownicy i Dostępy</h2>
+        <p class="sub">Zarządzanie rolami i uprawnieniami do modułów panelu.</p>
+        <form id="user-form">
+          <div class="grid3">
+            <div class="field"><label for="usr-name">Imię i nazwisko</label><input id="usr-name" name="name" maxlength="80" required /></div>
+            <div class="field"><label for="usr-email">E-mail</label><input id="usr-email" name="email" type="email" required /></div>
+            <div class="field"><label for="usr-role">Rola</label><select id="usr-role" name="role"><option value="member">Member</option><option value="manager">Manager</option><option value="admin">Admin</option></select></div>
+          </div>
+          <div class="row"><button class="btn" type="submit">Dodaj użytkownika</button></div>
+        </form>
+        <div class="lock" id="users-lock" hidden>Brak uprawnień do zarządzania użytkownikami.</div>
+        <div class="list" id="user-list"></div>
+
+        <section class="settings-box" id="assignee-settings">
+          <h3 class="title">Ustawienia listy odpowiedzialnych</h3>
+          <p class="sub">Ta lista zasila pole „Odpowiedzialny” przy tworzeniu zadania.</p>
+          <form id="assignee-form" class="settings-row">
+            <input id="assignee-name" name="name" type="text" maxlength="64" placeholder="Np. Anna Kowalska" required />
+            <button class="btn" type="submit">Dodaj do listy</button>
+          </form>
+          <div class="assignee-chip-list" id="assignee-list"></div>
+        </section>
+
+        <section class="settings-box" id="label-settings">
+          <h3 class="title">Ustawienia listy etykiet</h3>
+          <p class="sub">Ta lista zasila podpowiedzi etykiet przy tworzeniu i edycji zadań.</p>
+          <form id="label-form" class="settings-row">
+            <input id="label-name" name="name" type="text" maxlength="48" placeholder="Np. QA, Pipeline, Backend" required />
+            <button class="btn" type="submit">Dodaj etykietę</button>
+          </form>
+          <div class="assignee-chip-list" id="label-list"></div>
+        </section>
+      </article>
+    </section>
+  </div>
+
+  <script>
+    (function () {
+      var state = { me: null, statuses: [], assignees: [], labels: [], tasks: [], archived: [], schedules: [], users: [], updatedAt: null };
+      var dragContext = { taskId: null, targetStatus: null };
+      var ganttDragContext = { type: null, id: null };
+      var themeStorageKey = "qfs-panel-theme";
+      var STATUS_LABELS = { backlog: "Backlog", todo: "To Do", in_progress: "In Progress", review: "Review", done: "Done" };
+      var PRIORITY_LABELS = { low: "Low", medium: "Medium", high: "High", critical: "Critical" };
+
+      function applyTheme(themeName) {
+        var nextTheme = themeName === "light" ? "light" : "dark";
+        var iconEl = document.getElementById("theme-icon");
+        var labelEl = document.getElementById("theme-label");
+
+        document.body.setAttribute("data-theme", nextTheme);
+
+        if (iconEl) {
+          iconEl.textContent = nextTheme === "light" ? "☀" : "🌙";
+        }
+
+        if (labelEl) {
+          labelEl.textContent = nextTheme === "light" ? "Jasny" : "Ciemny";
+        }
+      }
+
+      function readStoredTheme() {
+        try {
+          var stored = localStorage.getItem(themeStorageKey);
+          if (stored === "light" || stored === "dark") {
+            return stored;
+          }
+        } catch (error) {}
+        return "dark";
+      }
+
+      function storeTheme(themeName) {
+        try {
+          localStorage.setItem(themeStorageKey, themeName);
+        } catch (error) {}
+      }
+
+      function esc(v) {
+        return String(v || "")
+          .replaceAll("&", "&amp;")
+          .replaceAll("<", "&lt;")
+          .replaceAll(">", "&gt;")
+          .replaceAll('"', "&quot;")
+          .replaceAll("'", "&#39;");
+      }
+
+      function labelKey(value) {
+        return String(value || "")
+          .toLowerCase()
+          .trim()
+          .replace(/\s+/g, "-")
+          .replace(/[^a-z0-9_-]/g, "");
+      }
+
+      function formatBytes(sizeValue) {
+        var size = Number(sizeValue);
+        if (!Number.isFinite(size) || size < 0) return "0 B";
+        if (size < 1024) return size + " B";
+        if (size < 1024 * 1024) return (size / 1024).toFixed(1) + " KB";
+        return (size / (1024 * 1024)).toFixed(1) + " MB";
+      }
+
+      function setStatus(msg, type) {
+        var el = document.getElementById("status");
+        el.textContent = msg;
+        el.className = "status";
+        if (type === "good") el.classList.add("good");
+        if (type === "bad") el.classList.add("bad");
+      }
+
+      function clearDropTargets() {
+        document.querySelectorAll('.col.drop-target').forEach(function (col) {
+          col.classList.remove("drop-target");
+        });
+      }
+
+      async function api(path, options) {
+        var response = await fetch(path, Object.assign({ credentials: "same-origin" }, options || {}));
+        var payload = {};
+        try { payload = await response.json(); } catch (error) { payload = {}; }
+        if (!response.ok || payload.ok === false) {
+          throw new Error(payload.error || "Operacja nieudana.");
+        }
+        return payload;
+      }
+
+      function can(permission) {
+        return Boolean(state.me && state.me.permissions && state.me.permissions[permission]);
+      }
+
+      function findTaskById(taskId) {
+        var all = state.tasks.concat(state.archived);
+        return all.find(function (entry) { return entry.id === taskId; }) || null;
+      }
+
+      function statusOptions(selected) {
+        return state.statuses
+          .map(function (s) {
+            var sel = s.key === selected ? " selected" : "";
+            var label = STATUS_LABELS[s.key] || s.label || s.key;
+            return '<option value="' + esc(s.key) + '"' + sel + '>' + esc(label) + '</option>';
+          })
+          .join("");
+      }
+
+      function priorityOptions(selected) {
+        var keys = ["low", "medium", "high", "critical"];
+        return keys
+          .map(function (key) {
+            var sel = key === selected ? " selected" : "";
+            var label = PRIORITY_LABELS[key] || key;
+            return '<option value="' + esc(key) + '"' + sel + '>' + esc(label) + '</option>';
+          })
+          .join("");
+      }
+
+      function assigneeOptions(selected) {
+        var list = Array.isArray(state.assignees) && state.assignees.length ? state.assignees : ["Nieprzypisane"];
+        return list
+          .map(function (name) {
+            var isSelected = String(selected || "").toLowerCase() === String(name).toLowerCase();
+            var sel = isSelected ? " selected" : "";
+            return '<option value="' + esc(name) + '"' + sel + '>' + esc(name) + '</option>';
+          })
+          .join("");
+      }
+
+      function getPrimaryLabel(task) {
+        var labels = task && Array.isArray(task.labels) ? task.labels : [];
+        var first = labels.find(function (entry) { return String(entry || "").trim(); });
+        return first ? String(first).trim() : "Bez etykiety";
+      }
+
+      function labelOptions(selected, includeEmpty) {
+        var labelList = Array.isArray(state.labels) ? state.labels.slice() : [];
+        var selectedValue = String(selected || "").trim();
+        if (selectedValue && !labelList.some(function (entry) { return String(entry).toLowerCase() === selectedValue.toLowerCase(); })) {
+          labelList.unshift(selectedValue);
+        }
+        if (!labelList.length) {
+          labelList = ["Bez etykiety"];
+        }
+
+        var options = [];
+        if (includeEmpty) {
+          options.push('<option value="">Wybierz etykietę</option>');
+        }
+
+        labelList.forEach(function (label) {
+          var value = String(label || "").trim();
+          if (!value) return;
+          var sel = value.toLowerCase() === selectedValue.toLowerCase() ? " selected" : "";
+          options.push('<option value="' + esc(value) + '"' + sel + ">" + esc(value) + "</option>");
+        });
+
+        return options.join("");
+      }
+
+      function mergeLabels(mainLabel, labelsText) {
+        var map = new Map();
+        var ordered = [];
+
+        function pushLabel(value) {
+          var trimmed = String(value || "").trim();
+          if (!trimmed) return;
+          var key = trimmed.toLowerCase();
+          if (map.has(key)) return;
+          map.set(key, true);
+          ordered.push(trimmed);
+        }
+
+        pushLabel(mainLabel);
+        String(labelsText || "")
+          .split(",")
+          .map(function (entry) { return entry.trim(); })
+          .filter(Boolean)
+          .forEach(pushLabel);
+
+        if (!ordered.length) {
+          ordered.push("Bez etykiety");
+        }
+        return ordered.slice(0, 8);
+      }
+
+      function renderMeta() {
+        var meta = document.getElementById("meta-user");
+        if (!state.me) {
+          meta.textContent = "Brak aktywnej sesji.";
+          return;
+        }
+        var upd = state.updatedAt ? new Date(state.updatedAt).toLocaleString("pl-PL") : "-";
+        meta.textContent = state.me.name + " (" + state.me.email + ") | Rola: " + String(state.me.role || "member").toUpperCase() + " | Aktualizacja: " + upd;
+      }
+
+      function renderMetrics() {
+        var m = document.getElementById("metrics");
+        var counts = {
+          all: state.tasks.length,
+          backlog: state.tasks.filter(function (t) { return t.status === "backlog"; }).length,
+          todo: state.tasks.filter(function (t) { return t.status === "todo"; }).length,
+          progress: state.tasks.filter(function (t) { return t.status === "in_progress"; }).length,
+          review: state.tasks.filter(function (t) { return t.status === "review"; }).length
+        };
+        m.innerHTML = [
+          '<div class="metric"><small>Aktywne</small><strong>' + counts.all + '</strong></div>',
+          '<div class="metric"><small>Backlog</small><strong>' + counts.backlog + '</strong></div>',
+          '<div class="metric"><small>To Do</small><strong>' + counts.todo + '</strong></div>',
+          '<div class="metric"><small>W toku</small><strong>' + counts.progress + '</strong></div>',
+          '<div class="metric"><small>Review</small><strong>' + counts.review + '</strong></div>'
+        ].join("");
+      }
+
+      function renderTaskSelects() {
+        var assigneeSelect = document.getElementById("task-assignee");
+        var assigneeList = Array.isArray(state.assignees) && state.assignees.length ? state.assignees : ["Nieprzypisane"];
+        assigneeSelect.innerHTML = assigneeList
+          .map(function (name) { return '<option value="' + esc(name) + '">' + esc(name) + '</option>'; })
+          .join("");
+        if (state.me && state.me.name) {
+          var found = assigneeList.find(function (entry) { return entry.toLowerCase() === state.me.name.toLowerCase(); });
+          assigneeSelect.value = found || "Nieprzypisane";
+        }
+
+        var sch = document.getElementById("sch-task");
+        var opts = ['<option value="">Wybierz zadanie</option>'];
+        state.tasks.forEach(function (task) {
+          opts.push('<option value="' + esc(task.id) + '">' + esc(task.title) + '</option>');
+        });
+        sch.innerHTML = opts.join("");
+
+        var mainLabelSelect = document.getElementById("task-main-label");
+        if (mainLabelSelect) {
+          mainLabelSelect.innerHTML = labelOptions("Bez etykiety");
+          if (mainLabelSelect.options.length && !mainLabelSelect.value) {
+            mainLabelSelect.value = mainLabelSelect.options[0].value;
+          }
+        }
+
+        var labelsDatalist = document.getElementById("task-labels-options");
+        if (labelsDatalist) {
+          var labelList = Array.isArray(state.labels) ? state.labels : [];
+          labelsDatalist.innerHTML = labelList
+            .map(function (label) { return '<option value="' + esc(label) + '"></option>'; })
+            .join("");
+        }
+      }
+
+      function renderAssigneeSettings() {
+        var list = document.getElementById("assignee-list");
+        if (!list) return;
+
+        var assigneeList = Array.isArray(state.assignees) && state.assignees.length ? state.assignees : ["Nieprzypisane"];
+
+        list.innerHTML = assigneeList.map(function (name) {
+          var isLocked = name.toLowerCase() === "nieprzypisane";
+          return (
+            '<span class="assignee-chip">' +
+              '<span>' + esc(name) + '</span>' +
+              (isLocked ? "" : '<button type="button" data-action="delete-assignee" data-name="' + esc(name) + '" aria-label="Usuń ' + esc(name) + '">x</button>') +
+            '</span>'
+          );
+        }).join("");
+      }
+
+      function renderLabelSettings() {
+        var list = document.getElementById("label-list");
+        if (!list) return;
+
+        var labelList = Array.isArray(state.labels) && state.labels.length ? state.labels : [];
+        if (!labelList.length) {
+          list.innerHTML = '<p class="task-attachment-empty">Brak etykiet na liście.</p>';
+          return;
+        }
+
+        list.innerHTML = labelList.map(function (name) {
+          return (
+            '<span class="assignee-chip">' +
+              '<span>' + esc(name) + '</span>' +
+              '<button type="button" data-action="delete-label" data-name="' + esc(name) + '" aria-label="Usuń etykietę ' + esc(name) + '">x</button>' +
+            '</span>'
+          );
+        }).join("");
+      }
+
+      function renderKanban() {
+        var board = document.getElementById("kanban");
+        if (!can("kanban")) {
+          board.innerHTML = '<p class="empty">Brak uprawnień do Kanban.</p>';
+          return;
+        }
+
+        var columns = state.statuses.map(function (status) {
+          var items = state.tasks.filter(function (task) { return task.status === status.key; });
+          var cards = items.length
+            ? items.map(function (task) {
+                var due = task.dueDate ? new Date(task.dueDate).toLocaleDateString("pl-PL") : "brak terminu";
+                var startDateLabel = task.startDate ? new Date(task.startDate).toLocaleDateString("pl-PL") : "-";
+                var endDateLabel = task.endDate ? new Date(task.endDate).toLocaleDateString("pl-PL") : "-";
+                var taskPrimaryLabel = getPrimaryLabel(task);
+                var chips = (task.labels || []).map(function (label) {
+                  var key = labelKey(label);
+                  return '<span class="chip" data-label="' + esc(key) + '">' + esc(label) + '</span>';
+                }).join("");
+                var attachments = (task.attachments || []).map(function (attachment) {
+                  return (
+                    '<div class="task-attachment-item">' +
+                      '<a class="task-attachment-link" href="' + esc(attachment.url || "#") + '" target="_blank" rel="noopener noreferrer">' + esc(attachment.name || "zalacznik") + '</a>' +
+                      '<span class="task-attachment-size">' + esc(formatBytes(attachment.size)) + '</span>' +
+                      '<button class="btn btn-danger task-attachment-remove" type="button" data-action="delete-attachment" data-attachment-id="' + esc(attachment.id) + '" title="Usuń załącznik" aria-label="Usuń załącznik">x</button>' +
+                    '</div>'
+                  );
+                }).join("");
+
+                return (
+                  '<article class="task" draggable="true" data-task-id="' + esc(task.id) + '">' +
+                    '<div class="task-top">' +
+                      '<h4>' + esc(task.title) + '</h4>' +
+                      '<span class="prio ' + esc(task.priority) + '" title="Priorytet: ' + esc(PRIORITY_LABELS[task.priority] || task.priority) + '" aria-label="Priorytet: ' + esc(PRIORITY_LABELS[task.priority] || task.priority) + '"></span>' +
+                    '</div>' +
+                    (task.description ? '<small>' + esc(task.description) + '</small>' : '') +
+                    '<small>Osoba: ' + esc(task.assignee || 'Nieprzypisane') + ' | Termin: ' + esc(due) + '</small>' +
+                    '<small>Od: ' + esc(startDateLabel) + ' | Do: ' + esc(endDateLabel) + '</small>' +
+                    (chips ? '<div class="chips">' + chips + '</div>' : '') +
+                    '<div class="task-edit">' +
+                      '<form class="task-edit-form">' +
+                        '<div class="task-edit-grid">' +
+                          '<div class="field full"><label>Tytuł</label><input name="title" maxlength="120" value="' + esc(task.title || '') + '" required /></div>' +
+                          '<div class="field full"><label>Opis</label><textarea name="description">' + esc(task.description || '') + '</textarea></div>' +
+                          '<div class="field"><label>Status</label><select name="status">' + statusOptions(task.status) + '</select></div>' +
+                          '<div class="field"><label>Priorytet</label><select name="priority">' + priorityOptions(task.priority) + '</select></div>' +
+                          '<div class="field"><label>Odpowiedzialny</label><select name="assignee">' + assigneeOptions(task.assignee || 'Nieprzypisane') + '</select></div>' +
+                          '<div class="field"><label>Termin</label><input name="dueDate" type="date" value="' + esc(task.dueDate || '') + '" /></div>' +
+                          '<div class="field"><label>Od</label><input name="startDate" type="date" value="' + esc(task.startDate || '') + '" /></div>' +
+                          '<div class="field"><label>Do</label><input name="endDate" type="date" value="' + esc(task.endDate || '') + '" /></div>' +
+                          '<div class="field"><label>Etykieta główna</label><select name="mainLabel">' + labelOptions(taskPrimaryLabel) + '</select></div>' +
+                          '<div class="field full"><label>Etykiety (po przecinku)</label><input name="labels" maxlength="180" list="task-labels-options" value="' + esc((task.labels || []).join(', ')) + '" /></div>' +
+                        '</div>' +
+                        '<div class="task-attachments">' +
+                          '<div class="task-attachments-head">Załączniki</div>' +
+                          '<div class="task-attachments-upload">' +
+                            '<input type="file" data-role="attachment-file" />' +
+                            '<button class="btn task-edit-btn" type="button" data-action="upload-attachment">Dodaj plik</button>' +
+                          '</div>' +
+                          '<div class="task-attachments-list">' + (attachments || '<p class="task-attachment-empty">Brak załączników.</p>') + '</div>' +
+                        '</div>' +
+                        '<div class="task-edit-actions">' +
+                          '<button class="btn task-edit-btn" type="submit" data-action="save-inline">Zapisz</button>' +
+                          '<button class="btn task-edit-btn" type="button" data-action="collapse-inline">Zwiń</button>' +
+                        '</div>' +
+                      '</form>' +
+                    '</div>' +
+                    '<div class="actions">' +
+                      '<div class="btns">' +
+                        (can("archive")
+                          ? '<button class="btn btn-danger task-icon-btn" type="button" data-action="archive" title="Archiwizuj zadanie" aria-label="Archiwizuj zadanie"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 5h18v4H3z" /><path d="M5 9v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V9" /><path d="M10 13h4" /></svg></button>'
+                          : '') +
+                      '</div>' +
+                    '</div>' +
+                  '</article>'
+                );
+              }).join("")
+            : '<p class="empty">Brak zadań.</p>';
+
+          return (
+            '<section class="col" data-col-status="' + esc(status.key) + '">' +
+              '<header class="col-head"><b>' + esc(STATUS_LABELS[status.key] || status.label || status.key) + '</b><span class="count">' + items.length + '</span></header>' +
+              '<div class="col-body">' + cards + '</div>' +
+            '</section>'
+          );
+        });
+
+        board.innerHTML = columns.join("");
+      }
+      function findTask(taskId) {
+        var all = state.tasks.concat(state.archived);
+        return all.find(function (t) { return t.id === taskId; });
+      }
+
+      function renderArchive() {
+        var list = document.getElementById("archive-list");
+        if (!can("archive")) {
+          list.innerHTML = '<p class="empty">Brak uprawnień do archiwum.</p>';
+          return;
+        }
+        if (!state.archived.length) {
+          list.innerHTML = '<p class="empty">Archiwum jest puste.</p>';
+          return;
+        }
+
+        list.innerHTML = state.archived.map(function (task) {
+          var chips = (task.labels || []).map(function (label) {
+            var key = labelKey(label);
+            return '<span class="chip" data-label="' + esc(key) + '">' + esc(label) + '</span>';
+          }).join("");
+          return (
+            '<article class="item" data-task-id="' + esc(task.id) + '">' +
+              '<div class="item-head"><h4>' + esc(task.title) + '</h4><small>' + esc(new Date(task.updatedAt || task.createdAt).toLocaleString("pl-PL")) + '</small></div>' +
+              (chips ? '<div class="chips">' + chips + '</div>' : '') +
+              '<div class="item-actions">' +
+                '<select data-role="restore">' + statusOptions("todo") + '</select>' +
+                '<button class="btn" type="button" data-action="restore">Przywróć</button>' +
+              '</div>' +
+            '</article>'
+          );
+        }).join("");
+      }
+
+      function taskOptions(selectedId) {
+        var opts = ['<option value="">Brak powiązania</option>'];
+        state.tasks.forEach(function (task) {
+          var sel = selectedId === task.id ? ' selected' : '';
+          opts.push('<option value="' + esc(task.id) + '"' + sel + '>' + esc(task.title) + '</option>');
+        });
+        return opts.join("");
+      }
+
+      function parseDateOnly(isoDate) {
+        if (!isoDate) return null;
+        var source = isoDate;
+        if (isoDate instanceof Date) {
+          if (!Number.isFinite(isoDate.getTime())) return null;
+          source = isoDate.toISOString().slice(0, 10);
+        }
+        var date = new Date(String(source).slice(0, 10) + "T00:00:00");
+        return Number.isFinite(date.getTime()) ? date : null;
+      }
+
+      function addDays(date, days) {
+        var next = new Date(date.getTime());
+        next.setDate(next.getDate() + days);
+        return next;
+      }
+
+      function formatDateShort(date) {
+        return date.toLocaleDateString("pl-PL", { day: "2-digit", month: "2-digit" });
+      }
+
+      function formatWeekday(date) {
+        return date.toLocaleDateString("pl-PL", { weekday: "short" }).replace(".", "");
+      }
+
+      function formatIsoDateLocal(date) {
+        if (!(date instanceof Date) || !Number.isFinite(date.getTime())) return "";
+        var y = date.getFullYear();
+        var m = String(date.getMonth() + 1).padStart(2, "0");
+        var d = String(date.getDate()).padStart(2, "0");
+        return y + "-" + m + "-" + d;
+      }
+
+      function formatHm(date) {
+        if (!(date instanceof Date) || !Number.isFinite(date.getTime())) return "00:00";
+        var h = String(date.getHours()).padStart(2, "0");
+        var m = String(date.getMinutes()).padStart(2, "0");
+        return h + ":" + m;
+      }
+
+
+      function getStatusIndex(statusKey) {
+        var idx = state.statuses.findIndex(function (entry) { return entry.key === statusKey; });
+        return idx === -1 ? 999 : idx;
+      }
+
+      function renderSchedules() {
+        var board = document.getElementById("gantt-board");
+        if (!can("schedule")) {
+          board.innerHTML = '<p class="gantt-empty">Brak uprawnień do harmonogramów.</p>';
+          return;
+        }
+
+        if (!state.tasks.length) {
+          board.innerHTML = '<p class="gantt-empty">Brak zadań z Kanbana do pokazania w harmonogramie.</p>';
+          return;
+        }
+
+        var dayMs = 24 * 60 * 60 * 1000;
+        var dayW = 44;
+        var today = parseDateOnly(new Date().toISOString().slice(0, 10));
+        var schedulesByTask = new Map();
+
+        state.schedules.forEach(function (entry) {
+          if (!entry.taskId) return;
+          if (!schedulesByTask.has(entry.taskId)) schedulesByTask.set(entry.taskId, []);
+          schedulesByTask.get(entry.taskId).push(entry);
+        });
+
+        state.tasks.forEach(function (task) {
+          if (!schedulesByTask.has(task.id)) schedulesByTask.set(task.id, []);
+        });
+
+        var sortedTasks = state.tasks.slice().sort(function (a, b) {
+          var aOrder = Number(a.sortOrder);
+          var bOrder = Number(b.sortOrder);
+          if (Number.isFinite(aOrder) && Number.isFinite(bOrder) && aOrder !== bOrder) return aOrder - bOrder;
+          var statusDiff = getStatusIndex(a.status) - getStatusIndex(b.status);
+          if (statusDiff !== 0) return statusDiff;
+          return String(a.title || "").localeCompare(String(b.title || ""), "pl");
+        });
+
+        var groupedTasks = new Map();
+        sortedTasks.forEach(function (task) {
+          var groupLabel = getPrimaryLabel(task);
+          if (!groupedTasks.has(groupLabel)) groupedTasks.set(groupLabel, []);
+          groupedTasks.get(groupLabel).push(task);
+        });
+
+        var rows = [];
+        var groupLabels = Array.from(groupedTasks.keys()).sort(function (a, b) {
+          return String(a || "").localeCompare(String(b || ""), "pl");
+        });
+
+        groupLabels.forEach(function (groupLabel) {
+          rows.push({
+            rowType: "group",
+            id: "group-" + labelKey(groupLabel),
+            title: groupLabel
+          });
+
+          var tasksInGroup = groupedTasks.get(groupLabel) || [];
+          tasksInGroup.forEach(function (task, taskIndex) {
+          var related = (schedulesByTask.get(task.id) || []).slice().sort(function (a, b) {
+            var aOrder = Number(a.sortOrder);
+            var bOrder = Number(b.sortOrder);
+            if (Number.isFinite(aOrder) && Number.isFinite(bOrder) && aOrder !== bOrder) return aOrder - bOrder;
+            var aStamp = new Date((a.date || "1970-01-01") + "T" + (a.start || "00:00") + ":00").getTime();
+            var bStamp = new Date((b.date || "1970-01-01") + "T" + (b.start || "00:00") + ":00").getTime();
+            return aStamp - bStamp;
+          });
+
+          var due = parseDateOnly(task.dueDate);
+          var explicitStart = parseDateOnly(task.startDate);
+          var explicitEnd = parseDateOnly(task.endDate || task.dueDate);
+          var childDates = related
+            .map(function (entry) { return parseDateOnly(entry.date); })
+            .filter(Boolean)
+            .sort(function (a, b) { return a.getTime() - b.getTime(); });
+
+          var taskStart = explicitStart || childDates[0] || (due ? addDays(due, -2) : today);
+          var taskEnd = explicitEnd || due || childDates[childDates.length - 1] || addDays(taskStart, 2);
+          if (taskEnd.getTime() < taskStart.getTime()) {
+            taskEnd = taskStart;
+          }
+
+          rows.push({
+            rowType: "task",
+            id: task.id,
+            title: task.title,
+            status: task.status,
+            priority: task.priority,
+            assignee: task.assignee || "Nieprzypisane",
+            dueDate: task.dueDate || "",
+            startDate: task.startDate || "",
+            endDate: task.endDate || "",
+            description: task.description || "",
+            labels: Array.isArray(task.labels) ? task.labels : [],
+            mainLabel: getPrimaryLabel(task),
+            canMoveUp: taskIndex > 0,
+            canMoveDown: taskIndex < tasksInGroup.length - 1,
+            barStart: new Date(taskStart.getTime()),
+            barEnd: addDays(taskEnd, 1),
+            barLabel: (STATUS_LABELS[task.status] || task.status) + " | " + (task.assignee || "Nieprzypisane"),
+          });
+
+          related.forEach(function (entry, relatedIndex) {
+            var start = new Date((entry.date || "1970-01-01") + "T" + (entry.start || "09:00") + ":00");
+            var end = new Date((entry.date || "1970-01-01") + "T" + (entry.end || "10:00") + ":00");
+            if (!Number.isFinite(start.getTime())) start = new Date(today.getTime());
+            if (!Number.isFinite(end.getTime()) || end.getTime() <= start.getTime()) {
+              end = new Date(start.getTime() + 60 * 60 * 1000);
+            }
+
+            rows.push({
+              rowType: "sub",
+              id: entry.id,
+              parentTaskId: task.id,
+              title: entry.title,
+              owner: entry.owner || "Nieprzypisane",
+              status: entry.status || "planned",
+              canMoveUp: relatedIndex > 0,
+              canMoveDown: relatedIndex < related.length - 1,
+              date: entry.date || "",
+              start: entry.start || "09:00",
+              end: entry.end || "10:00",
+              note: entry.note || "",
+              barStart: start,
+              barEnd: end,
+              barLabel: (entry.start || "09:00") + "-" + (entry.end || "10:00") + " | " + (entry.owner || "Nieprzypisane"),
+            });
+          });
+        });
+        });
+
+        var bars = rows
+          .filter(function (row) { return row.rowType !== "group"; })
+          .map(function (row) { return { start: row.barStart, end: row.barEnd }; })
+          .filter(function (entry) { return entry.start && entry.end; });
+
+        var minStart = bars.length ? new Date(Math.min.apply(null, bars.map(function (entry) { return entry.start.getTime(); }))) : today;
+        var maxEnd = bars.length ? new Date(Math.max.apply(null, bars.map(function (entry) { return entry.end.getTime(); }))) : addDays(today, 21);
+
+        var rangeStart = parseDateOnly(new Date(minStart.toISOString().slice(0, 10))) || today;
+        var rangeEndBase = parseDateOnly(new Date(maxEnd.toISOString().slice(0, 10))) || rangeStart;
+        var rangeEnd = addDays(rangeEndBase, 2);
+        if (rangeEnd.getTime() <= rangeStart.getTime()) rangeEnd = addDays(rangeStart, 21);
+
+        var totalDays = Math.ceil((rangeEnd.getTime() - rangeStart.getTime()) / dayMs);
+        totalDays = Math.max(14, Math.min(120, totalDays));
+        var timelineWidth = totalDays * dayW;
+
+        var dayHeaders = [];
+        for (var i = 0; i < totalDays; i += 1) {
+          var d = addDays(rangeStart, i);
+          dayHeaders.push(
+            '<div class="gantt-day" style="width:' + dayW + 'px">' +
+              '<strong>' + esc(formatDateShort(d)) + '</strong>' +
+              '<span>' + esc(formatWeekday(d)) + '</span>' +
+            '</div>'
+          );
+        }
+
+        var leftRows = [];
+        var rightRows = [];
+
+        rows.forEach(function (row) {
+          var rowClass = row.rowType === "sub" ? " sub" : (row.rowType === "group" ? " group" : "");
+          if (row.rowType === "group") {
+            leftRows.push(
+              '<div class="gantt-row-left' + rowClass + '">' +
+                '<div class="gantt-group-title">' + esc(row.title) + '</div>' +
+              '</div>'
+            );
+            rightRows.push('<div class="gantt-row-right' + rowClass + '"></div>');
+            return;
+          }
+
+          if (row.rowType === "task") {
+            var taskEditLabels = (row.labels || []).join(", ");
+            var taskEditMainLabel = row.mainLabel || "Bez etykiety";
+            leftRows.push(
+              '<div class="gantt-row-left gantt-task-row' + rowClass + '" data-task-id="' + esc(row.id) + '">' +
+                '<div class="gantt-title">' + esc(row.title) + '</div>' +
+                '<span class="gantt-chip ' + esc(row.status) + '">' + esc(STATUS_LABELS[row.status] || row.status) + '</span>' +
+                '<span class="gantt-meta">' + esc(row.assignee || "Nieprzypisane") + '</span>' +
+                '<div class="gantt-actions">' +
+                  '<button type="button" class="gantt-action-btn" data-action="move-task-up" data-task-id="' + esc(row.id) + '" title="Przesuń zadanie w górę"' + (row.canMoveUp ? "" : " disabled") + '>↑</button>' +
+                  '<button type="button" class="gantt-action-btn" data-action="move-task-down" data-task-id="' + esc(row.id) + '" title="Przesuń zadanie w dół"' + (row.canMoveDown ? "" : " disabled") + '>↓</button>' +
+                '</div>' +
+                '<div class="gantt-task-edit">' +
+                  '<form class="gantt-task-edit-form">' +
+                    '<div class="gantt-task-edit-grid">' +
+                      '<div class="field full"><label>Tytuł</label><input name="title" maxlength="120" value="' + esc(row.title || "") + '" required /></div>' +
+                      '<div class="field full"><label>Opis</label><textarea name="description">' + esc(row.description || "") + '</textarea></div>' +
+                      '<div class="field"><label>Status</label><select name="status">' + statusOptions(row.status) + '</select></div>' +
+                      '<div class="field"><label>Priorytet</label><select name="priority">' + priorityOptions(row.priority) + '</select></div>' +
+                      '<div class="field"><label>Odpowiedzialny</label><select name="assignee">' + assigneeOptions(row.assignee || "Nieprzypisane") + '</select></div>' +
+                      '<div class="field"><label>Termin</label><input name="dueDate" type="date" value="' + esc(row.dueDate || "") + '" /></div>' +
+                      '<div class="field"><label>Od</label><input name="startDate" type="date" value="' + esc(row.startDate || "") + '" /></div>' +
+                      '<div class="field"><label>Do</label><input name="endDate" type="date" value="' + esc(row.endDate || "") + '" /></div>' +
+                      '<div class="field"><label>Etykieta główna</label><select name="mainLabel">' + labelOptions(taskEditMainLabel) + '</select></div>' +
+                      '<div class="field full"><label>Etykiety (po przecinku)</label><input name="labels" maxlength="180" list="task-labels-options" value="' + esc(taskEditLabels) + '" /></div>' +
+                    '</div>' +
+                    '<div class="gantt-task-edit-actions">' +
+                      '<button class="btn task-edit-btn" type="submit">Zapisz</button>' +
+                      '<button class="btn task-edit-btn" type="button" data-action="collapse-gantt-task" data-task-id="' + esc(row.id) + '">Zwiń</button>' +
+                    '</div>' +
+                  '</form>' +
+                '</div>' +
+              '</div>'
+            );
+          } else {
+            leftRows.push(
+              '<div class="gantt-row-left' + rowClass + '" data-schedule-id="' + esc(row.id) + '">' +
+                '<div class="gantt-title sub">' + esc(row.title) + '</div>' +
+                '<span class="gantt-meta">' + esc(row.owner || "Nieprzypisane") + '</span>' +
+                '<div class="gantt-actions">' +
+                  '<button type="button" class="gantt-action-btn" data-action="move-schedule-up" data-schedule-id="' + esc(row.id) + '" title="Przesuń termin w górę"' + (row.canMoveUp ? "" : " disabled") + '>↑</button>' +
+                  '<button type="button" class="gantt-action-btn" data-action="move-schedule-down" data-schedule-id="' + esc(row.id) + '" title="Przesuń termin w dół"' + (row.canMoveDown ? "" : " disabled") + '>↓</button>' +
+                  '<button type="button" class="gantt-action-btn" data-action="toggle-schedule" data-schedule-id="' + esc(row.id) + '" title="Zmień status">' + (row.status === "done" ? "✓" : "•") + '</button>' +
+                  '<button type="button" class="gantt-action-btn danger" data-action="delete-schedule" data-schedule-id="' + esc(row.id) + '" title="Usuń wpis">×</button>' +
+                '</div>' +
+              '</div>'
+            );
+          }
+
+          var leftPx = ((row.barStart.getTime() - rangeStart.getTime()) / dayMs) * dayW;
+          var widthPx = ((row.barEnd.getTime() - row.barStart.getTime()) / dayMs) * dayW;
+          if (!Number.isFinite(widthPx) || widthPx <= 0) widthPx = dayW * 0.6;
+          widthPx = Math.max(dayW * (row.rowType === "sub" ? 0.45 : 0.85), widthPx);
+
+          var barClass = "gantt-bar" + (row.rowType === "sub" ? " sub" : "") + (row.status === "done" ? " done" : "");
+          rightRows.push(
+            '<div class="gantt-row-right' + rowClass + '"' + (row.rowType === "sub" ? ' data-schedule-id="' + esc(row.id) + '"' : ' data-task-id="' + esc(row.id) + '"') + '>' +
+              '<div class="' + barClass + '"' +
+                (row.rowType === "sub"
+                  ? ' draggable="true" data-action="drag-schedule-date" data-schedule-id="' + esc(row.id) + '"'
+                  : ' draggable="true" data-action="drag-task-date" data-task-id="' + esc(row.id) + '"') +
+                ' style="left:' + leftPx + 'px;width:' + widthPx + 'px" title="' + esc(row.barLabel || row.title) + '">' +
+                (row.rowType === "sub"
+                  ? '<i class="gantt-resize-handle start" data-resize-edge="start" data-schedule-id="' + esc(row.id) + '" title="Rozciągnij od"></i>' +
+                    '<i class="gantt-resize-handle end" data-resize-edge="end" data-schedule-id="' + esc(row.id) + '" title="Rozciągnij do"></i>'
+                  : "") +
+                '<span>' + esc(row.barLabel || row.title) + '</span>' +
+              '</div>' +
+            '</div>'
+          );
+        });
+
+        board.innerHTML =
+          '<div class="gantt-grid">' +
+            '<div class="gantt-left">' +
+              '<div class="gantt-left-head">Etykieta / Zadanie / Podzadanie</div>' +
+              '<div class="gantt-left-body">' + leftRows.join("") + '</div>' +
+            '</div>' +
+            '<div class="gantt-right">' +
+              '<div class="gantt-time-head" style="grid-template-columns:repeat(' + totalDays + ',' + dayW + 'px);width:' + timelineWidth + 'px">' + dayHeaders.join("") + '</div>' +
+              '<div class="gantt-time-body" style="width:' + timelineWidth + 'px">' + rightRows.join("") + '</div>' +
+            '</div>' +
+          '</div>';
+        board.dataset.ganttRangeStart = formatIsoDateLocal(rangeStart);
+        board.dataset.ganttDayWidth = String(dayW);
+        board.dataset.ganttTotalDays = String(totalDays);
+      }
+
+      function renderUsers() {
+        var lock = document.getElementById("users-lock");
+        var form = document.getElementById("user-form");
+        var list = document.getElementById("user-list");
+        var assigneeSettings = document.getElementById("assignee-settings");
+        var labelSettings = document.getElementById("label-settings");
+
+        if (!can("users")) {
+          lock.hidden = false;
+          form.hidden = true;
+          assigneeSettings.hidden = true;
+          if (labelSettings) labelSettings.hidden = true;
+          list.innerHTML = "";
+          return;
+        }
+
+        lock.hidden = true;
+        form.hidden = false;
+        assigneeSettings.hidden = false;
+        if (labelSettings) labelSettings.hidden = false;
+
+        if (!state.users.length) {
+          list.innerHTML = '<p class="empty">Brak użytkowników.</p>';
+        } else {
+          list.innerHTML = state.users.map(function (u) {
+            var p = u.permissions || {};
+            return (
+              '<article class="item" data-user-id="' + esc(u.id) + '">' +
+                '<div class="item-head"><h4>' + esc(u.name || u.email) + '</h4><small>' + esc(u.email) + '</small></div>' +
+                '<div class="item-actions">' +
+                  '<input type="text" data-role="name" value="' + esc(u.name || '') + '" />' +
+                  '<select data-role="role"><option value="member"' + (u.role === 'member' ? ' selected' : '') + '>Member</option><option value="manager"' + (u.role === 'manager' ? ' selected' : '') + '>Manager</option><option value="admin"' + (u.role === 'admin' ? ' selected' : '') + '>Admin</option></select>' +
+                  '<label><input type="checkbox" data-role="active"' + (u.active ? ' checked' : '') + ' /> Aktywny</label>' +
+                  '<button class="btn" type="button" data-action="save-user">Zapisz</button>' +
+                '</div>' +
+                '<div class="perm">' +
+                  '<label><input type="checkbox" data-perm="kanban"' + (p.kanban ? ' checked' : '') + ' /> Kanban</label>' +
+                  '<label><input type="checkbox" data-perm="schedule"' + (p.schedule ? ' checked' : '') + ' /> Harmonogramy</label>' +
+                  '<label><input type="checkbox" data-perm="archive"' + (p.archive ? ' checked' : '') + ' /> Archiwum</label>' +
+                  '<label><input type="checkbox" data-perm="users"' + (p.users ? ' checked' : '') + ' /> Użytkownicy</label>' +
+                '</div>' +
+              '</article>'
+            );
+          }).join("");
+        }
+        renderAssigneeSettings();
+        renderLabelSettings();
+      }
+
+      function renderAll() {
+        renderMeta();
+        renderTaskSelects();
+        renderMetrics();
+        renderKanban();
+        renderArchive();
+        renderSchedules();
+        renderUsers();
+      }
+
+      async function refreshState(message) {
+        try {
+          var payload = await api("/api/panel/state");
+          state.me = payload.me || payload.currentUser || payload.panelUser || null;
+          state.statuses = Array.isArray(payload.statuses) ? payload.statuses : [];
+          state.assignees = Array.isArray(payload.assignees) ? payload.assignees : [];
+          state.labels = Array.isArray(payload.labels) ? payload.labels : [];
+          state.tasks = Array.isArray(payload.tasks) ? payload.tasks : [];
+          state.archived = Array.isArray(payload.archived) ? payload.archived : [];
+          state.schedules = Array.isArray(payload.schedules) ? payload.schedules : [];
+          state.users = Array.isArray(payload.users) ? payload.users : [];
+          state.updatedAt = payload.updatedAt || null;
+          renderAll();
+          setStatus(message || "Dane panelu odświeżone.", "good");
+        } catch (error) {
+          setStatus(error.message || "Nie udało się pobrać danych.", "bad");
+        }
+      }
+      function bindTabs() {
+        var tabs = Array.from(document.querySelectorAll(".tab"));
+        tabs.forEach(function (tab) {
+          tab.addEventListener("click", function () {
+            var target = tab.getAttribute("data-tab");
+            tabs.forEach(function (entry) { entry.classList.toggle("active", entry === tab); });
+            document.querySelectorAll(".pane").forEach(function (pane) { pane.classList.remove("active"); });
+            var pane = document.getElementById("pane-" + target);
+            if (pane) pane.classList.add("active");
+          });
+        });
+      }
+
+      function bindRefresh() {
+        document.getElementById("refresh").addEventListener("click", function () {
+          refreshState("Ręczne odświeżenie.");
+        });
+      }
+
+      function openPane(tabKey) {
+        var tabButton = document.querySelector('.tab[data-tab="' + tabKey + '"]');
+        if (tabButton) {
+          tabButton.click();
+          return;
+        }
+
+        document.querySelectorAll(".tab").forEach(function (entry) { entry.classList.remove("active"); });
+        document.querySelectorAll(".pane").forEach(function (pane) { pane.classList.remove("active"); });
+        var pane = document.getElementById("pane-" + tabKey);
+        if (pane) pane.classList.add("active");
+      }
+
+      function bindTopRightShortcuts() {
+        var usersButton = document.getElementById("open-users-tab");
+        if (!usersButton) return;
+        usersButton.addEventListener("click", function () {
+          openPane("users");
+        });
+      }
+
+      function bindTaskFormToggle() {
+        var button = document.getElementById("toggle-task-form");
+        var icon = document.getElementById("toggle-task-form-icon");
+        var label = document.getElementById("toggle-task-form-label");
+        var wrap = document.getElementById("task-form-wrap");
+        if (!button || !icon || !label || !wrap) return;
+
+        button.addEventListener("click", function () {
+          var isCollapsed = wrap.classList.toggle("is-collapsed");
+          button.setAttribute("aria-expanded", String(!isCollapsed));
+          icon.textContent = isCollapsed ? "+" : "-";
+          label.textContent = isCollapsed ? "Dodaj zadanie" : "Ukryj formularz";
+        });
+      }
+
+      function bindScheduleToggle() {
+        var button = document.getElementById("toggle-schedule-form");
+        var icon = document.getElementById("toggle-schedule-form-icon");
+        var label = document.getElementById("toggle-schedule-form-label");
+        var wrap = document.getElementById("schedule-form-wrap");
+        if (!button || !icon || !label || !wrap) return;
+
+        button.addEventListener("click", function () {
+          var isCollapsed = wrap.classList.toggle("is-collapsed");
+          button.setAttribute("aria-expanded", String(!isCollapsed));
+          icon.textContent = isCollapsed ? "+" : "-";
+          label.textContent = isCollapsed ? "Dodaj harmonogram" : "Ukryj formularz";
+        });
+      }
+
+      function bindThemeToggle() {
+        var button = document.getElementById("theme-toggle");
+        if (!button) return;
+
+        applyTheme(readStoredTheme());
+
+        button.addEventListener("click", function () {
+          var current = document.body.getAttribute("data-theme") === "light" ? "light" : "dark";
+          var next = current === "light" ? "dark" : "light";
+          applyTheme(next);
+          storeTheme(next);
+        });
+      }
+
+      function bindTaskForm() {
+        document.getElementById("task-form").addEventListener("submit", async function (event) {
+          event.preventDefault();
+          if (!can("kanban")) { setStatus("Brak uprawnień do tworzenia zadań.", "bad"); return; }
+          var data = new FormData(event.currentTarget);
+          var labels = mergeLabels(data.get("mainLabel"), data.get("labels"));
+          try {
+            await api("/api/panel/task", {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({
+                title: data.get("title"),
+                description: data.get("description"),
+                priority: data.get("priority"),
+                assignee: data.get("assignee"),
+                dueDate: data.get("dueDate"),
+                startDate: data.get("startDate"),
+                endDate: data.get("endDate"),
+                labels: labels
+              })
+            });
+            event.currentTarget.reset();
+            document.getElementById("task-priority").value = "medium";
+            var mainLabel = document.getElementById("task-main-label");
+            if (mainLabel && mainLabel.options.length) {
+              mainLabel.value = mainLabel.options[0].value;
+            }
+            await refreshState("Dodano zadanie.");
+          } catch (error) {
+            setStatus(error.message || "Błąd dodawania zadania.", "bad");
+          }
+        });
+
+        document.getElementById("kanban").addEventListener("click", async function (event) {
+          var collapseBtn = event.target.closest('button[data-action="collapse-inline"]');
+          if (collapseBtn) {
+            var collapseCard = collapseBtn.closest(".task");
+            if (!collapseCard) return;
+            collapseCard.classList.remove("is-expanded");
+            var collapsePane = collapseCard.querySelector(".task-edit");
+            if (collapsePane) collapsePane.classList.remove("is-open");
+            return;
+          }
+
+          var btn = event.target.closest("button[data-action]");
+          if (btn) {
+            var card = btn.closest(".task");
+            if (!card) return;
+            var taskId = card.getAttribute("data-task-id");
+            var action = btn.getAttribute("data-action");
+            try {
+              if (action === "archive") {
+                var confirmArchive = window.confirm('Zarchiwizować zadanie "' + ((findTaskById(taskId) || {}).title || "bez nazwy") + '"?');
+                if (!confirmArchive) {
+                  setStatus("Anulowano archiwizację zadania.");
+                  return;
+                }
+                await api("/api/panel/task/" + encodeURIComponent(taskId) + "/archive", {
+                  method: "POST",
+                  headers: { "Content-Type": "application/json" },
+                  body: JSON.stringify({})
+                });
+                await refreshState("Zadanie zarchiwizowane.");
+              } else if (action === "upload-attachment") {
+                if (!can("kanban")) { setStatus("Brak uprawnień do dodawania załączników.", "bad"); return; }
+                var fileInput = card.querySelector('input[data-role="attachment-file"]');
+                if (!fileInput || !fileInput.files || !fileInput.files[0]) {
+                  setStatus("Wybierz plik do dodania.", "bad");
+                  return;
+                }
+                var payload = new FormData();
+                payload.append("file", fileInput.files[0]);
+                await api("/api/panel/task/" + encodeURIComponent(taskId) + "/attachments", {
+                  method: "POST",
+                  body: payload
+                });
+                await refreshState("Dodano załącznik do zadania.");
+              } else if (action === "delete-attachment") {
+                if (!can("kanban")) { setStatus("Brak uprawnień do usuwania załączników.", "bad"); return; }
+                var attachmentId = btn.getAttribute("data-attachment-id");
+                if (!attachmentId) {
+                  setStatus("Brak identyfikatora załącznika.", "bad");
+                  return;
+                }
+                var shouldDelete = window.confirm("Usunąć wybrany załącznik?");
+                if (!shouldDelete) {
+                  setStatus("Anulowano usuwanie załącznika.");
+                  return;
+                }
+                await api("/api/panel/task/" + encodeURIComponent(taskId) + "/attachments/" + encodeURIComponent(attachmentId), {
+                  method: "DELETE"
+                });
+                await refreshState("Usunięto załącznik.");
+              }
+            } catch (error) {
+              setStatus(error.message || "Operacja na zadaniu nie powiodła się.", "bad");
+            }
+            return;
+          }
+
+          var interactive = event.target.closest("input, select, textarea, label, a");
+          if (interactive) return;
+          if (event.target.closest(".task-edit")) return;
+
+          var clickedCard = event.target.closest(".task");
+          if (!clickedCard) return;
+          var pane = clickedCard.querySelector(".task-edit");
+          if (!pane) return;
+
+          document.querySelectorAll("#kanban .task.is-expanded").forEach(function (entry) {
+            if (entry !== clickedCard) {
+              entry.classList.remove("is-expanded");
+              var otherPane = entry.querySelector(".task-edit");
+              if (otherPane) otherPane.classList.remove("is-open");
+            }
+          });
+
+          var willOpen = !pane.classList.contains("is-open");
+          pane.classList.toggle("is-open", willOpen);
+          clickedCard.classList.toggle("is-expanded", willOpen);
+        });
+
+        document.getElementById("kanban").addEventListener("submit", async function (event) {
+          var form = event.target.closest(".task-edit-form");
+          if (!form) return;
+          event.preventDefault();
+          if (!can("kanban")) { setStatus("Brak uprawnień do edycji zadań.", "bad"); return; }
+
+          var card = form.closest(".task");
+          if (!card) return;
+          var taskId = card.getAttribute("data-task-id");
+          var data = new FormData(form);
+          var labels = mergeLabels(data.get("mainLabel"), data.get("labels"));
+
+          try {
+            await api("/api/panel/task/" + encodeURIComponent(taskId), {
+              method: "PATCH",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({
+                title: data.get("title"),
+                description: data.get("description"),
+                status: data.get("status"),
+                priority: data.get("priority"),
+                assignee: data.get("assignee"),
+                dueDate: data.get("dueDate"),
+                startDate: data.get("startDate"),
+                endDate: data.get("endDate"),
+                labels: labels
+              })
+            });
+            await refreshState("Zapisano zmiany zadania.");
+          } catch (error) {
+            setStatus(error.message || "Nie udało się zapisać zadania.", "bad");
+          }
+        });
+      }
+
+      function bindKanbanDragAndDrop() {
+        var board = document.getElementById("kanban");
+        if (!board) return;
+
+        board.addEventListener("dragstart", function (event) {
+          var card = event.target.closest('.task[draggable="true"]');
+          if (!card || !can("kanban")) return;
+          if (event.target.closest(".task-edit")) return;
+
+          var taskId = card.getAttribute("data-task-id");
+          if (!taskId) return;
+
+          dragContext.taskId = taskId;
+          dragContext.targetStatus = null;
+          card.classList.add("dragging");
+
+          if (event.dataTransfer) {
+            event.dataTransfer.setData("text/plain", taskId);
+            event.dataTransfer.effectAllowed = "move";
+          }
+        });
+
+        board.addEventListener("dragend", function () {
+          document.querySelectorAll(".task.dragging").forEach(function (card) {
+            card.classList.remove("dragging");
+          });
+          dragContext.taskId = null;
+          dragContext.targetStatus = null;
+          clearDropTargets();
+        });
+
+        board.addEventListener("dragover", function (event) {
+          var col = event.target.closest(".col[data-col-status]");
+          if (!col) return;
+          event.preventDefault();
+          if (event.dataTransfer) {
+            event.dataTransfer.dropEffect = "move";
+          }
+        });
+
+        board.addEventListener("dragenter", function (event) {
+          var col = event.target.closest(".col[data-col-status]");
+          if (!col) return;
+          clearDropTargets();
+          col.classList.add("drop-target");
+          dragContext.targetStatus = col.getAttribute("data-col-status");
+        });
+
+        board.addEventListener("drop", async function (event) {
+          var col = event.target.closest(".col[data-col-status]");
+          if (!col || !can("kanban")) return;
+          event.preventDefault();
+
+          var droppedId = dragContext.taskId;
+          if (!droppedId && event.dataTransfer) {
+            droppedId = event.dataTransfer.getData("text/plain");
+          }
+          var targetStatus = col.getAttribute("data-col-status");
+          clearDropTargets();
+
+          if (!droppedId || !targetStatus) return;
+          var draggedTask = findTaskById(droppedId);
+          if (!draggedTask || draggedTask.status === targetStatus) return;
+          var targetLabel = STATUS_LABELS[targetStatus] || targetStatus;
+          var shouldMove = window.confirm('Przenieść zadanie "' + (draggedTask.title || "bez nazwy") + '" do kolumny "' + targetLabel + '"?');
+          if (!shouldMove) {
+            setStatus("Anulowano przeniesienie zadania.", "bad");
+            return;
+          }
+
+          try {
+            await api("/api/panel/task/" + encodeURIComponent(droppedId), {
+              method: "PATCH",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({ status: targetStatus })
+            });
+            await refreshState("Przeniesiono zadanie do kolumny: " + targetLabel + ".");
+          } catch (error) {
+            setStatus(error.message || "Nie udało się przenieść zadania.", "bad");
+          } finally {
+            dragContext.taskId = null;
+            dragContext.targetStatus = null;
+          }
+        });
+      }
+
+      function bindArchive() {
+        document.getElementById("archive-list").addEventListener("click", async function (event) {
+          var btn = event.target.closest('button[data-action="restore"]');
+          if (!btn) return;
+          var item = btn.closest(".item");
+          var taskId = item.getAttribute("data-task-id");
+          var statusValue = item.querySelector('select[data-role="restore"]').value;
+          try {
+            await api("/api/panel/task/" + encodeURIComponent(taskId) + "/restore", {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({ status: statusValue })
+            });
+            await refreshState("Zadanie przywrócone.");
+          } catch (error) {
+            setStatus(error.message || "Nie udało się przywrócić zadania.", "bad");
+          }
+        });
+      }
+
+      function bindSchedules() {
+        document.getElementById("schedule-form").addEventListener("submit", async function (event) {
+          event.preventDefault();
+          if (!can("schedule")) { setStatus("Brak uprawnień do harmonogramów.", "bad"); return; }
+          var data = new FormData(event.currentTarget);
+          var taskId = data.get("taskId") || null;
+          if (!taskId) {
+            setStatus("Wybierz zadanie z Kanbana dla harmonogramu.", "bad");
+            return;
+          }
+          try {
+            await api("/api/panel/schedule", {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({
+                title: data.get("title"),
+                date: data.get("date"),
+                start: data.get("start"),
+                end: data.get("end"),
+                owner: data.get("owner"),
+                taskId: taskId,
+                note: data.get("note")
+              })
+            });
+            event.currentTarget.reset();
+            document.getElementById("sch-start").value = "09:00";
+            document.getElementById("sch-end").value = "10:00";
+            await refreshState("Dodano harmonogram.");
+          } catch (error) {
+            setStatus(error.message || "Błąd dodawania harmonogramu.", "bad");
+          }
+        });
+
+        document.getElementById("gantt-board").addEventListener("click", async function (event) {
+          var btn = event.target.closest("button[data-action]");
+          if (btn) {
+            var action = btn.getAttribute("data-action");
+
+            try {
+              if (action === "collapse-gantt-task") {
+                var collapseTaskId = btn.getAttribute("data-task-id");
+                if (!collapseTaskId) return;
+                var collapseRow = document.querySelector('.gantt-task-row[data-task-id="' + collapseTaskId + '"]');
+                if (!collapseRow) return;
+                var collapsePanel = collapseRow.querySelector(".gantt-task-edit");
+                if (collapsePanel) collapsePanel.classList.remove("is-open");
+                return;
+              }
+
+            if (action === "move-task-up" || action === "move-task-down") {
+              var taskId = btn.getAttribute("data-task-id");
+              if (!taskId) return;
+              var taskDirection = action === "move-task-up" ? "up" : "down";
+              await api("/api/panel/task/" + encodeURIComponent(taskId) + "/move", {
+                  method: "POST",
+                  headers: { "Content-Type": "application/json" },
+                  body: JSON.stringify({ direction: taskDirection })
+                });
+              await refreshState("Przesunięto zadanie w harmonogramie.");
+              return;
+            }
+
+            var scheduleId = btn.getAttribute("data-schedule-id");
+            if (!scheduleId) return;
+            var schedule = state.schedules.find(function (entry) { return entry.id === scheduleId; });
+            if (!schedule) return;
+
+              if (action === "move-schedule-up" || action === "move-schedule-down") {
+                var scheduleDirection = action === "move-schedule-up" ? "up" : "down";
+                await api("/api/panel/schedule/" + encodeURIComponent(scheduleId) + "/move", {
+                  method: "POST",
+                  headers: { "Content-Type": "application/json" },
+                  body: JSON.stringify({ direction: scheduleDirection })
+                });
+              await refreshState("Przesunięto termin w harmonogramie.");
+              return;
+            }
+            if (action === "toggle-schedule") {
+              var nextStatus = schedule.status === "done" ? "planned" : "done";
+              await api("/api/panel/schedule/" + encodeURIComponent(scheduleId), {
+                  method: "PATCH",
+                  headers: { "Content-Type": "application/json" },
+                  body: JSON.stringify({ status: nextStatus })
+                });
+                await refreshState("Zmieniono status wpisu harmonogramu.");
+              }
+              if (action === "delete-schedule") {
+                var confirmed = window.confirm('Usunąć wpis harmonogramu "' + (schedule.title || "bez nazwy") + '"?');
+                if (!confirmed) return;
+                await api("/api/panel/schedule/" + encodeURIComponent(scheduleId), { method: "DELETE", headers: { "Content-Type": "application/json" } });
+                await refreshState("Usunięto harmonogram.");
+              }
+            } catch (error) {
+              setStatus(error.message || "Operacja harmonogramu nie powiodła się.", "bad");
+            }
+            return;
+          }
+
+          var interactive = event.target.closest("input, select, textarea, label, a, button");
+          if (interactive) return;
+          var taskRow = event.target.closest(".gantt-task-row");
+          if (!taskRow) return;
+          var taskEditPanel = taskRow.querySelector(".gantt-task-edit");
+          if (!taskEditPanel) return;
+
+          document.querySelectorAll("#gantt-board .gantt-task-edit.is-open").forEach(function (panel) {
+            if (panel !== taskEditPanel) {
+              panel.classList.remove("is-open");
+            }
+          });
+
+          taskEditPanel.classList.toggle("is-open");
+        });
+
+        document.getElementById("gantt-board").addEventListener("submit", async function (event) {
+          var form = event.target.closest(".gantt-task-edit-form");
+          if (!form) return;
+          event.preventDefault();
+          if (!can("schedule")) { setStatus("Brak uprawnień do edycji harmonogramu.", "bad"); return; }
+
+          var taskRow = form.closest(".gantt-task-row");
+          if (!taskRow) return;
+          var taskId = taskRow.getAttribute("data-task-id");
+          if (!taskId) return;
+
+          var data = new FormData(form);
+          var labels = mergeLabels(data.get("mainLabel"), data.get("labels"));
+
+          try {
+            await api("/api/panel/task/" + encodeURIComponent(taskId), {
+              method: "PATCH",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({
+                title: data.get("title"),
+                description: data.get("description"),
+                status: data.get("status"),
+                priority: data.get("priority"),
+                assignee: data.get("assignee"),
+                dueDate: data.get("dueDate"),
+                startDate: data.get("startDate"),
+                endDate: data.get("endDate"),
+                labels: labels
+              })
+            });
+            await refreshState("Zapisano zmiany zadania z harmonogramu.");
+          } catch (error) {
+            setStatus(error.message || "Nie udało się zapisać zadania.", "bad");
+          }
+        });
+
+        var ganttBoard = document.getElementById("gantt-board");
+        var ganttResizeContext = null;
+
+        function roundToMinutes(date, step) {
+          if (!(date instanceof Date) || !Number.isFinite(date.getTime())) return null;
+          var mins = Math.round(date.getMinutes() / step) * step;
+          var normalized = new Date(date.getTime());
+          normalized.setSeconds(0, 0);
+          normalized.setMinutes(mins);
+          return normalized;
+        }
+
+        function beginScheduleResize(event, handle) {
+          if (!can("schedule")) return;
+          var edge = handle.getAttribute("data-resize-edge");
+          if (edge !== "start" && edge !== "end") return;
+
+          var scheduleId = handle.getAttribute("data-schedule-id");
+          var bar = handle.closest('.gantt-bar[data-action="drag-schedule-date"]');
+          var timeBody = handle.closest(".gantt-time-body");
+          var right = ganttBoard.querySelector(".gantt-right");
+          var dayW = Number(ganttBoard.dataset.ganttDayWidth || "44");
+          var totalDays = Number(ganttBoard.dataset.ganttTotalDays || "0");
+          var rangeStart = parseDateOnly(ganttBoard.dataset.ganttRangeStart || "");
+          if (!scheduleId || !bar || !timeBody || !right || !rangeStart || !Number.isFinite(dayW) || dayW <= 0 || !Number.isFinite(totalDays) || totalDays <= 0) return;
+
+          var left = Number.parseFloat(bar.style.left || "0");
+          var width = Number.parseFloat(bar.style.width || String(dayW * 0.5));
+          if (!Number.isFinite(left)) left = 0;
+          if (!Number.isFinite(width) || width <= 0) width = dayW * 0.5;
+
+          ganttResizeContext = {
+            scheduleId: scheduleId,
+            edge: edge,
+            bar: bar,
+            wasDraggable: bar.getAttribute("draggable"),
+            timeBody: timeBody,
+            right: right,
+            rangeStart: rangeStart,
+            dayW: dayW,
+            totalDays: totalDays,
+            dayMs: 24 * 60 * 60 * 1000,
+            startLeft: left,
+            startWidth: width,
+            currentLeft: left,
+            currentWidth: width
+          };
+
+          bar.classList.add("dragging");
+          bar.setAttribute("draggable", "false");
+          handle.classList.add("dragging");
+          document.body.style.userSelect = "none";
+          event.preventDefault();
+        }
+
+        async function finishScheduleResize() {
+          if (!ganttResizeContext) return;
+          var ctx = ganttResizeContext;
+          ganttResizeContext = null;
+
+          var handle = ctx.bar.querySelector('.gantt-resize-handle[data-resize-edge="' + ctx.edge + '"]');
+          if (handle) handle.classList.remove("dragging");
+          ctx.bar.classList.remove("dragging");
+          ctx.bar.setAttribute("draggable", ctx.wasDraggable || "true");
+          document.body.style.userSelect = "";
+
+          var schedule = state.schedules.find(function (entry) { return entry.id === ctx.scheduleId; });
+          if (!schedule) return;
+
+          var startMs = ctx.rangeStart.getTime() + (ctx.currentLeft / ctx.dayW) * ctx.dayMs;
+          var endMs = ctx.rangeStart.getTime() + ((ctx.currentLeft + ctx.currentWidth) / ctx.dayW) * ctx.dayMs;
+          var startDate = roundToMinutes(new Date(startMs), 15);
+          var endDate = roundToMinutes(new Date(endMs), 15);
+          if (!startDate || !endDate) return;
+
+          var minDurationMs = 30 * 60 * 1000;
+          if (endDate.getTime() - startDate.getTime() < minDurationMs) {
+            if (ctx.edge === "start") {
+              endDate = new Date(startDate.getTime() + minDurationMs);
+            } else {
+              startDate = new Date(endDate.getTime() - minDurationMs);
+            }
+          }
+
+          var nextDate = formatIsoDateLocal(startDate);
+          var nextStart = formatHm(startDate);
+          var nextEnd = formatHm(endDate);
+          if (!nextDate || !nextStart || !nextEnd) return;
+          if (nextDate === (schedule.date || "") && nextStart === (schedule.start || "") && nextEnd === (schedule.end || "")) return;
+
+          try {
+            await api("/api/panel/schedule/" + encodeURIComponent(ctx.scheduleId), {
+              method: "PATCH",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({ date: nextDate, start: nextStart, end: nextEnd })
+            });
+            await refreshState("Zmieniono zakres od-do terminu.");
+          } catch (error) {
+            setStatus(error.message || "Nie udało się zmienić zakresu terminu.", "bad");
+          }
+        }
+
+        document.addEventListener("mousemove", function (event) {
+          if (!ganttResizeContext) return;
+          var ctx = ganttResizeContext;
+          var rect = ctx.timeBody.getBoundingClientRect();
+          var timelineWidth = ctx.totalDays * ctx.dayW;
+          var relativeX = event.clientX - rect.left + ctx.right.scrollLeft;
+          relativeX = Math.max(0, Math.min(timelineWidth, relativeX));
+
+          var minWidth = 6;
+          if (ctx.edge === "start") {
+            var maxLeft = ctx.startLeft + ctx.startWidth - minWidth;
+            ctx.currentLeft = Math.max(0, Math.min(maxLeft, relativeX));
+            ctx.currentWidth = ctx.startLeft + ctx.startWidth - ctx.currentLeft;
+          } else {
+            var minRight = ctx.startLeft + minWidth;
+            var newRight = Math.max(minRight, relativeX);
+            newRight = Math.min(timelineWidth, newRight);
+            ctx.currentLeft = ctx.startLeft;
+            ctx.currentWidth = newRight - ctx.startLeft;
+          }
+
+          ctx.bar.style.left = ctx.currentLeft + "px";
+          ctx.bar.style.width = Math.max(minWidth, ctx.currentWidth) + "px";
+        });
+
+        document.addEventListener("mouseup", function () {
+          finishScheduleResize();
+        });
+
+        ganttBoard.addEventListener("mousedown", function (event) {
+          var handle = event.target.closest(".gantt-resize-handle[data-resize-edge]");
+          if (!handle) return;
+          beginScheduleResize(event, handle);
+        });
+
+        ganttBoard.addEventListener("dragstart", function (event) {
+          var dragTarget = event.target.closest('[draggable="true"][data-action]');
+          if (!dragTarget || !can("schedule")) return;
+          var dragAction = dragTarget.getAttribute("data-action");
+          var scheduleId = dragTarget.getAttribute("data-schedule-id");
+          var taskId = dragTarget.getAttribute("data-task-id");
+
+          if (dragAction === "drag-schedule-date" && scheduleId) {
+            ganttDragContext.type = "schedule-move";
+            ganttDragContext.id = scheduleId;
+          } else if (dragAction === "drag-task-date" && taskId) {
+            ganttDragContext.type = "task-move";
+            ganttDragContext.id = taskId;
+          } else {
+            return;
+          }
+
+          dragTarget.classList.add("dragging");
+          if (event.dataTransfer) {
+            event.dataTransfer.setData("text/plain", JSON.stringify(ganttDragContext));
+            event.dataTransfer.effectAllowed = "move";
+          }
+        });
+
+        ganttBoard.addEventListener("dragend", function () {
+          document.querySelectorAll(".gantt-bar.dragging").forEach(function (bar) {
+            bar.classList.remove("dragging");
+          });
+          document.querySelectorAll(".gantt-resize-handle.dragging").forEach(function (handle) {
+            handle.classList.remove("dragging");
+          });
+          ganttDragContext.type = null;
+          ganttDragContext.id = null;
+        });
+
+        ganttBoard.addEventListener("dragover", function (event) {
+          var bar = event.target.closest('.gantt-bar[data-action="drag-schedule-date"]');
+          var timeBody = event.target.closest(".gantt-time-body");
+          if (!bar && !timeBody) return;
+          event.preventDefault();
+          if (event.dataTransfer) event.dataTransfer.dropEffect = "move";
+        });
+
+        ganttBoard.addEventListener("drop", async function (event) {
+          var timeBody = event.target.closest(".gantt-time-body");
+          if (!timeBody || !can("schedule")) return;
+          event.preventDefault();
+
+          var dragType = ganttDragContext.type;
+          var dragId = ganttDragContext.id;
+          if ((!dragType || !dragId) && event.dataTransfer) {
+            try {
+              var parsed = JSON.parse(event.dataTransfer.getData("text/plain") || "{}");
+              dragType = parsed.type;
+              dragId = parsed.id;
+            } catch (error) {}
+          }
+          if (!dragType || !dragId) return;
+
+          var dayW = Number(ganttBoard.dataset.ganttDayWidth || "44");
+          var dayMs = 24 * 60 * 60 * 1000;
+          var totalDays = Number(ganttBoard.dataset.ganttTotalDays || "0");
+          var rangeStart = parseDateOnly(ganttBoard.dataset.ganttRangeStart || "");
+          if (!Number.isFinite(dayW) || !rangeStart || !Number.isFinite(totalDays) || totalDays <= 0) return;
+
+          var right = ganttBoard.querySelector(".gantt-right");
+          var rect = timeBody.getBoundingClientRect();
+          var scrollLeft = right ? right.scrollLeft : 0;
+          var relativeX = event.clientX - rect.left + scrollLeft;
+          var dayIndex = Math.floor(relativeX / dayW);
+          dayIndex = Math.max(0, Math.min(totalDays - 1, dayIndex));
+
+          var targetDate = addDays(rangeStart, dayIndex);
+          var targetDateIso = formatIsoDateLocal(targetDate);
+          if (!targetDateIso) return;
+
+          try {
+            if (dragType === "schedule-move") {
+              var schedule = state.schedules.find(function (entry) { return entry.id === dragId; });
+              if (!schedule || targetDateIso === schedule.date) return;
+              await api("/api/panel/schedule/" + encodeURIComponent(dragId), {
+                method: "PATCH",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ date: targetDateIso })
+              });
+              await refreshState("Przeniesiono termin na " + targetDateIso + ".");
+            } else if (dragType === "task-move") {
+              var task = state.tasks.find(function (entry) { return entry.id === dragId; });
+              if (!task) return;
+              var currentStartIso = task.startDate || task.dueDate || "";
+              var currentEndIso = task.endDate || task.dueDate || task.startDate || "";
+
+              if (currentStartIso && currentEndIso) {
+                var currentStartDate = parseDateOnly(currentStartIso);
+                var currentEndDate = parseDateOnly(currentEndIso);
+                if (!currentStartDate || !currentEndDate) return;
+
+                var durationDays = Math.max(0, Math.round((currentEndDate.getTime() - currentStartDate.getTime()) / dayMs));
+                var nextStartIso = targetDateIso;
+                var nextEndIso = formatIsoDateLocal(addDays(targetDate, durationDays));
+                if (!nextEndIso) return;
+
+                if (nextStartIso === currentStartIso && nextEndIso === currentEndIso) return;
+                await api("/api/panel/task/" + encodeURIComponent(dragId), {
+                  method: "PATCH",
+                  headers: { "Content-Type": "application/json" },
+                  body: JSON.stringify({ startDate: nextStartIso, endDate: nextEndIso, dueDate: nextEndIso })
+                });
+                await refreshState("Przeniesiono zakres taska na " + nextStartIso + " - " + nextEndIso + ".");
+                return;
+              }
+
+              if (targetDateIso === (task.dueDate || "")) return;
+              await api("/api/panel/task/" + encodeURIComponent(dragId), {
+                method: "PATCH",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ dueDate: targetDateIso })
+              });
+              await refreshState("Przeniesiono datę taska na " + targetDateIso + ".");
+            }
+          } catch (error) {
+            setStatus(error.message || "Nie udało się przeciągnąć terminu.", "bad");
+          } finally {
+            ganttDragContext.type = null;
+            ganttDragContext.id = null;
+          }
+        });
+      }
+
+      function bindUsers() {
+        document.getElementById("user-form").addEventListener("submit", async function (event) {
+          event.preventDefault();
+          if (!can("users")) { setStatus("Brak uprawnień do użytkowników.", "bad"); return; }
+          var data = new FormData(event.currentTarget);
+          try {
+            await api("/api/panel/users", {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({ name: data.get("name"), email: data.get("email"), role: data.get("role") })
+            });
+            event.currentTarget.reset();
+            await refreshState("Dodano użytkownika.");
+          } catch (error) {
+            setStatus(error.message || "Błąd dodawania użytkownika.", "bad");
+          }
+        });
+
+        document.getElementById("user-list").addEventListener("click", async function (event) {
+          var btn = event.target.closest('button[data-action="save-user"]');
+          if (!btn) return;
+          var item = btn.closest(".item");
+          if (!item) return;
+          var userId = item.getAttribute("data-user-id");
+          var payload = {
+            name: item.querySelector('input[data-role="name"]').value,
+            role: item.querySelector('select[data-role="role"]').value,
+            active: item.querySelector('input[data-role="active"]').checked,
+            permissions: {
+              kanban: item.querySelector('input[data-perm="kanban"]').checked,
+              schedule: item.querySelector('input[data-perm="schedule"]').checked,
+              archive: item.querySelector('input[data-perm="archive"]').checked,
+              users: item.querySelector('input[data-perm="users"]').checked
+            }
+          };
+          try {
+            await api("/api/panel/users/" + encodeURIComponent(userId), {
+              method: "PATCH",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify(payload)
+            });
+            await refreshState("Zapisano użytkownika.");
+          } catch (error) {
+            setStatus(error.message || "Błąd zapisu użytkownika.", "bad");
+          }
+        });
+      }
+
+      function bindAssigneeSettings() {
+        var form = document.getElementById("assignee-form");
+        var list = document.getElementById("assignee-list");
+        if (!form || !list) return;
+
+        form.addEventListener("submit", async function (event) {
+          event.preventDefault();
+          if (!can("users")) { setStatus("Brak uprawnień do ustawień listy.", "bad"); return; }
+          var data = new FormData(event.currentTarget);
+          try {
+            await api("/api/panel/assignees", {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({ name: data.get("name") })
+            });
+            event.currentTarget.reset();
+            await refreshState("Dodano nową pozycję odpowiedzialnego.");
+          } catch (error) {
+            setStatus(error.message || "Nie udało się dodać pozycji.", "bad");
+          }
+        });
+
+        list.addEventListener("click", async function (event) {
+          var button = event.target.closest('button[data-action="delete-assignee"]');
+          if (!button) return;
+          if (!can("users")) { setStatus("Brak uprawnień do usuwania pozycji.", "bad"); return; }
+          var name = button.getAttribute("data-name");
+          if (!name) return;
+
+          try {
+            await api("/api/panel/assignees/" + encodeURIComponent(name), {
+              method: "DELETE",
+              headers: { "Content-Type": "application/json" }
+            });
+            await refreshState("Usunięto pozycję z listy odpowiedzialnych.");
+          } catch (error) {
+            setStatus(error.message || "Nie udało się usunąć pozycji.", "bad");
+          }
+        });
+      }
+
+      function bindLabelSettings() {
+        var form = document.getElementById("label-form");
+        var list = document.getElementById("label-list");
+        if (!form || !list) return;
+
+        form.addEventListener("submit", async function (event) {
+          event.preventDefault();
+          if (!can("users")) { setStatus("Brak uprawnień do ustawień etykiet.", "bad"); return; }
+          var data = new FormData(event.currentTarget);
+          try {
+            await api("/api/panel/labels", {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({ name: data.get("name") })
+            });
+            event.currentTarget.reset();
+            await refreshState("Dodano nową etykietę.");
+          } catch (error) {
+            setStatus(error.message || "Nie udało się dodać etykiety.", "bad");
+          }
+        });
+
+        list.addEventListener("click", async function (event) {
+          var button = event.target.closest('button[data-action="delete-label"]');
+          if (!button) return;
+          if (!can("users")) { setStatus("Brak uprawnień do usuwania etykiet.", "bad"); return; }
+          var name = button.getAttribute("data-name");
+          if (!name) return;
+
+          try {
+            await api("/api/panel/labels/" + encodeURIComponent(name), {
+              method: "DELETE",
+              headers: { "Content-Type": "application/json" }
+            });
+            await refreshState("Usunięto etykietę z listy.");
+          } catch (error) {
+            setStatus(error.message || "Nie udało się usunąć etykiety.", "bad");
+          }
+        });
+      }
+
+      bindTabs();
+      bindThemeToggle();
+      bindTaskFormToggle();
+      bindScheduleToggle();
+      bindTopRightShortcuts();
+      bindRefresh();
+      bindTaskForm();
+      bindKanbanDragAndDrop();
+      bindArchive();
+      bindSchedules();
+      bindUsers();
+      bindAssigneeSettings();
+      bindLabelSettings();
+      refreshState("Panel załadowany.");
+    })();
+  </script>
+</body>
+</html>

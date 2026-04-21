@@ -14,15 +14,25 @@ const multer = require("multer");
 const app = express();
 const rootDir = __dirname;
 const secureViewsDir = path.join(rootDir, ".secure");
+const bundledSecureViewsDir = path.join(rootDir, "secure-views");
 const panelDataFile = path.join(secureViewsDir, "panel-data.json");
 const taskAttachmentUploadsDir = path.join(secureViewsDir, "uploads");
 const contactBriefsFile = path.join(secureViewsDir, "contact-briefs.jsonl");
+const bundledSecureViewFiles = ["logowanie.html", "panel.html"];
 
 const MAX_TASK_ATTACHMENTS = 12;
 const MAX_ATTACHMENT_SIZE_BYTES = 15 * 1024 * 1024;
 
 fs.mkdirSync(secureViewsDir, { recursive: true });
 fs.mkdirSync(taskAttachmentUploadsDir, { recursive: true });
+
+for (const viewFile of bundledSecureViewFiles) {
+  const sourcePath = path.join(bundledSecureViewsDir, viewFile);
+  const targetPath = path.join(secureViewsDir, viewFile);
+  if (fs.existsSync(sourcePath) && !fs.existsSync(targetPath)) {
+    fs.copyFileSync(sourcePath, targetPath);
+  }
+}
 
 const port = Number(process.env.PORT || 3000);
 const isProd = process.env.NODE_ENV === "production";
@@ -737,8 +747,31 @@ function requireAuth(req, res, next) {
   return res.redirect("/logowanie?error=unauthorized");
 }
 
+function resolveSecureViewPath(fileName) {
+  const safeFileName = path.basename(String(fileName || "").trim());
+  if (!safeFileName) {
+    return null;
+  }
+
+  const runtimePath = path.join(secureViewsDir, safeFileName);
+  if (fs.existsSync(runtimePath)) {
+    return runtimePath;
+  }
+
+  const bundledPath = path.join(bundledSecureViewsDir, safeFileName);
+  if (fs.existsSync(bundledPath)) {
+    return bundledPath;
+  }
+
+  return null;
+}
+
 function sendSecureView(res, fileName) {
-  res.sendFile(path.join(secureViewsDir, fileName));
+  const viewPath = resolveSecureViewPath(fileName);
+  if (!viewPath) {
+    return res.status(404).sendFile(path.join(rootDir, "404.html"));
+  }
+  return res.sendFile(viewPath);
 }
 
 function sendPublicFile(fileName) {

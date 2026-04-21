@@ -1,0 +1,222 @@
+﻿<!doctype html>
+<html lang="pl">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="robots" content="noindex, nofollow, noarchive" />
+    <title>QFS | Logowanie</title>
+    <style>
+      @import url("https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap");
+
+      :root {
+        --bg: #08121b;
+        --card: rgba(8, 18, 31, 0.88);
+        --line: rgba(238, 221, 112, 0.6);
+        --muted: #b7c6da;
+        --text: #eaf2ff;
+        --gold: #f1d58f;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      html,
+      body {
+        margin: 0;
+        min-height: 100%;
+        font-family: "Inter", "Segoe UI", Arial, sans-serif;
+        background:
+          linear-gradient(180deg, rgba(7, 17, 28, 0.45), rgba(8, 18, 27, 0.5)),
+          url("/assets/5edbc638-016c-4880-8a31-1d62fbed8716.png") center / cover no-repeat fixed,
+          radial-gradient(980px 280px at 50% -14%, rgba(209, 170, 113, 0.08), transparent 66%),
+          radial-gradient(1100px 320px at 12% -12%, rgba(209, 170, 113, 0.08), transparent 62%),
+          radial-gradient(980px 360px at 88% 118%, rgba(143, 178, 199, 0.16), transparent 62%),
+          linear-gradient(180deg, #07111c, #081420 42%, #08121b);
+        color: var(--text);
+      }
+
+      body {
+        display: grid;
+        place-items: center;
+        padding: 1rem;
+      }
+
+      .login-card {
+        width: min(520px, 100%);
+        border: 2px solid rgba(238, 221, 112, 0.86);
+        border-radius: 4px;
+        background:
+          linear-gradient(180deg, rgba(8, 18, 31, 0.82), rgba(8, 18, 31, 0.66)),
+          radial-gradient(720px 240px at 20% 0%, rgba(238, 221, 112, 0.08), transparent 70%);
+        box-shadow:
+          inset 0 0 0 1px rgba(255, 239, 156, 0.3),
+          0 14px 28px rgba(0, 0, 0, 0.36);
+        padding: 1.2rem;
+      }
+
+      .eyebrow {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.4rem;
+        margin: 0 0 0.5rem;
+        padding: 0.3rem 0.56rem;
+        border: 1px solid rgba(238, 221, 112, 0.5);
+        background: rgba(12, 22, 36, 0.72);
+        color: #f6da89;
+        text-transform: uppercase;
+        letter-spacing: 0.11em;
+        font-size: 0.66rem;
+        font-weight: 700;
+      }
+
+      h1 {
+        margin: 0;
+        font-size: clamp(1.42rem, 3.2vw, 2rem);
+        letter-spacing: 0.05em;
+        text-transform: uppercase;
+        font-family: "Cinzel", serif;
+      }
+
+      p {
+        margin: 0.6rem 0 0;
+        color: var(--muted);
+        line-height: 1.5;
+      }
+
+      .actions {
+        margin-top: 1rem;
+      }
+
+      .login-form {
+        display: grid;
+        gap: 0.7rem;
+      }
+
+      .field {
+        display: grid;
+        gap: 0.34rem;
+      }
+
+      .field label {
+        color: #d8e3f5;
+        font-size: 0.74rem;
+        letter-spacing: 0.06em;
+        text-transform: uppercase;
+        font-weight: 700;
+      }
+
+      .field input {
+        border: 1px solid rgba(183, 199, 219, 0.45);
+        border-radius: 8px;
+        background: rgba(9, 20, 34, 0.9);
+        color: #edf4ff;
+        padding: 0.62rem 0.66rem;
+      }
+
+      .login-btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        border: 1px solid rgba(238, 221, 112, 0.75);
+        border-radius: 8px;
+        padding: 0.62rem 0.9rem;
+        background: linear-gradient(120deg, #d5b269, #f3dc9a);
+        color: #1e170d;
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+        font-size: 0.74rem;
+        font-weight: 800;
+        cursor: pointer;
+      }
+
+      .login-btn:hover {
+        filter: brightness(1.05);
+      }
+
+      .status {
+        margin-top: 0.85rem;
+        padding: 0.58rem 0.68rem;
+        border: 1px solid rgba(206, 90, 90, 0.45);
+        border-radius: 8px;
+        background: rgba(58, 12, 16, 0.35);
+        color: #ffd2d2;
+        display: none;
+      }
+
+      .status.show {
+        display: block;
+      }
+
+      .status.ok {
+        border-color: rgba(83, 168, 124, 0.55);
+        background: rgba(15, 46, 29, 0.35);
+        color: #d7ffe8;
+      }
+
+      .meta {
+        margin-top: 0.8rem;
+        color: #9eb2cc;
+        font-size: 0.74rem;
+      }
+    </style>
+  </head>
+  <body>
+    <main class="login-card">
+      <p class="eyebrow">QFS Secure Access</p>
+      <h1>Logowanie Panelu</h1>
+      <p>
+        Dostęp do panelu jest tymczasowo realizowany przez klasyczne logowanie
+        loginem i hasłem.
+      </p>
+
+      <div id="status" class="status" role="alert" aria-live="polite"></div>
+
+      <div class="actions">
+        <form class="login-form" method="post" action="/logowanie">
+          <div class="field">
+            <label for="login">Login</label>
+            <input id="login" name="login" type="text" autocomplete="username" required />
+          </div>
+          <div class="field">
+            <label for="password">Hasło</label>
+            <input id="password" name="password" type="password" autocomplete="current-password" required />
+          </div>
+          <button class="login-btn" type="submit">Zaloguj</button>
+        </form>
+      </div>
+
+      <p class="meta">Sesja zabezpieczona: HttpOnly + SameSite + limiter prób logowania.</p>
+    </main>
+
+    <script>
+      (function () {
+        var statusEl = document.getElementById("status");
+        var params = new URLSearchParams(window.location.search);
+        var error = params.get("error");
+        var ok = params.get("status");
+
+        if (ok === "wylogowano") {
+          statusEl.textContent = "Wylogowano poprawnie.";
+          statusEl.classList.add("show", "ok");
+          return;
+        }
+
+        if (!error) {
+          return;
+        }
+
+        var messages = {
+          missing_credentials: "Podaj login i hasło.",
+          invalid_credentials: "Nieprawidłowy login lub hasło.",
+          oauth: "Logowanie Google nie powiodło się. Spróbuj ponownie.",
+          oauth_config: "Brak konfiguracji OAuth. Ustaw GOOGLE_CLIENT_ID i GOOGLE_CLIENT_SECRET.",
+          unauthorized: "To konto nie ma dostępu do panelu.",
+        };
+
+        statusEl.textContent = messages[error] || "Wystąpił błąd logowania.";
+        statusEl.classList.add("show");
+      })();
+    </script>
+  </body>
+</html>
