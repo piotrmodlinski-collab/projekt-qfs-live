@@ -29,7 +29,7 @@ fs.mkdirSync(taskAttachmentUploadsDir, { recursive: true });
 for (const viewFile of bundledSecureViewFiles) {
   const sourcePath = path.join(bundledSecureViewsDir, viewFile);
   const targetPath = path.join(secureViewsDir, viewFile);
-  if (fs.existsSync(sourcePath) && !fs.existsSync(targetPath)) {
+  if (fs.existsSync(sourcePath)) {
     fs.copyFileSync(sourcePath, targetPath);
   }
 }
@@ -61,6 +61,7 @@ const STATUS_COLUMNS = [
   { key: "backlog", label: "Backlog" },
   { key: "todo", label: "To Do" },
   { key: "in_progress", label: "In Progress" },
+  { key: "on_hold", label: "On hold" },
   { key: "review", label: "Review" },
   { key: "done", label: "Done" },
 ];

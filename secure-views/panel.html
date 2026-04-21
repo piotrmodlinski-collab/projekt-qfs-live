@@ -749,6 +749,7 @@
     .gantt-chip.backlog { border-color: rgba(159, 178, 203, .55); color: #dbe6f7; }
     .gantt-chip.todo { border-color: rgba(126, 209, 255, .62); color: #c5e7ff; }
     .gantt-chip.in_progress { border-color: rgba(247, 199, 119, .65); color: #ffd79d; }
+    .gantt-chip.on_hold { border-color: rgba(255, 170, 170, .65); color: #ffc8c8; }
     .gantt-chip.review { border-color: rgba(186, 153, 255, .65); color: #dcc9ff; }
     .gantt-chip.done { border-color: rgba(148, 239, 190, .7); color: #c5ffe5; }
     .gantt-bar {
@@ -1340,7 +1341,7 @@
       var dragContext = { taskId: null, targetStatus: null };
       var ganttDragContext = { type: null, id: null };
       var themeStorageKey = "qfs-panel-theme";
-      var STATUS_LABELS = { backlog: "Backlog", todo: "To Do", in_progress: "In Progress", review: "Review", done: "Done" };
+      var STATUS_LABELS = { backlog: "Backlog", todo: "To Do", in_progress: "In Progress", on_hold: "On hold", review: "Review", done: "Done" };
       var PRIORITY_LABELS = { low: "Low", medium: "Medium", high: "High", critical: "Critical" };
 
       function applyTheme(themeName) {
@@ -1539,6 +1540,7 @@
           backlog: state.tasks.filter(function (t) { return t.status === "backlog"; }).length,
           todo: state.tasks.filter(function (t) { return t.status === "todo"; }).length,
           progress: state.tasks.filter(function (t) { return t.status === "in_progress"; }).length,
+          onHold: state.tasks.filter(function (t) { return t.status === "on_hold"; }).length,
           review: state.tasks.filter(function (t) { return t.status === "review"; }).length
         };
         m.innerHTML = [
@@ -1546,6 +1548,7 @@
           '<div class="metric"><small>Backlog</small><strong>' + counts.backlog + '</strong></div>',
           '<div class="metric"><small>To Do</small><strong>' + counts.todo + '</strong></div>',
           '<div class="metric"><small>W toku</small><strong>' + counts.progress + '</strong></div>',
+          '<div class="metric"><small>On hold</small><strong>' + counts.onHold + '</strong></div>',
           '<div class="metric"><small>Review</small><strong>' + counts.review + '</strong></div>'
         ].join("");
       }
