@@ -564,9 +564,20 @@
       .ezx-media-thumb img {
         display: block;
         width: 100%;
-        aspect-ratio: 4 / 3;
-        object-fit: cover;
-        transition: transform 0.38s ease, filter 0.28s ease;
+        aspect-ratio: 16 / 10;
+        object-fit: contain;
+        object-position: center;
+        background: rgba(2, 6, 15, 0.82);
+        transition: filter 0.28s ease;
+      }
+
+      .ezx-media-thumb video {
+        display: block;
+        width: 100%;
+        aspect-ratio: 16 / 10;
+        object-fit: contain;
+        object-position: center;
+        background: rgba(2, 6, 15, 0.82);
       }
 
       .ezx-media-caption {
@@ -587,7 +598,6 @@
       }
 
       .ezx-media-item:hover img {
-        transform: scale(1.05);
         filter: saturate(1.08);
       }
 
@@ -615,6 +625,14 @@
       }
 
       .ezx-media-full-frame img {
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
+        display: block;
+        background: #02060f;
+      }
+
+      .ezx-media-full-frame video {
         width: 100%;
         height: 100%;
         object-fit: contain;
@@ -861,8 +879,8 @@
 
             <article class="ezx-panel" data-panel="media">
               <p class="ezx-lead">
-                Kadry referencyjne i key visuale pokazują ton projektu: neonowy lab,
-                organiczną technologię i czytelny kontrast między ciszą a presją walki.
+                Pelny zestaw mediow Ezotevy: wszystkie kadry z katalogu projektu i loop
+                video menu. Miniatury sa teraz skalowane proporcjonalnie, bez obcinania.
               </p>
               <div class="ezx-media-grid">
                 <figure class="ezx-media-item">
@@ -887,6 +905,30 @@
                   <button class="ezx-media-thumb" type="button" data-media-open data-media-src="assets/ezoteva/ezoteva-shot-2.png" data-media-alt="Ezoteva gameplay shot">
                     <img src="assets/ezoteva/ezoteva-shot-2.png" alt="Ezoteva gameplay shot" loading="lazy" />
                     <span class="ezx-media-caption">Combat pressure</span>
+                  </button>
+                </figure>
+                <figure class="ezx-media-item">
+                  <button class="ezx-media-thumb" type="button" data-media-open data-media-src="assets/ezoteva/ezoteva-hero-alt.jpg" data-media-alt="Ezoteva hero alternative key visual">
+                    <img src="assets/ezoteva/ezoteva-hero-alt.jpg" alt="Ezoteva hero alternative key visual" loading="lazy" />
+                    <span class="ezx-media-caption">Hero key visual</span>
+                  </button>
+                </figure>
+                <figure class="ezx-media-item">
+                  <button class="ezx-media-thumb" type="button" data-media-open data-media-src="assets/ezoteva/ezoteva-source-hero.jpg" data-media-alt="Ezoteva source hero visual">
+                    <img src="assets/ezoteva/ezoteva-source-hero.jpg" alt="Ezoteva source hero visual" loading="lazy" />
+                    <span class="ezx-media-caption">Source hero</span>
+                  </button>
+                </figure>
+                <figure class="ezx-media-item">
+                  <button class="ezx-media-thumb" type="button" data-media-open data-media-src="assets/ezoteva/ezoteva-og.jpg" data-media-alt="Ezoteva OG share visual">
+                    <img src="assets/ezoteva/ezoteva-og.jpg" alt="Ezoteva OG share visual" loading="lazy" />
+                    <span class="ezx-media-caption">OG visual</span>
+                  </button>
+                </figure>
+                <figure class="ezx-media-item">
+                  <button class="ezx-media-thumb" type="button" data-media-open data-media-type="video" data-media-src="assets/ezoteva/ezoteva-main-menu.mp4" data-media-alt="Ezoteva main menu loop video">
+                    <video src="assets/ezoteva/ezoteva-main-menu.mp4" muted loop playsinline autoplay preload="metadata" aria-hidden="true"></video>
+                    <span class="ezx-media-caption">Main menu loop video</span>
                   </button>
                 </figure>
               </div>
@@ -914,6 +956,7 @@
       <button class="ezx-media-close" type="button" data-media-close>Zamknij</button>
       <figure class="ezx-media-full-frame" role="dialog" aria-label="EZOTEVA media fullscreen">
         <img data-media-full-img alt="EZOTEVA media fullscreen" loading="lazy" />
+        <video data-media-full-video controls playsinline hidden></video>
       </figure>
     </div>
 
@@ -931,6 +974,9 @@
         </a>
         <a class="footer-social-link" href="https://discord.gg/cBXQkCCUMD" target="_blank" rel="noopener noreferrer" aria-label="Discord">
           <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M13.545 2.907A13.227 13.227 0 0 0 10.226 1.65a.052.052 0 0 0-.056.026c-.144.25-.305.577-.417.835a12.19 12.19 0 0 0-3.506 0 8.2 8.2 0 0 0-.423-.835.051.051 0 0 0-.056-.026 13.145 13.145 0 0 0-3.32 1.257.05.05 0 0 0-.024.02C.307 6.039-.32 9.077.003 12.077a.06.06 0 0 0 .023.04 13.2 13.2 0 0 0 3.994 2.01.05.05 0 0 0 .055-.019c.307-.42.58-.863.814-1.329a.05.05 0 0 0-.01-.059 8.6 8.6 0 0 1-1.245-.59.05.05 0 0 1-.005-.084c.083-.062.167-.126.248-.191a.05.05 0 0 1 .052-.007c2.619 1.196 5.454 1.196 8.042 0a.05.05 0 0 1 .053.006c.082.066.166.13.249.192a.05.05 0 0 1-.004.084c-.398.236-.813.433-1.246.59a.05.05 0 0 0-.009.059c.239.466.512.909.814 1.329a.05.05 0 0 0 .055.019 13.184 13.184 0 0 0 4-2.01.05.05 0 0 0 .023-.04c.386-3.467-.646-6.478-2.421-9.15a.043.043 0 0 0-.024-.02zM5.33 10.845c-.784 0-1.427-.72-1.427-1.604 0-.887.632-1.604 1.427-1.604.8 0 1.44.724 1.427 1.604 0 .887-.632 1.604-1.427 1.604zm5.288 0c-.784 0-1.426-.72-1.426-1.604 0-.887.631-1.604 1.426-1.604.8 0 1.44.724 1.427 1.604 0 .887-.626 1.604-1.427 1.604z"/></svg>
+        </a>
+        <a class="footer-social-link" href="https://quantumforgestudio.com/wp-admin/" target="_blank" rel="noopener noreferrer" aria-label="Logowanie do panelu">
+          <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M6.146 4.146a.5.5 0 0 1 .708 0l3.5 3.5a.5.5 0 0 1 0 .708l-3.5 3.5a.5.5 0 0 1-.708-.708L8.793 8.5H2.5a.5.5 0 0 1 0-1h6.293L6.146 4.854a.5.5 0 0 1 0-.708z"/><path d="M11 1.5a1.5 1.5 0 0 1 1.5 1.5v2a.5.5 0 0 1-1 0V3A.5.5 0 0 0 11 2.5H6.5a.5.5 0 0 1 0-1H11zm0 13H6.5a.5.5 0 0 1 0-1H11a.5.5 0 0 0 .5-.5V11a.5.5 0 0 1 1 0v2a1.5 1.5 0 0 1-1.5 1.5z"/></svg>
         </a>
       </div>
     </footer>
@@ -954,6 +1000,7 @@
         const mediaOverlay = document.querySelector("[data-media-overlay]");
         const mediaClose = document.querySelector("[data-media-close]");
         const mediaFullImg = document.querySelector("[data-media-full-img]");
+        const mediaFullVideo = document.querySelector("[data-media-full-video]");
 
         if (!buttons.length || !panels.length || !panelScroll || !indicator || !display || !sideNav) {
           return;
@@ -1045,17 +1092,33 @@
           demoIframe.src = "";
         };
 
-        const openMediaOverlay = (src, alt) => {
+        const openMediaOverlay = (src, alt, type) => {
           if (!mediaOverlay || !mediaFullImg) return;
-          mediaFullImg.src = src;
-          mediaFullImg.alt = alt || "EZOTEVA media fullscreen";
+          const isVideo = type === "video";
+          mediaFullImg.hidden = isVideo;
+          if (mediaFullVideo) {
+            mediaFullVideo.hidden = !isVideo;
+          }
+          if (isVideo && mediaFullVideo) {
+            mediaFullVideo.src = src;
+            mediaFullVideo.play().catch(() => {});
+          } else {
+            mediaFullImg.src = src;
+            mediaFullImg.alt = alt || "EZOTEVA media fullscreen";
+          }
           mediaOverlay.hidden = false;
         };
 
         const closeMediaOverlay = () => {
           if (!mediaOverlay || !mediaFullImg) return;
           mediaOverlay.hidden = true;
+          mediaFullImg.hidden = false;
           mediaFullImg.src = "";
+          if (mediaFullVideo) {
+            mediaFullVideo.pause();
+            mediaFullVideo.src = "";
+            mediaFullVideo.hidden = true;
+          }
         };
 
         if (openDemoButton) {
@@ -1078,8 +1141,9 @@
           thumb.addEventListener("click", () => {
             const src = thumb.dataset.mediaSrc;
             const alt = thumb.dataset.mediaAlt;
+            const type = thumb.dataset.mediaType || "image";
             if (!src) return;
-            openMediaOverlay(src, alt);
+            openMediaOverlay(src, alt, type);
           });
         });
 
