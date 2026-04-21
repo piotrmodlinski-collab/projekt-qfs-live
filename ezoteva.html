@@ -688,7 +688,7 @@
           <nav class="ezx-side-nav" aria-label="Sekcje projektu Ezoteva">
             <span class="ezx-nav-indicator" aria-hidden="true"></span>
             <button class="ezx-nav-btn" type="button" data-panel="demo" data-title="EZOTEVA" data-tag="Zanurz się w naszym świecie">
-              Zobacz demo
+              DEMO
             </button>
             <button class="ezx-nav-btn" type="button" data-panel="wyroznia" data-title="Wyróżnia nas" data-tag="Value proposition">
               Wyróżnia nas
@@ -918,7 +918,13 @@
 
           button.addEventListener("mouseenter", previewIndicator);
           button.addEventListener("focus", previewIndicator);
-          button.addEventListener("click", () => activatePanel(button.dataset.panel, true));
+          button.addEventListener("click", () => {
+            if (button.dataset.panel === "demo") {
+              openDemoOverlay();
+              return;
+            }
+            activatePanel(button.dataset.panel, true);
+          });
         });
 
         sideNav.addEventListener("mouseleave", () => {
