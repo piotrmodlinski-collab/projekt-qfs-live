@@ -401,23 +401,6 @@
         box-shadow: 0 8px 18px rgba(0, 0, 0, 0.35);
       }
 
-      .ezx-contact-hub {
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-        min-width: min(440px, 100%);
-        text-decoration: none;
-        margin-top: 0.36rem;
-        border: 1px solid rgba(238, 221, 112, 0.56);
-        border-radius: 10px;
-        padding: 1.05rem 1.2rem;
-        background: linear-gradient(165deg, rgba(10, 21, 35, 0.84), rgba(7, 16, 26, 0.66));
-        color: #f4f8ff;
-        font: 700 clamp(1.12rem, 2vw, 1.42rem) / 1.1 "Rajdhani", sans-serif;
-        letter-spacing: 0.06em;
-        text-transform: uppercase;
-      }
-
       .ezx-demo-overlay[hidden] {
         display: none;
       }
@@ -918,9 +901,6 @@
               </div>
             </article>
 
-            <article class="ezx-panel" data-panel="kontakt">
-              <a class="ezx-contact-hub" href="kontakt.html">Centrum kontaktu</a>
-            </article>
           </div>
         </div>
       </section>
@@ -1039,6 +1019,10 @@
           button.addEventListener("click", () => {
             if (button.dataset.panel === "demo") {
               openDemoOverlay();
+              return;
+            }
+            if (button.dataset.panel === "kontakt") {
+              window.location.href = "kontakt.html";
               return;
             }
             activatePanel(button.dataset.panel, true);
