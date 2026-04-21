@@ -553,79 +553,104 @@
       .ezx-media-grid {
         margin-top: 0.9rem;
         display: grid;
-        grid-template-columns: repeat(12, minmax(0, 1fr));
+        grid-template-columns: repeat(4, minmax(0, 1fr));
         gap: 0.62rem;
       }
 
       .ezx-media-item {
         margin: 0;
-        position: relative;
         border: 1px solid rgba(183, 199, 219, 0.38);
-        border-radius: 10px;
+        border-radius: 8px;
         overflow: hidden;
         background: rgba(7, 16, 26, 0.72);
-        box-shadow: 0 12px 24px rgba(0, 0, 0, 0.34);
+        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.28);
         transition: transform 0.22s ease, border-color 0.22s ease, box-shadow 0.22s ease;
       }
 
-      .ezx-media-item:nth-child(1) {
-        grid-column: span 8;
-        grid-row: span 2;
-      }
-
-      .ezx-media-item:nth-child(2),
-      .ezx-media-item:nth-child(3) {
-        grid-column: span 4;
-      }
-
-      .ezx-media-item:nth-child(4) {
-        grid-column: span 8;
-      }
-
-      .ezx-media-item img {
+      .ezx-media-thumb {
         display: block;
         width: 100%;
-        aspect-ratio: 16 / 10;
+        border: 0;
+        padding: 0;
+        margin: 0;
+        background: transparent;
+        cursor: pointer;
+        text-align: left;
+      }
+
+      .ezx-media-thumb img {
+        display: block;
+        width: 100%;
+        aspect-ratio: 4 / 3;
         object-fit: cover;
         transition: transform 0.38s ease, filter 0.28s ease;
       }
 
-      .ezx-media-item:nth-child(1) img {
-        aspect-ratio: 16 / 11;
-      }
-
-      .ezx-media-item:nth-child(2) img,
-      .ezx-media-item:nth-child(3) img {
-        aspect-ratio: 4 / 3;
-      }
-
-      .ezx-media-item:nth-child(4) img {
-        aspect-ratio: 16 / 9;
-      }
-
-      .ezx-media-item figcaption {
-        position: absolute;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        padding: 0.66rem 0.76rem;
-        background: linear-gradient(180deg, rgba(5, 10, 18, 0), rgba(5, 10, 18, 0.88) 74%);
+      .ezx-media-caption {
+        display: block;
+        padding: 0.5rem 0.62rem;
+        border-top: 1px solid rgba(183, 199, 219, 0.28);
+        background: rgba(7, 16, 26, 0.88);
         color: #f2f8ff;
-        font: 700 0.82rem/1 "Rajdhani", sans-serif;
+        font: 700 0.74rem/1 "Rajdhani", sans-serif;
         text-transform: uppercase;
-        letter-spacing: 0.09em;
-        text-shadow: 0 2px 12px rgba(0, 0, 0, 0.6);
+        letter-spacing: 0.08em;
       }
 
       .ezx-media-item:hover {
-        transform: translateY(-2px);
+        transform: translateY(-1px);
         border-color: rgba(238, 221, 112, 0.7);
-        box-shadow: 0 16px 30px rgba(0, 0, 0, 0.44);
+        box-shadow: 0 12px 24px rgba(0, 0, 0, 0.36);
       }
 
       .ezx-media-item:hover img {
         transform: scale(1.05);
         filter: saturate(1.08);
+      }
+
+      .ezx-media-overlay[hidden] {
+        display: none;
+      }
+
+      .ezx-media-overlay {
+        position: fixed;
+        inset: 0;
+        z-index: 125;
+        display: grid;
+        place-items: center;
+        background: rgba(3, 8, 16, 0.94);
+        padding: clamp(0.8rem, 2vw, 1.4rem);
+      }
+
+      .ezx-media-full-frame {
+        margin: 0;
+        width: min(96vw, 1880px);
+        height: min(90vh, 1100px);
+        border: 1px solid rgba(238, 221, 112, 0.55);
+        background: #02060f;
+        box-shadow: 0 18px 40px rgba(0, 0, 0, 0.52);
+      }
+
+      .ezx-media-full-frame img {
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
+        display: block;
+        background: #02060f;
+      }
+
+      .ezx-media-close {
+        position: absolute;
+        top: clamp(0.7rem, 2vh, 1.2rem);
+        right: clamp(0.7rem, 2vw, 1.2rem);
+        border: 1px solid rgba(238, 221, 112, 0.62);
+        background: rgba(9, 16, 28, 0.86);
+        color: #f2f8ff;
+        font: 700 0.82rem/1 "Rajdhani", sans-serif;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        padding: 0.52rem 0.72rem;
+        cursor: pointer;
       }
 
       .ezx-statline {
@@ -708,15 +733,7 @@
 
         .ezx-grid,
         .ezx-media-grid {
-          grid-template-columns: 1fr;
-        }
-
-        .ezx-media-item:nth-child(1),
-        .ezx-media-item:nth-child(2),
-        .ezx-media-item:nth-child(3),
-        .ezx-media-item:nth-child(4) {
-          grid-column: span 1;
-          grid-row: auto;
+          grid-template-columns: repeat(2, minmax(0, 1fr));
         }
       }
 
@@ -740,6 +757,10 @@
 
         .ezx-panel-scroll {
           padding: 0.62rem;
+        }
+
+        .ezx-media-grid {
+          grid-template-columns: 1fr;
         }
 
         .ezx-nav-btn {
@@ -871,20 +892,28 @@
               </p>
               <div class="ezx-media-grid">
                 <figure class="ezx-media-item">
-                  <img src="assets/ezoteva/ezoteva-source-shot-a.png" alt="Ezoteva visual frame A" loading="lazy" />
-                  <figcaption>Character direction</figcaption>
+                  <button class="ezx-media-thumb" type="button" data-media-open data-media-src="assets/ezoteva/ezoteva-source-shot-a.png" data-media-alt="Ezoteva visual frame A">
+                    <img src="assets/ezoteva/ezoteva-source-shot-a.png" alt="Ezoteva visual frame A" loading="lazy" />
+                    <span class="ezx-media-caption">Character direction</span>
+                  </button>
                 </figure>
                 <figure class="ezx-media-item">
-                  <img src="assets/ezoteva/ezoteva-source-shot-b.png" alt="Ezoteva visual frame B" loading="lazy" />
-                  <figcaption>DNA system layer</figcaption>
+                  <button class="ezx-media-thumb" type="button" data-media-open data-media-src="assets/ezoteva/ezoteva-source-shot-b.png" data-media-alt="Ezoteva visual frame B">
+                    <img src="assets/ezoteva/ezoteva-source-shot-b.png" alt="Ezoteva visual frame B" loading="lazy" />
+                    <span class="ezx-media-caption">DNA system layer</span>
+                  </button>
                 </figure>
                 <figure class="ezx-media-item">
-                  <img src="assets/ezoteva/ezoteva-shot-1.png" alt="Ezoteva environment shot" loading="lazy" />
-                  <figcaption>Environment tone</figcaption>
+                  <button class="ezx-media-thumb" type="button" data-media-open data-media-src="assets/ezoteva/ezoteva-shot-1.png" data-media-alt="Ezoteva environment shot">
+                    <img src="assets/ezoteva/ezoteva-shot-1.png" alt="Ezoteva environment shot" loading="lazy" />
+                    <span class="ezx-media-caption">Environment tone</span>
+                  </button>
                 </figure>
                 <figure class="ezx-media-item">
-                  <img src="assets/ezoteva/ezoteva-shot-2.png" alt="Ezoteva gameplay shot" loading="lazy" />
-                  <figcaption>Combat pressure</figcaption>
+                  <button class="ezx-media-thumb" type="button" data-media-open data-media-src="assets/ezoteva/ezoteva-shot-2.png" data-media-alt="Ezoteva gameplay shot">
+                    <img src="assets/ezoteva/ezoteva-shot-2.png" alt="Ezoteva gameplay shot" loading="lazy" />
+                    <span class="ezx-media-caption">Combat pressure</span>
+                  </button>
                 </figure>
               </div>
             </article>
@@ -908,6 +937,13 @@
           referrerpolicy="strict-origin-when-cross-origin"
         ></iframe>
       </div>
+    </div>
+
+    <div class="ezx-media-overlay" data-media-overlay hidden>
+      <button class="ezx-media-close" type="button" data-media-close>Zamknij</button>
+      <figure class="ezx-media-full-frame" role="dialog" aria-label="EZOTEVA media fullscreen">
+        <img data-media-full-img alt="EZOTEVA media fullscreen" loading="lazy" />
+      </figure>
     </div>
 
     <footer class="page-footer">
@@ -943,6 +979,10 @@
         const demoClose = document.querySelector("[data-demo-close]");
         const demoIframe = document.querySelector("[data-demo-iframe]");
         const demoEmbedUrl = "https://www.youtube.com/embed/5HGbW4pt8VQ?autoplay=1&controls=1&rel=0";
+        const mediaThumbs = Array.from(document.querySelectorAll("[data-media-open]"));
+        const mediaOverlay = document.querySelector("[data-media-overlay]");
+        const mediaClose = document.querySelector("[data-media-close]");
+        const mediaFullImg = document.querySelector("[data-media-full-img]");
 
         if (!buttons.length || !panels.length || !panelScroll || !indicator || !display || !sideNav) {
           return;
@@ -1030,6 +1070,19 @@
           demoIframe.src = "";
         };
 
+        const openMediaOverlay = (src, alt) => {
+          if (!mediaOverlay || !mediaFullImg) return;
+          mediaFullImg.src = src;
+          mediaFullImg.alt = alt || "EZOTEVA media fullscreen";
+          mediaOverlay.hidden = false;
+        };
+
+        const closeMediaOverlay = () => {
+          if (!mediaOverlay || !mediaFullImg) return;
+          mediaOverlay.hidden = true;
+          mediaFullImg.src = "";
+        };
+
         if (openDemoButton) {
           openDemoButton.addEventListener("click", openDemoOverlay);
         }
@@ -1046,9 +1099,34 @@
           });
         }
 
+        mediaThumbs.forEach((thumb) => {
+          thumb.addEventListener("click", () => {
+            const src = thumb.dataset.mediaSrc;
+            const alt = thumb.dataset.mediaAlt;
+            if (!src) return;
+            openMediaOverlay(src, alt);
+          });
+        });
+
+        if (mediaClose) {
+          mediaClose.addEventListener("click", closeMediaOverlay);
+        }
+
+        if (mediaOverlay) {
+          mediaOverlay.addEventListener("click", (event) => {
+            if (event.target === mediaOverlay) {
+              closeMediaOverlay();
+            }
+          });
+        }
+
         window.addEventListener("keydown", (event) => {
           if (event.key === "Escape" && demoOverlay && !demoOverlay.hidden) {
             closeDemoOverlay();
+            return;
+          }
+          if (event.key === "Escape" && mediaOverlay && !mediaOverlay.hidden) {
+            closeMediaOverlay();
           }
         });
 
