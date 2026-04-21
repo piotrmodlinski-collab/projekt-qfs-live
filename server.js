@@ -417,41 +417,19 @@ function sortSchedules(a, b) {
 
 function generateDefaultPanelData() {
   const seedTasks = [
-    { id: "task-001", title: "Analiza referencji Hiberman", status: "backlog", priority: "medium", assignee: "Karol", dueDate: dayPlus(1), labels: ["UX", "Komiks"] },
-    { id: "task-002", title: "Retusz hero Ezoteva", status: "backlog", priority: "high", assignee: "Karol", dueDate: dayPlus(2), labels: ["Art", "Landing"] },
-    { id: "task-003", title: "Audyt responsywności sekcji O nas", status: "backlog", priority: "medium", assignee: "Mateusz", dueDate: dayPlus(3), labels: ["Frontend", "RWD"] },
-    { id: "task-004", title: "Podmiana assetów referencyjnych", status: "todo", priority: "high", assignee: "Janusz", dueDate: dayPlus(1), labels: ["Assets", "Brand"] },
-    { id: "task-005", title: "Nowe CTA do Outsourcing", status: "todo", priority: "low", assignee: "Piotr", dueDate: dayPlus(4), labels: ["Copy", "CTA"] },
-    { id: "task-006", title: "Wdrożenie panelu logowania", status: "todo", priority: "critical", assignee: "Mateusz", dueDate: dayPlus(1), labels: ["Backend", "Security"] },
-    { id: "task-007", title: "Role i dostępy użytkowników", status: "todo", priority: "critical", assignee: "Mateusz", dueDate: dayPlus(2), labels: ["RBAC", "Admin"] },
-    { id: "task-008", title: "Plan harmonogramu sprintu QFS", status: "todo", priority: "medium", assignee: "Piotr", dueDate: dayPlus(2), labels: ["PM", "Sprint"] },
-    { id: "task-009", title: "Optymalizacja grafik webp", status: "in_progress", priority: "high", assignee: "Karol", dueDate: dayPlus(1), labels: ["Performance", "Assets"] },
-    { id: "task-010", title: "Kanban API - endpointy tasków", status: "in_progress", priority: "critical", assignee: "Mateusz", dueDate: dayPlus(1), labels: ["API", "Kanban"] },
-    { id: "task-011", title: "Archiwum zadań + restore", status: "in_progress", priority: "high", assignee: "Mateusz", dueDate: dayPlus(2), labels: ["Archive", "UX"] },
-    { id: "task-012", title: "Sekcja harmonogramów terminów", status: "in_progress", priority: "high", assignee: "Piotr", dueDate: dayPlus(2), labels: ["Schedule", "Calendar"] },
-    { id: "task-013", title: "Doprecyzowanie statusów produkcji", status: "review", priority: "medium", assignee: "Janusz", dueDate: dayPlus(1), labels: ["Pipeline", "QA"] },
-    { id: "task-014", title: "Weryfikacja stylu kart na mobile", status: "review", priority: "medium", assignee: "Karol", dueDate: dayPlus(1), labels: ["UI", "Mobile"] },
-    { id: "task-015", title: "Przegląd copy panelu drużyny", status: "review", priority: "low", assignee: "Jan", dueDate: dayPlus(3), labels: ["Copy", "Team"] },
-    { id: "task-016", title: "Stabilny header + menu fixed", status: "done", priority: "high", assignee: "Mateusz", dueDate: dayPlus(-1), labels: ["Layout", "Navigation"] },
-    { id: "task-017", title: "Dostosowanie overlay pod tekst", status: "done", priority: "medium", assignee: "Karol", dueDate: dayPlus(-1), labels: ["Visual", "Readability"] },
-    { id: "task-018", title: "Galeria członków zespołu", status: "done", priority: "high", assignee: "Janusz", dueDate: dayPlus(-2), labels: ["Team", "UI"] },
-    { id: "task-019", title: "Routing podstrony Ezoteva", status: "done", priority: "medium", assignee: "Mateusz", dueDate: dayPlus(-2), labels: ["Routing", "Page"] },
-    { id: "task-020", title: "Routing podstrony Hiberman", status: "done", priority: "medium", assignee: "Mateusz", dueDate: dayPlus(-2), labels: ["Routing", "Page"] },
-    { id: "task-021", title: "Weryfikacja alt dla grafik", status: "backlog", priority: "low", assignee: "Karol", dueDate: dayPlus(5), labels: ["SEO", "A11y"] },
-    { id: "task-022", title: "Reguły backupu panelu", status: "backlog", priority: "medium", assignee: "Piotr", dueDate: dayPlus(6), labels: ["Ops", "Backup"] },
-    { id: "task-023", title: "Polityka uprawnień operatorów", status: "todo", priority: "high", assignee: "Piotr", dueDate: dayPlus(3), labels: ["Security", "RBAC"] },
-    { id: "task-024", title: "Notyfikacje zmian statusu", status: "backlog", priority: "medium", assignee: "Mateusz", dueDate: dayPlus(7), labels: ["Automation", "API"] },
-    { id: "task-025", title: "Checklista release QFS", status: "todo", priority: "critical", assignee: "Piotr", dueDate: dayPlus(1), labels: ["Release", "QA"] },
+    { id: "task-001", title: "Podpiecie domeny i routing logowania /logowanie", status: "review", priority: "critical", assignee: "Piotr", dueDate: dayPlus(1), labels: ["Infra", "Routing"] },
+    { id: "task-002", title: "Strona glowna: spojne menu, logo i footer", status: "review", priority: "high", assignee: "Piotr", dueDate: dayPlus(1), labels: ["Homepage", "UI"] },
+    { id: "task-003", title: "Outsourcing: unifikacja UX i sekcji wzgledem glownej", status: "review", priority: "high", assignee: "Piotr", dueDate: dayPlus(1), labels: ["Outsourcing", "UX"] },
+    { id: "task-004", title: "Outsourcing Classic: poprawa layoutu, scrolla i linkow produkcji", status: "review", priority: "high", assignee: "Piotr", dueDate: dayPlus(1), labels: ["Outsourcing Classic", "Layout"] },
+    { id: "task-005", title: "Kontakt: dopasowanie formularza i kart do design systemu QFS", status: "review", priority: "high", assignee: "Piotr", dueDate: dayPlus(1), labels: ["Kontakt", "Forms"] },
+    { id: "task-006", title: "Mini gra monitor: CTA do Centrum kontaktu i aktualizacja copy", status: "review", priority: "medium", assignee: "Piotr", dueDate: dayPlus(1), labels: ["Mini Gra", "CTA"] },
+    { id: "task-007", title: "Ezoteva: menu gry, panel contentu i flow sekcji Project/Media", status: "review", priority: "critical", assignee: "Piotr", dueDate: dayPlus(1), labels: ["Ezoteva", "Feature"] },
+    { id: "task-008", title: "Ezoteva: galeria miniaturek + fullscreen dla obrazow i video", status: "review", priority: "high", assignee: "Piotr", dueDate: dayPlus(1), labels: ["Ezoteva", "Media"] },
+    { id: "task-009", title: "Hiberman: strona w stylu referencji + osobne tlo video", status: "review", priority: "critical", assignee: "Piotr", dueDate: dayPlus(1), labels: ["Hiberman", "Visual"] },
+    { id: "task-010", title: "Footer globalny: sociale + ikona logowania do portalu", status: "review", priority: "medium", assignee: "Piotr", dueDate: dayPlus(1), labels: ["Footer", "Portal"] },
   ];
 
-  const seedSchedules = [
-    { id: "sch-001", taskId: "task-010", title: "Review API tasków", date: dayPlus(0), start: "11:00", end: "11:45", owner: "Mateusz", status: "planned", note: "Przegląd endpointów i payloadów." },
-    { id: "sch-002", taskId: "task-012", title: "Plan harmonogramów", date: dayPlus(0), start: "13:00", end: "14:00", owner: "Piotr", status: "planned", note: "Podział sprintu na sloty czasowe." },
-    { id: "sch-003", taskId: "task-009", title: "Optymalizacja grafiki", date: dayPlus(1), start: "09:30", end: "10:30", owner: "Karol", status: "planned", note: "WebP + kompresja bez utraty jakości." },
-    { id: "sch-004", taskId: "task-014", title: "Test mobile cards", date: dayPlus(1), start: "15:00", end: "15:40", owner: "Karol", status: "planned", note: "Sprawdzenie iOS/Android viewport." },
-    { id: "sch-005", taskId: "task-023", title: "Polityka ról", date: dayPlus(2), start: "10:15", end: "11:00", owner: "Piotr", status: "planned", note: "Matryca dostępu dla operatorów." },
-    { id: "sch-006", taskId: "task-025", title: "Checklista release", date: dayPlus(2), start: "16:00", end: "16:45", owner: "Piotr", status: "planned", note: "Ostateczne punkty publikacji." },
-  ];
+  const seedSchedules = [];
 
   return {
     statuses: STATUS_COLUMNS,
