@@ -9,6 +9,7 @@ const GoogleStrategy = require("passport-google-oauth20").Strategy;
 const crypto = require("crypto");
 const path = require("path");
 const fs = require("fs");
+const tls = require("tls");
 const multer = require("multer");
 
 const app = express();
@@ -43,6 +44,16 @@ const googleCallbackUrl = process.env.GOOGLE_CALLBACK_URL || `${baseUrl}/auth/go
 const localPanelLogin = process.env.PANEL_LOGIN || "admin";
 const localPanelPassword = process.env.PANEL_PASSWORD || "QFS123!";
 const sessionSecret = process.env.SESSION_SECRET || "qfs-dev-session-secret-change-me";
+
+// Dostarczanie briefu mailem przez SMTP (implicit TLS, port 465). Konfiguracja
+// w .env: SMTP_HOST/SMTP_PORT/SMTP_USER/SMTP_PASSWORD/SMTP_FROM.
+// CONTACT_DELIVERY=mock pomija wysyłkę (testy lokalne); brief i tak zapisuje się do pliku.
+const contactDelivery = (process.env.CONTACT_DELIVERY || "").trim().toLowerCase();
+const contactRecipientEmail = (
+  process.env.CONTACT_RECIPIENT_EMAIL ||
+  process.env.SMTP_USER ||
+  "pmodlinski@ezoteva.com"
+).trim();
 
 const allowedEmailSet = new Set(
   (process.env.ALLOWED_GMAILS || "")
@@ -681,6 +692,207 @@ function appendQueryParam(pathValue, key, value) {
   const basePath = hashIndex >= 0 ? pathValue.slice(0, hashIndex) : String(pathValue || "");
   const separator = basePath.includes("?") ? "&" : "?";
   return `${basePath}${separator}${encodeURIComponent(key)}=${encodeURIComponent(value)}${hash}`;
+}
+
+// --- SMTP (implicit TLS, bez zależności — port z portfolio piotrmodlinski.pl) ---
+function smtpNormalize(value) {
+  return typeof value === "string" ? value.trim() : "";
+}
+
+function smtpSanitizeHeader(value) {
+  return smtpNormalize(value).replace(/[\r\n]+/g, " ");
+}
+
+function smtpEncodeHeader(value) {
+  const clean = smtpSanitizeHeader(value);
+  return /[^\x20-\x7e]/.test(clean)
+    ? `=?UTF-8?B?${Buffer.from(clean, "utf8").toString("base64")}?=`
+    : clean;
+}
+
+function smtpFormatAddressHeader(value) {
+  const clean = smtpSanitizeHeader(value);
+  const match = clean.match(/^(.*)<([^>]+)>$/);
+  if (!match) return smtpEncodeHeader(clean);
+  const displayName = match[1].trim().replace(/^"|"$/g, "");
+  const email = smtpSanitizeHeader(match[2]);
+  return displayName ? `${smtpEncodeHeader(displayName)} <${email}>` : email;
+}
+
+function smtpExtractEmail(value) {
+  const match = smtpNormalize(value).match(/<([^>]+)>/);
+  return smtpSanitizeHeader(match ? match[1] : value);
+}
+
+function smtpSplitEmailList(value) {
+  return smtpNormalize(value)
+    .split(/[,;\n]/)
+    .map((email) => email.trim())
+    .filter(Boolean);
+}
+
+function smtpDotStuff(value) {
+  return value.replace(/\r?\n/g, "\r\n").replace(/^\./gm, "..");
+}
+
+function getSmtpConfig() {
+  const host = smtpNormalize(process.env.SMTP_HOST);
+  const smtpPort = Number(smtpNormalize(process.env.SMTP_PORT) || 465);
+  const user = smtpNormalize(process.env.SMTP_USER);
+  const password = smtpNormalize(process.env.SMTP_PASSWORD || process.env.SMTP_PASS);
+  const fromHeader = smtpSanitizeHeader(smtpNormalize(process.env.SMTP_FROM) || user);
+  const envelopeFrom = smtpExtractEmail(
+    smtpNormalize(process.env.SMTP_ENVELOPE_FROM) || user || fromHeader
+  );
+
+  if (!host || !smtpPort || !user || !password || !fromHeader || !envelopeFrom) {
+    throw new Error("SMTP is not fully configured.");
+  }
+
+  return {
+    host,
+    port: smtpPort,
+    secure: smtpNormalize(process.env.SMTP_SECURE).toLowerCase() !== "false",
+    user,
+    password,
+    fromHeader,
+    envelopeFrom,
+    servername: smtpNormalize(process.env.SMTP_TLS_SERVERNAME) || host,
+    rejectUnauthorized:
+      smtpNormalize(process.env.SMTP_TLS_REJECT_UNAUTHORIZED).toLowerCase() !== "false",
+  };
+}
+
+function buildBriefMailMessage(brief, recipients, config) {
+  const subject = `Nowy brief QFS — ${brief.fullName}`;
+  const headers = [
+    `From: ${smtpFormatAddressHeader(config.fromHeader)}`,
+    `To: ${recipients.join(", ")}`,
+    `Reply-To: ${smtpFormatAddressHeader(`${brief.fullName} <${brief.email}>`)}`,
+    `Subject: ${smtpEncodeHeader(subject)}`,
+    "MIME-Version: 1.0",
+    "Content-Type: text/plain; charset=UTF-8",
+    "Content-Transfer-Encoding: 8bit",
+  ];
+
+  const body = [
+    "Nowy brief z formularza Quantum Forge Studio",
+    "",
+    `Imię i firma: ${brief.fullName}`,
+    `E-mail zwrotny: ${brief.email}`,
+    "",
+    "Zakres i cele:",
+    brief.scope,
+    "",
+    `Źródło: ${brief.sourcePath}`,
+    `Wysłano: ${brief.submittedAt}`,
+  ].join("\n");
+
+  return `${headers.join("\r\n")}\r\n\r\n${body}`;
+}
+
+function connectSmtp(config) {
+  return new Promise((resolve, reject) => {
+    if (!config.secure) {
+      reject(new Error("Skonfigurowano tylko implicit TLS. Ustaw SMTP_SECURE=true i port 465."));
+      return;
+    }
+
+    const socket = tls.connect(
+      {
+        host: config.host,
+        port: config.port,
+        servername: config.servername,
+        family: 4,
+        rejectUnauthorized: config.rejectUnauthorized,
+      },
+      () => resolve(socket)
+    );
+
+    socket.setTimeout(15000, () => socket.destroy(new Error("SMTP connection timed out.")));
+    socket.once("error", reject);
+  });
+}
+
+function readSmtpResponse(socket) {
+  return new Promise((resolve, reject) => {
+    let buffer = "";
+    const timer = setTimeout(() => cleanup(new Error("SMTP response timed out.")), 15000);
+
+    function cleanup(error, response) {
+      clearTimeout(timer);
+      socket.off("data", handleData);
+      socket.off("error", handleError);
+      if (error) reject(error);
+      else resolve(response);
+    }
+
+    function handleError(error) {
+      cleanup(error);
+    }
+
+    function handleData(chunk) {
+      buffer += chunk.toString("utf8");
+      const lines = buffer.split(/\r?\n/).filter(Boolean);
+      for (let index = lines.length - 1; index >= 0; index -= 1) {
+        const match = lines[index].match(/^(\d{3})\s/);
+        if (match) {
+          cleanup(null, { code: Number(match[1]), message: buffer.trimEnd() });
+          return;
+        }
+      }
+    }
+
+    socket.on("data", handleData);
+    socket.once("error", handleError);
+  });
+}
+
+async function smtpCommand(socket, command, expectedCodes) {
+  if (command) socket.write(`${command}\r\n`);
+  const response = await readSmtpResponse(socket);
+  if (!expectedCodes.includes(response.code)) {
+    throw new Error(`SMTP command failed with status ${response.code}: ${response.message}`);
+  }
+  return response;
+}
+
+async function deliverBriefViaSmtp(brief) {
+  if (contactDelivery === "mock") {
+    return { delivered: false, skipped: "mock" };
+  }
+
+  const config = getSmtpConfig();
+  const recipients = smtpSplitEmailList(contactRecipientEmail);
+  if (!recipients.length) {
+    throw new Error("CONTACT_RECIPIENT_EMAIL nie jest ustawiony.");
+  }
+
+  const socket = await connectSmtp(config);
+  const message = buildBriefMailMessage(brief, recipients, config);
+
+  try {
+    await smtpCommand(socket, null, [220]);
+    await smtpCommand(
+      socket,
+      `EHLO ${smtpNormalize(process.env.SMTP_EHLO_NAME) || "quantumforgestudio.com"}`,
+      [250]
+    );
+    await smtpCommand(socket, "AUTH LOGIN", [334]);
+    await smtpCommand(socket, Buffer.from(config.user, "utf8").toString("base64"), [334]);
+    await smtpCommand(socket, Buffer.from(config.password, "utf8").toString("base64"), [235]);
+    await smtpCommand(socket, `MAIL FROM:<${config.envelopeFrom}>`, [250]);
+    for (const recipient of recipients) {
+      await smtpCommand(socket, `RCPT TO:<${recipient}>`, [250, 251]);
+    }
+    await smtpCommand(socket, "DATA", [354]);
+    await smtpCommand(socket, `${smtpDotStuff(message)}\r\n.`, [250]);
+    await smtpCommand(socket, "QUIT", [221]);
+  } finally {
+    socket.end();
+  }
+
+  return { delivered: true };
 }
 
 function isValidLocalPanelCredentials(login, password) {
@@ -1730,16 +1942,24 @@ app.post("/wyloguj", noIndex, requireAuth, (req, res, next) => {
   });
 });
 
-app.post("/api/contact-brief", contactBriefLimiter, (req, res) => {
+app.post("/api/contact-brief", contactBriefLimiter, async (req, res) => {
   const refererPath = getSafeRefererPath(req, "/kontakt");
   const successRedirect = appendQueryParam(refererPath, "brief", "sent");
   const errorRedirect = appendQueryParam(refererPath, "brief", "error");
+
+  // Formularz wysyłany AJAX-em prosi o JSON (duże potwierdzenie w UI bez
+  // przeładowania). Bez JS dostaje klasyczny redirect z ?brief=sent.
+  const wantsJson =
+    req.xhr || String(req.get("accept") || "").toLowerCase().includes("application/json");
 
   const fullName = sanitizePlainInput(req.body.name || req.body["Imie i firma"] || req.body["Imię i firma"], 120);
   const email = String(req.body.email || req.body["E-mail"] || "").trim().toLowerCase();
   const scope = sanitizePlainInput(req.body.scope || req.body["Zakres i cele"], 3000);
 
   if (!fullName || !scope || !isValidEmailAddress(email)) {
+    if (wantsJson) {
+      return res.status(400).json({ ok: false, message: "Sprawdź pola i spróbuj ponownie." });
+    }
     return res.redirect(303, errorRedirect);
   }
 
@@ -1758,9 +1978,24 @@ app.post("/api/contact-brief", contactBriefLimiter, (req, res) => {
     fs.appendFileSync(contactBriefsFile, `${JSON.stringify(brief)}\n`, "utf8");
   } catch (error) {
     console.error("[QFS CONTACT] Nie udalo sie zapisac briefu.", error.message);
+    if (wantsJson) {
+      return res.status(500).json({ ok: false, message: "Nie udało się zapisać zgłoszenia. Spróbuj ponownie." });
+    }
     return res.redirect(303, errorRedirect);
   }
 
+  // Wysyłka maila przez SMTP jest best-effort: brief jest już bezpiecznie
+  // zapisany (widoczny w panelu), więc błąd SMTP nie blokuje potwierdzenia,
+  // ale jest logowany do diagnozy „powiadomienia nie dochodzą".
+  try {
+    await deliverBriefViaSmtp(brief);
+  } catch (error) {
+    console.error("[QFS CONTACT] Wysyłka SMTP zawiodła (brief zapisany).", error.message);
+  }
+
+  if (wantsJson) {
+    return res.json({ ok: true, message: "Dziękujemy! Brief został wysłany — odezwiemy się z planem wdrożenia." });
+  }
   return res.redirect(303, successRedirect);
 });
 

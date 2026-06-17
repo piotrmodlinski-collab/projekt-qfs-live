@@ -1,0 +1,20 @@
+Wgraj contact.php do katalogu domeny quantumforgestudio.com:
+
+/home/<uzytkownik>/domains/quantumforgestudio.com/public_html/contact.php
+
+Przed wgraniem ustaw w contact.php realna wartosc CONTACT_WEBHOOK_SECRET
+taka sama jak zmienna CONTACT_WEBHOOK_SECRET w Railway.
+W repozytorium zostaje placeholder SET_THIS_ON_SEOHOST.
+
+Railway dla projektu QFS powinien miec:
+
+CONTACT_DELIVERY=webhook
+CONTACT_WEBHOOK_URL=https://quantumforgestudio.com/contact.php
+CONTACT_WEBHOOK_SECRET=<ta sama wartosc co w contact.php>
+
+Po wgraniu sprawdz:
+
+https://quantumforgestudio.com/contact.php
+
+GET powinien zwrocic JSON z bledem "Method not allowed".
+POST bez naglowka Authorization powinien zwrocic JSON z bledem "Unauthorized".

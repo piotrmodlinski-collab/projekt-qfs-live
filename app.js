@@ -426,3 +426,171 @@
   }
 })();
 
+/* Mobile hamburger: inject a toggle into the header and drive a full-screen
+   overlay menu. Marks <html> with `nav-ready` so the overlay CSS only kicks in
+   when JS is available; without JS the existing scroll menu stays. */
+(function () {
+  var header = document.querySelector(".chrome, .topbar");
+  if (!header) {
+    return;
+  }
+
+  var nav = header.querySelector(".menu, .nav");
+  if (!nav) {
+    return;
+  }
+
+  var root = document.documentElement;
+  root.classList.add("nav-ready");
+
+  if (!nav.id) {
+    nav.id = "primary-nav";
+  }
+
+  var toggle = document.createElement("button");
+  toggle.type = "button";
+  toggle.className = "nav-toggle";
+  toggle.setAttribute("aria-label", "Menu");
+  toggle.setAttribute("aria-expanded", "false");
+  toggle.setAttribute("aria-controls", nav.id);
+  toggle.innerHTML = '<span class="nav-toggle-bars" aria-hidden="true"></span>';
+  header.appendChild(toggle);
+
+  function setOpen(open) {
+    root.classList.toggle("nav-open", open);
+    toggle.setAttribute("aria-expanded", open ? "true" : "false");
+  }
+
+  toggle.addEventListener("click", function () {
+    setOpen(!root.classList.contains("nav-open"));
+  });
+
+  nav.addEventListener("click", function (event) {
+    if (event.target === nav || event.target.closest("a")) {
+      setOpen(false);
+    }
+  });
+
+  document.addEventListener("keydown", function (event) {
+    if (event.key === "Escape" && root.classList.contains("nav-open")) {
+      setOpen(false);
+    }
+  });
+})();
+
+/* Brief / formularz kontaktowy: wysyłka AJAX-em zamiast pełnego POST-a, żeby po
+   wysłaniu pokazać duże potwierdzenie w miejscu formularza (bez przeładowania i
+   bez przerzucania na /kontakt z mini-komunikatem na dole). Obsługuje każdy
+   formularz .deploy-form (strona główna i podstrona kontakt). Serwer rozpoznaje
+   nagłówek Accept: application/json i zwraca {ok,message}. */
+(function () {
+  var forms = document.querySelectorAll(".deploy-form");
+  if (!forms.length) {
+    return;
+  }
+
+  function removeError(form) {
+    var existing = form.querySelector(".brief-error");
+    if (existing) {
+      existing.remove();
+    }
+  }
+
+  function showError(form, message) {
+    removeError(form);
+    var note = document.createElement("p");
+    note.className = "brief-error";
+    note.setAttribute("role", "alert");
+    note.textContent = message;
+    form.appendChild(note);
+  }
+
+  function showSuccess(form, message) {
+    var panel = document.createElement("div");
+    panel.className = "brief-success";
+    panel.setAttribute("role", "status");
+    panel.innerHTML =
+      '<span class="brief-success-icon" aria-hidden="true"></span>' +
+      "<h3>Brief wysłany!</h3>" +
+      "<p></p>";
+    panel.querySelector("p").textContent =
+      message || "Dziękujemy — odezwiemy się z planem wdrożenia.";
+    form.replaceWith(panel);
+  }
+
+  Array.prototype.forEach.call(forms, function (form) {
+    form.addEventListener("submit", function (event) {
+      event.preventDefault();
+
+      var submitBtn = form.querySelector('[type="submit"]');
+      var prevLabel = submitBtn ? submitBtn.textContent : "";
+      if (submitBtn) {
+        submitBtn.disabled = true;
+        submitBtn.textContent = "Wysyłanie…";
+      }
+      removeError(form);
+
+      function restore() {
+        if (submitBtn) {
+          submitBtn.disabled = false;
+          submitBtn.textContent = prevLabel || "Wyślij brief";
+        }
+      }
+
+      fetch(form.getAttribute("action") || "/api/contact-brief", {
+        method: "POST",
+        headers: { Accept: "application/json" },
+        body: new URLSearchParams(new FormData(form)),
+      })
+        .then(function (response) {
+          return response
+            .json()
+            .then(function (data) {
+              return { ok: response.ok && data && data.ok !== false, data: data };
+            })
+            .catch(function () {
+              return { ok: response.ok, data: null };
+            });
+        })
+        .then(function (result) {
+          if (result.ok) {
+            showSuccess(form, result.data && result.data.message);
+          } else {
+            showError(
+              form,
+              (result.data && result.data.message) ||
+                "Nie udało się wysłać briefu. Spróbuj ponownie."
+            );
+            restore();
+          }
+        })
+        .catch(function () {
+          showError(form, "Brak połączenia z serwerem. Spróbuj ponownie za chwilę.");
+          restore();
+        });
+    });
+  });
+
+  // Linki kierujące do formularza mogą wstępnie wypełnić pole zakresu
+  // (np. „Aplikuj do zespołu" zamiast osobnego maila rekrutacyjnego).
+  Array.prototype.forEach.call(
+    document.querySelectorAll("[data-brief-prefill]"),
+    function (link) {
+      link.addEventListener("click", function () {
+        var scope = document.querySelector('.deploy-form [name="scope"]');
+        if (!scope) {
+          return;
+        }
+        var prefill = link.getAttribute("data-brief-prefill") || "";
+        if (prefill && scope.value.indexOf(prefill) === -1) {
+          scope.value = prefill;
+        }
+        window.setTimeout(function () {
+          scope.focus();
+          scope.setSelectionRange(scope.value.length, scope.value.length);
+        }, 320);
+      });
+    }
+  );
+})();
+

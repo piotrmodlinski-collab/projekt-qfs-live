@@ -13,6 +13,7 @@ import { OBJLoader } from "three/addons/loaders/OBJLoader.js";
   var stageEl = document.getElementById("deploy-stage");
   var sceneEl = document.getElementById("deploy-scene");
   var keyEl = document.getElementById("deploy-key");
+  var keyImg = keyEl ? keyEl.querySelector("img") : null;
   var lockTargetEl = document.getElementById("deploy-lock-target");
   var fallbackButton = document.getElementById("deploy-open-fallback");
   var letterEl = document.getElementById("deploy-letter");
@@ -60,8 +61,12 @@ import { OBJLoader } from "three/addons/loaders/OBJLoader.js";
   }
 
   function applyKeyTransform() {
-    keyEl.style.transform =
-      "translate(" + state.keyX + "px, " + state.keyY + "px) rotate(" + state.keyRotation + "deg)";
+    // Pozycja na przycisku (natychmiast podąża za kursorem), obrót na obrazku
+    // (płynnie animowany przez CSS transition na .deploy-key img).
+    keyEl.style.transform = "translate(" + state.keyX + "px, " + state.keyY + "px)";
+    if (keyImg) {
+      keyImg.style.transform = "rotate(" + state.keyRotation + "deg)";
+    }
   }
 
   function captureKeyHomeRect() {
@@ -456,11 +461,8 @@ import { OBJLoader } from "three/addons/loaders/OBJLoader.js";
     openLetter();
   });
 
-  if (formEl) {
-    formEl.addEventListener("submit", function () {
-      setStatus("Brief jest wysylany bezpiecznie. Dziekujemy, wracamy z planem wdrozenia.");
-    });
-  }
+  // Wysyłka briefu (AJAX + duże potwierdzenie) jest obsługiwana wspólnie w app.js
+  // dla wszystkich formularzy .deploy-form, więc tutaj nie dublujemy submitu.
 
   window.addEventListener("resize", function () {
     if (!state.unlocked) {

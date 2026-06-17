@@ -658,3 +658,118 @@ main {
     flex-basis: 56px;
   }
 }
+
+/* ---- Mobile navigation toggle (hamburger) --------------------------------
+   Mirrors the rules in styles.css so this page (which loads only
+   outsourcing-alt.css) gets the same full-screen overlay menu. Activated by
+   app.js via the `nav-ready` class on <html>. */
+.nav-toggle {
+  display: none;
+  position: relative;
+  z-index: 2;
+  flex: 0 0 auto;
+  align-items: center;
+  justify-content: center;
+  width: 46px;
+  height: 46px;
+  margin-left: auto;
+  padding: 0;
+  border: 1px solid rgba(209, 170, 113, 0.55);
+  border-radius: 8px;
+  background: rgba(7, 16, 26, 0.6);
+  cursor: pointer;
+}
+
+.nav-toggle-bars,
+.nav-toggle-bars::before,
+.nav-toggle-bars::after {
+  content: "";
+  display: block;
+  width: 22px;
+  height: 2px;
+  background: var(--gold-bright, #f3d6a6);
+  border-radius: 2px;
+  transition: transform 0.25s ease, opacity 0.2s ease, background 0.2s ease;
+}
+
+.nav-toggle-bars {
+  position: relative;
+}
+
+.nav-toggle-bars::before {
+  position: absolute;
+  top: -7px;
+  left: 0;
+}
+
+.nav-toggle-bars::after {
+  position: absolute;
+  top: 7px;
+  left: 0;
+}
+
+.nav-open .nav-toggle-bars {
+  background: transparent;
+}
+
+.nav-open .nav-toggle-bars::before {
+  transform: translateY(7px) rotate(45deg);
+}
+
+.nav-open .nav-toggle-bars::after {
+  transform: translateY(-7px) rotate(-45deg);
+}
+
+@media (max-width: 760px) {
+  .nav-ready .nav-toggle {
+    display: inline-flex;
+  }
+
+  .nav-ready .menu {
+    position: fixed;
+    inset: 0;
+    z-index: 40;
+    margin: 0;
+    width: auto;
+    max-width: none;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+    padding: 5.5rem 1.5rem 2rem;
+    overflow: hidden auto;
+    background: rgba(5, 11, 20, 0.97);
+    backdrop-filter: blur(10px);
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.25s ease, visibility 0.25s ease;
+  }
+
+  .nav-ready .menu a {
+    width: min(360px, 100%);
+    text-align: center;
+    font-size: 1rem;
+    padding: 0.9rem 1rem;
+  }
+
+  .nav-ready.nav-open .menu {
+    opacity: 1;
+    visibility: visible;
+  }
+
+  /* drop backdrop-filter so the fixed overlay resolves against the viewport,
+     not the header (which would clamp it to the header height). */
+  .nav-ready.nav-open .chrome {
+    z-index: 50;
+    backdrop-filter: none;
+  }
+
+  .nav-ready.nav-open .logo,
+  .nav-ready.nav-open .nav-toggle {
+    z-index: 60;
+  }
+
+  .nav-open {
+    overflow: hidden;
+  }
+}

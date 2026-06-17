@@ -1165,6 +1165,27 @@
       .gantt-grid { grid-template-columns: 1fr; }
       .gantt-left { border-right: none; border-bottom: 1px solid var(--line-soft); }
     }
+
+    @media (max-width: 560px) {
+      .wrap { padding: 0 .55rem 1rem; }
+      .top { padding: .6rem .7rem; gap: .55rem; }
+
+      /* keep all tabs reachable on one swipeable row instead of stacking */
+      .tabs {
+        flex: 1 1 100%;
+        flex-wrap: nowrap;
+        overflow-x: auto;
+        justify-content: flex-start;
+        -webkit-overflow-scrolling: touch;
+      }
+      .tabs .tab { flex: 0 0 auto; }
+
+      .top-actions { width: 100%; justify-content: flex-start; }
+
+      /* comfortable touch targets */
+      .btn, .tab { min-height: 40px; padding: .56rem .8rem; }
+      .task-icon-btn { min-width: 40px; min-height: 40px; }
+    }
   </style>
 </head>
 <body data-theme="dark">
